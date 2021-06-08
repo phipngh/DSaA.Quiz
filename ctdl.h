@@ -47,7 +47,6 @@ struct ClassList
 struct Student
 {
 	string studentID;//key
-	string classID;
 	string studentLastName;
 	string studentFirstName;
 	string gender;
