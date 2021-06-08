@@ -1,8 +1,5 @@
-﻿
-#include "doc_ghi_file.h"
+﻿#include "doc_ghi_file.h"
 
-
-//=============================================================================
 //============ Login ==========================
 //void login();
 /*if (user la : ma_sv; pass true)
@@ -20,86 +17,67 @@ else if (user la GV, pass la GV)
 	6. In chi tiet cau hoi thi cua 1 sinh: nhap ma SV -> in ra cau hoi thi, diem
 	7. In bang diem thi cua 1 lop: nhap ma lop -> in ra ds sinh vien da~ thi va chua thi
 }*/
+
 // ------------------------ LỚP -------------------------------------------
-// ============================ them lop ==================================
-void them_lop(DS_LOP &ds_l);
-//============== ktra co trung lop hay chua =========================
-int ktra_trung_lop(string a, DS_LOP ds_l);
-//============= xoa lop =====================================
-int check_lop(DS_LOP ds_l, string a);
-void xoa_lop(DS_LOP &dsl);
-//============== In danh sach lop theo nien khoa ==========================
-void in_ds_lop(DS_LOP ds_l);
-//======================== ktra nien khoa co ton tai hay chua =================
-int ktra_nien_khoa(string a, DS_LOP ds_l);
-//================ hieu chinh lop ===================== 
-void hieu_chinh_lop(DS_LOP &ds_l);
-void giai_phong_bo_nho_lop(DS_LOP &ds_l);
+void them_lop(ClassList &ds_l);
+int ktra_trung_lop(string a, ClassList ds_l);
+int check_lop(ClassList ds_l,string a);
+void xoa_lop(ClassList &ds_l)
+void in_ds_lop(ClassList ds_l);
+//int ktra_nien_khoa(string a, DS_LOP ds_l);
+void hieu_chinh_lop(ClassList &ds_l);
+void giai_phong_bo_nho_lop(ClassList &ds_l);
 
 //---------------------------------- SINH VIÊN ------------------------------------
-//==================== SINH VIEN =========================
-bool ktra_trung_ma_sv(SINH_VIEN *p_head, string ma);
-lop *kt_ma_lop(DS_LOP ds_l, string ma);
-SINH_VIEN* khoi_tao_node_sv();
-void them_1_sinh_vien(SINH_VIEN *&p_head, SINH_VIEN *p);
-void nhap_sinh_vien(DS_LOP &ds_l, DS_SINH_VIEN &ds_sv);
-void xoa_sv(DS_LOP &ds_l);
-void giai_phong_ds_sv(DS_SINH_VIEN &ds_sv);
-void in_ds_sv(DS_SINH_VIEN ds_sv);
-
+bool ktra_trung_ma_sv(Student *pHead, string ma);
+lop *kt_ma_lop(ClassList ds_l, string ma)
+Student* khoi_tao_node_sv()
+void them_1_sinh_vien(Student *&p_head, Student *p);
+void nhap_sinh_vien(ClassList &ds_l,StudentList &ds_sv);
+void xoa_sv(ClassList &ds_l);
+void giai_phong_ds_sv(StudentList &ds_sv);
+void in_ds_sv(StudentList ds_sv, ClassList ds_l);
+int check_ma_sv(ClassList ds_l, string ma)
 
 // ----------------------------- MÔN ----------------------------------------------
-// ======================== them mon hoc =====================
-void them_mon(DS_MON_HOC &ds_mon);
-void sap_xep_chen(DS_MON_HOC ds_mon);
-// ====================== ktra mon hoc =======================
-int ktra_trung_mon(string a, DS_MON_HOC ds_mon);
-// =================== xoa mon hoc =====================
-void xoa_mon(DS_MON_HOC &ds_mon);
-// =================== hieu chinh mon hoc ================
-void hieu_chinh_mon(DS_MON_HOC &ds_mon);
-//==================== xuất môn hoc =========================
-void xuat_mon(DS_MON_HOC ds_mon);
-// =================== giải phóng bộ nhớ môn ====================
-void giai_phong_bo_nho_mon(DS_MON_HOC &ds_mon);
-
+void them_mon(SubjectList &ds_mon);
+void sap_xep_chen(SubjectList ds_mon);
+int ktra_trung_mon(string a, SubjectList ds_mon);
+void xoa_mon(SubjectList &ds_mon);
+void hieu_chinh_mon(SubjectList &ds_mon);
+void xuat_mon(SubjectList ds_mon);
+void giai_phong_bo_nho_mon(SubjectList &ds_mon);
 
 //---------------------------- CÂU HỎI THI ------------------------------
-//=========================== thêm câu hỏi ==============================
-void nhap_cau_hoi(DS_CAU_HOI_THI &ds_cau);
-cau_hoi_thi *khoi_tao_node_cau_hoi();
-void xu_li_dap_an( cau_hoi_thi *p);
-// ========================= ktra trung ma id ===========================
+void nhap_cau_hoi(QuestionnaireList &ds_cau, SubjectList &ds_mon);
+Questionnaire *khoi_tao_node_cau_hoi();
+void xu_li_dap_an(Questionnaire *p);
 bool ktra_trung_id(tree t, int id_cau);
-// ========================= tao ID câu hỏi ==============================
 int tao_id_cau_hoi(tree t);
-void them_1_cau_hoi(tree &t, cau_hoi_thi *p);
-// ======================= chuyen cay sang mang ==========================
-void chuyen_cay_sang_mang(tree t, cau_hoi_thi *ds[], int &nds);
-//======================= in ds cau hoi ==================================
-void in_ds_cau_hoi(cau_hoi_thi *ds[], int &nds);
-//================= giai phong vung nho tree ===============
-void giai_phong_ds_cau(cau_hoi_thi *ds[], int &nds);
-// ================ hoán vị =======================
-void hoan_vi_2_cau(cau_hoi_thi *a, cau_hoi_thi *b);
-// ================ xoá 1 câu hỏi ====================
-void xoa_cau(ds_cau_hoi_thi &ds_cau);
+void them_1_cau_hoi(tree &t, Questionnaire *p);
+void chuyen_cay_sang_mang(tree t, Questionnaire *ds[], int &nds);
+void in_ds_cau_hoi( Questionnaire *ds[], int &nds)
+void giai_phong_ds_cau(Questionnaire *ds[], int &nds);
+void hoan_vi_2_cau(Questionnaire *a, Questionnaire *b);
+void xoa_cau(QuestionnaireList &ds_cau);
 void xoa_1_cau(tree &t, int id_cau);
-// ================ node thế mạng ====================
-void node_the_mang(tree &t, cau_hoi_thi *x);
-// =============== hiệu chỉnh 1 câu ===================
-void hieu_chinh_1_cau(tree t, int id_cau, DS_MON_HOC &ds_mon);
-//============= hieu chinh cau hoi ==========
-void hieu_chinh_cau(DS_CAU_HOI_THI &ds_cau, DS_MON_HOC &ds_mon);
+void node_the_mang(tree &t, Questionnaire *x);
+void hieu_chinh_1_cau(tree t, int id_cau, SubjectList &ds_mon);
+void hieu_chinh_cau(QuestionnaireList &ds_cau, SubjectList &ds_mon);
+int dem_sl_cau(string a, Questionnaire *ds[], int &nds)
+void shuffle_array(Questionnaire *ds[], int nds)
+
 // ------------------------ THI ----------------------------
-void shuffle_array(cau_hoi_thi *ds[], int nds); // xao tron bo cau hoi truoc khi phat de
-void menu_thi_thu(ds_mon_hoc &ds_mon, cau_hoi_thi *ds[], int &nds);
-void bo_de(cau_hoi_thi *ds[], int &nds,string a,int n,int hour, int minute, int second);
-void bo_de_sv(DS_LOP &ds_l, string ma_sv, cau_hoi_thi *ds[], int &nds, string ma_mh, int n, int hour, int minute, int second);
-void thi(string ma_sv, DS_LOP ds_l, DS_MON_HOC &ds_mon, cau_hoi_thi *ds[], int &nds);
+// void shuffle_array(cau_hoi_thi *ds[], int nds); // xao tron bo cau hoi truoc khi phat de
+// void menu_thi_thu(ds_mon_hoc &ds_mon, cau_hoi_thi *ds[], int &nds);
+// void bo_de(cau_hoi_thi *ds[], int &nds,string a,int n,int hour, int minute, int second);
+// void bo_de_sv(DS_LOP &ds_l, string ma_sv, cau_hoi_thi *ds[], int &nds, string ma_mh, int n, int hour, int minute, int second);
+// void thi(string ma_sv, DS_LOP ds_l, DS_MON_HOC &ds_mon, cau_hoi_thi *ds[], int &nds);
+
 // --------------------- DIEM THI --------------------------------
-void them_diem_thi(DS_LOP &ds_l, float &diem, string ma_sv, string ma_mh);
-lop *lay_node_sv(DS_LOP ds_l, string ma_sv);
+// void them_diem_thi(DS_LOP &ds_l, float &diem, string ma_sv, string ma_mh);
+// lop *lay_node_sv(DS_LOP ds_l, string ma_sv);
+
 // ==================== MENU TINH ===============================
 //=================================== Menu chinh =========================
 //void menu_lop(DS_LOP &ds_l);
@@ -637,7 +615,7 @@ void hieu_chinh_lop(ClassList &ds_l)
 }
 
 //============== In danh sach lop theo nien khoa ==========================
-void in_ds_lop(DS_LOP ds_l)
+void in_ds_lop(ClassList ds_l)
 {
 		HighLight();
 		gotoxy(51, 10);
@@ -855,6 +833,7 @@ void nhap_sinh_vien(ClassList &ds_l,StudentList &ds_sv)
 		}
 		}		
 }
+
 int check_ma_sv(ClassList ds_l, string ma)
 {
 	for (int i = 0; i < ds_l.index; i++)
