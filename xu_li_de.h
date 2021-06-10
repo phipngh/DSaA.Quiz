@@ -1,4 +1,7 @@
-﻿#include "doc_ghi_file.h"
+﻿#ifndef XU_LI_DE_h
+#define	XU_LI_DE_h
+
+#include "doc_ghi_file.h"
 
 //============ Login ==========================
 //void login();
@@ -22,7 +25,7 @@ else if (user la GV, pass la GV)
 void them_lop(ClassList &ds_l);
 int ktra_trung_lop(string a, ClassList ds_l);
 int check_lop(ClassList ds_l,string a);
-void xoa_lop(ClassList &ds_l)
+void xoa_lop(ClassList &ds_l);
 void in_ds_lop(ClassList ds_l);
 //int ktra_nien_khoa(string a, DS_LOP ds_l);
 void hieu_chinh_lop(ClassList &ds_l);
@@ -30,14 +33,14 @@ void giai_phong_bo_nho_lop(ClassList &ds_l);
 
 //---------------------------------- SINH VIÊN ------------------------------------
 bool ktra_trung_ma_sv(Student *pHead, string ma);
-lop *kt_ma_lop(ClassList ds_l, string ma)
-Student* khoi_tao_node_sv()
+Class *kt_ma_lop(ClassList ds_l, string ma);
+Student* khoi_tao_node_sv();
 void them_1_sinh_vien(Student *&p_head, Student *p);
 void nhap_sinh_vien(ClassList &ds_l,StudentList &ds_sv);
 void xoa_sv(ClassList &ds_l);
 void giai_phong_ds_sv(StudentList &ds_sv);
 void in_ds_sv(StudentList ds_sv, ClassList ds_l);
-int check_ma_sv(ClassList ds_l, string ma)
+int check_ma_sv(ClassList ds_l, string ma);
 
 // ----------------------------- MÔN ----------------------------------------------
 void them_mon(SubjectList &ds_mon);
@@ -56,7 +59,7 @@ bool ktra_trung_id(tree t, int id_cau);
 int tao_id_cau_hoi(tree t);
 void them_1_cau_hoi(tree &t, Questionnaire *p);
 void chuyen_cay_sang_mang(tree t, Questionnaire *ds[], int &nds);
-void in_ds_cau_hoi( Questionnaire *ds[], int &nds)
+void in_ds_cau_hoi( Questionnaire *ds[], int &nds);
 void giai_phong_ds_cau(Questionnaire *ds[], int &nds);
 void hoan_vi_2_cau(Questionnaire *a, Questionnaire *b);
 void xoa_cau(QuestionnaireList &ds_cau);
@@ -64,8 +67,8 @@ void xoa_1_cau(tree &t, int id_cau);
 void node_the_mang(tree &t, Questionnaire *x);
 void hieu_chinh_1_cau(tree t, int id_cau, SubjectList &ds_mon);
 void hieu_chinh_cau(QuestionnaireList &ds_cau, SubjectList &ds_mon);
-int dem_sl_cau(string a, Questionnaire *ds[], int &nds)
-void shuffle_array(Questionnaire *ds[], int nds)
+int dem_sl_cau(string a, Questionnaire *ds[], int &nds);
+void shuffle_array(Questionnaire *ds[], int nds);
 
 // ------------------------ THI ----------------------------
 // void shuffle_array(cau_hoi_thi *ds[], int nds); // xao tron bo cau hoi truoc khi phat de
@@ -619,7 +622,7 @@ void in_ds_lop(ClassList ds_l)
 {
 		HighLight();
 		gotoxy(51, 10);
-		cout << "DANH SACH LOP " << a;
+		cout << "DANH SACH LOP ";
 		gotoxy(50, 11);
 		cout << "=======================================";
 		for (int i = 0; i < ds_l.index; i++)
@@ -645,7 +648,7 @@ void giai_phong_bo_nho_lop(ClassList &ds_l)
 }
 
 //=============== lập ds sinh viên =====================
-lop *kt_ma_lop(ClassList ds_l, string ma)
+Class *kt_ma_lop(ClassList ds_l, string ma)
 {
 	for (int i = 0; i < ds_l.index; i++)
 	{
@@ -1005,16 +1008,16 @@ void sap_xep_chen(SubjectList ds_mon) // insertionSort();
 	for (int i = 1; i < ds_mon.index; i++)
 	{
 		index = i;
-		value_ma = ds_mon.subjectList[i.subjectID;
-		value_ten = ds_mon.subjectList[i.subjectName;
-		while (index > 0 && ds_mon.subjectList[index - 1.subjectID > value_ma)
+		value_ma = ds_mon.subjectList[i].subjectID;
+		value_ten = ds_mon.subjectList[i].subjectName;
+		while (index > 0 && ds_mon.subjectList[index - 1].subjectID > value_ma)
 		{
-			ds_mon.subjectList[index.subjectID = ds_mon.subjectList[index - 1.subjectID;
-			ds_mon.subjectList[index.subjectName = ds_mon.subjectList[index - 1.subjectName;
+			ds_mon.subjectList[index].subjectID = ds_mon.subjectList[index - 1].subjectID;
+			ds_mon.subjectList[index].subjectName = ds_mon.subjectList[index - 1].subjectName;
 			index--;
 		}
-		ds_mon.subjectList[index.subjectID = value_ma;
-		ds_mon.subjectList[index.subjectName = value_ten;
+		ds_mon.subjectList[index].subjectID = value_ma;
+		ds_mon.subjectList[index].subjectName = value_ten;
 	}
 }
 
@@ -1057,9 +1060,9 @@ void xoa_mon(SubjectList &ds_mon)
 			ds_mon.subjectList[i].subjectID = ds_mon.subjectList[i + 1].subjectID;
 			ds_mon.subjectList[i].subjectName = ds_mon.subjectList[i + 1].subjectName;
 		}
-		MON_HOC tam = ds_mon.subjectList[ds_mon.index - 1];
+//		Subject tam = ds_mon.subjectList[ds_mon.index - 1];
 		ds_mon.index--;
-		delete tam;
+//		delete tam;
 		ghi_file_mon(ds_mon);
 		gotoxy(60, 10);
 		cout << "XOA THANH CONG!";
@@ -1121,13 +1124,13 @@ void xuat_mon(SubjectList ds_mon)
 }
 
 //========================= giai phong bo nho mon ================
-void giai_phong_bo_nho_mon(SubjectList &ds_mon)
-{
-	for (int i = 0; i < ds_mon.index; i++)
-	{
-		delete ds_mon.subjectList[i];
-	}
-}
+//void giai_phong_bo_nho_mon(SubjectList &ds_mon)
+//{
+//	for (int i = 0; i < ds_mon.index; i++)
+//	{
+//		delete ds_mon.subjectList[i];
+//	}
+//}
 
 // ================= nhập câu hỏi =====================
 
@@ -1324,7 +1327,7 @@ void xoa_1_cau(tree &t, int id_cau)
 	{
 		if (t->questionnaireID == id_cau)
 		{
-			cau_hoi_thi *x = t; // x se luu node can giai phong
+			Questionnaire *x = t; // x se luu node can giai phong
 			if (t->pLeft == NULL)
 			{
 				t = t->pRight;
@@ -1340,11 +1343,11 @@ void xoa_1_cau(tree &t, int id_cau)
 			}
 			delete x;
 		}
-		else if (t->id < id_cau)
+		else if (t->questionnaireID < id_cau)
 		{
 			xoa_1_cau(t->pRight, id_cau);
 		}
-		else if (t->id > id_cau)
+		else if (t->questionnaireID > id_cau)
 		{
 			xoa_1_cau(t->pLeft, id_cau);
 		}
@@ -2190,3 +2193,5 @@ void shuffle_array(Questionnaire *ds[], int nds)
 // 	}
 // 	system("pause");
 // }
+
+#endif

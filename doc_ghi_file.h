@@ -1,6 +1,7 @@
-#pragma once
-#include "xu_li.h"
+#ifndef DOC_GHI_FILE_H
+#define	DOC_GHI_FILE_H
 
+#include "xu_li.h"
 
 //===================== doc file danh sach lop =======================
 void doc_file_ds_lop(ClassList &ds_l)
@@ -23,8 +24,8 @@ void doc_file_ds_mon(SubjectList &ds_mon)
 	filein.open("mon.txt", ios_base::in);
 	while (filein.eof() != true)
 	{
-		getline(filein, ds_mon.subjectList[ds_mon.index]->subjectID, ',');
-		getline(filein, ds_mon.subjectList[ds_mon.index]->subjectName);
+		getline(filein, ds_mon.subjectList[ds_mon.index].subjectID, ',');
+		getline(filein, ds_mon.subjectList[ds_mon.index].subjectName);
 		ds_mon.index++;
 	}
 	filein.close();
@@ -135,8 +136,8 @@ void ghi_file_mon(SubjectList &ds_mon)
 	fileout.open("mon1.txt", ios_base::out);
 	for (int i = 0; i < ds_mon.index; i++)
 	{
-		fileout << ds_mon.subjectList[i]->subjectID <<",";
-		fileout << ds_mon.subjectList[i]->subjectName;
+		fileout << ds_mon.subjectList[i].subjectID <<",";
+		fileout << ds_mon.subjectList[i].subjectName;
 		if (i != ds_mon.index - 1)
 		{
 			fileout << "\n";
@@ -229,3 +230,5 @@ void ghi_file_cau(Questionnaire *ds[],int &nds)
 // 	}
 // 	fileout.close();
 // }
+
+#endif

@@ -1,4 +1,6 @@
-#pragma once
+#ifndef CTDL_H
+#define	CTDL_H
+
 #include <iostream>
 #include <string>
 #include <conio.h>
@@ -6,7 +8,7 @@
 #include <ctime>
 #include <cstdlib>
 #include <windows.h>
-#include <thread>
+//#include <thread>
 #include <dos.h>
 #include "mylib.h"
 
@@ -29,17 +31,18 @@ struct SubjectList
 	int index = 0;
 };
 
-//============Class============
-struct Class
+//============Score============
+struct Score
 {
-	string classID; //key
-	string className;
-	StudentList studentList; // struct already has pointer
+	string subjectID; //key
+	float score;
+	bool status;
+	Score *pNext;
 };
 
-struct ClassList
+struct ScoreList
 {
-	Class *classList[MAX_CLASS];
+	Score *pHead = NULL;
 	int index = 0;
 };
 
@@ -61,18 +64,17 @@ struct StudentList
 	int index = 0;
 };
 
-//============Score============
-struct Score
+//============Class============
+struct Class
 {
-	string subjectID; //key
-	float score;
-	bool status;
-	Score *pNext;
+	string classID; //key
+	string className;
+	StudentList studentList; // struct already has pointer
 };
 
-struct ScoreList
+struct ClassList
 {
-	Score *pHead = NULL;
+	Class *classList[MAX_CLASS];
 	int index = 0;
 };
 
@@ -98,3 +100,5 @@ struct QuestionnaireList
 	tree TREE = NULL;
 	int index = 0;
 };
+
+#endif

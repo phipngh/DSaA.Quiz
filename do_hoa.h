@@ -1,6 +1,10 @@
-﻿
+﻿#ifndef DO_HOA_H
+#define	DO_HOA_H
+
 #include "xu_li_de.h"
+
 using namespace std;
+
 #define width 1300
 #define height 800
 const int so_item = 22;
@@ -10,8 +14,8 @@ const int cot = 5;
 const int Up = 72;
 const int Down = 80;
 const int ESC = 27;
-
-int menu_tong(ClassList &ds_l, DS_SINH_StudentListVIEN &ds_sv, QuestionnaireList &ds_cau, SubjectList &ds_mon)
+const int superTest = 30;
+int menu_tong(ClassList &ds_l, StudentList &ds_sv, QuestionnaireList &ds_cau, SubjectList &ds_mon);
 //int menu_tong_sv(DS_LOP &ds_l, DS_SINH_VIEN &ds_sv, DS_CAU_HOI_THI &ds_cau, DS_MON_HOC &ds_mon);
 int menu_gv();
 //int menu_sv();
@@ -165,7 +169,7 @@ void khung_login()
 }
 
 
-int menu_tong(ClassList &ds_l, DS_SINH_StudentListVIEN &ds_sv, QuestionnaireList &ds_cau, SubjectList &ds_mon)
+int menu_tong(ClassList &ds_l, StudentList &ds_sv, QuestionnaireList &ds_cau, SubjectList &ds_mon)
 {
 
 	system("cls");
@@ -345,12 +349,12 @@ int menu_tong(ClassList &ds_l, DS_SINH_StudentListVIEN &ds_sv, QuestionnaireList
 		}
 		case 19:
 		{			
-			chuyen_cay_sang_mang(ds_cau.TREE, ds, nds);
-			menu_thi_thu(ds_mon, ds, nds);
-			giai_phong_ds_cau(ds, nds);
-			gotoxy(60, 35);
-			system("pause");
-			break;
+//			chuyen_cay_sang_mang(ds_cau.TREE, ds, nds);
+//			menu_thi_thu(ds_mon, ds, nds);
+//			giai_phong_ds_cau(ds, nds);
+//			gotoxy(60, 35);
+//			system("pause");
+//			break;
 		}
 		case 20:
 		{
@@ -363,20 +367,26 @@ int menu_tong(ClassList &ds_l, DS_SINH_StudentListVIEN &ds_sv, QuestionnaireList
 			// break;
 		}
 		case so_item:
+		{
 			// HighLight();
 			// gotoxy(60, 20);
 			// cout << "DANG TAT CHUONG TRINH! ";
 			// gotoxy(60, 21);
 			// system("pause");
 			// return 0;
+		}
 		case 27:
+		{
 			// HighLight();
 			// gotoxy(60, 20);
 			// cout << "DANG TAT CHUONG TRINH! ";
 			// gotoxy(60, 21);
 			// system("pause");
 			// return 0;
-		}	
+		}
+			
+		}
+		
 	}
 }
 
@@ -724,6 +734,6 @@ int menu_gv()
 // 			break;
 // 		}
 // 	}
-
 // }
 
+#endif

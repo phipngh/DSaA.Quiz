@@ -1,5 +1,8 @@
-﻿#pragma once
+﻿#ifndef XU_LY_H
+#define	XU_LY_H
+
 #include "ctdl.h"
+
 void Normal();
 void HighLight();
 void color_khung();
@@ -93,7 +96,7 @@ void them_1_cau_hoi(tree &t, Questionnaire *p)
 	}
 }
 
-void them_1_sinh_vien(Student *&p_head, Student *p)
+void them_1_sinh_vien(Student *&pHead, Student *p)
 {
 	if (pHead == NULL)
 	{
@@ -517,3 +520,5 @@ void printClock(int hour, int minute, int second )
 }
 
 */
+
+#endif
