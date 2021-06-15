@@ -18,7 +18,7 @@ void doc_file_ds_lop(ClassList &ds_l)
 	{
 		ds_l.classList[ds_l.index] = new Class;		
 		getline(filein, ds_l.classList[ds_l.index]->classID, ',');
-		getline(filein, ds_l.classList[ds_l.index]->className, ',');
+		getline(filein, ds_l.classList[ds_l.index]->className);
 		ds_l.index++;
 	}
 	filein.close();
@@ -128,7 +128,7 @@ void ghi_file_lop(ClassList &ds_l)
 	for (int i = 0; i < ds_l.index; i++)
 	{
 		fileout << ds_l.classList[i]->classID << ",";
-		fileout << ds_l.classList[i]->className<< ",";
+		fileout << ds_l.classList[i]->className;
 		if (i != ds_l.index - 1)
 		{
 			fileout << "\n";
@@ -156,7 +156,7 @@ void ghi_file_mon(SubjectList &ds_mon)
 void ghi_file_sv(ClassList &ds_l)
 {
 	ofstream fileout;
-	fileout.open("sinhvien1.txt", ios_base::out);
+	fileout.open("sinhvien.txt", ios_base::out);
 	for (int i = 0; i < ds_l.index; i++)
 	{
 		fileout << ds_l.classList[i]->studentList.index;
@@ -184,7 +184,7 @@ void ghi_file_sv(ClassList &ds_l)
 void ghi_file_cau(Questionnaire *ds[],int &nds)
 {
 	ofstream fileout;
-	fileout.open("cauhoi1.txt", ios_base::out);
+	fileout.open("cauhoi.txt", ios_base::out);
 	for (int i = 0; i < nds; i++)
 	{
 		fileout << ds[i]->questionnaireID<< endl;
@@ -194,7 +194,7 @@ void ghi_file_cau(Questionnaire *ds[],int &nds)
 		fileout << ds[i]->B << endl;
 		fileout << ds[i]->C << endl;
 		fileout << ds[i]->D << endl;
-		fileout << ds[i]->answerCorrect;
+		fileout << ds[i]->correct;
 		if (i != nds)
 		{
 			fileout << "\n";
