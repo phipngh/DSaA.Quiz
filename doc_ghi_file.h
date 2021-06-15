@@ -2,6 +2,12 @@
 #define	DOC_GHI_FILE_H
 
 #include "xu_li.h"
+/*
+	- Subject and Questionare, write and read as normal.
+	- Class : W/R Class, in CLass has students. 
+
+	Ex : D16dcpt01,
+*/
 
 //===================== doc file danh sach lop =======================
 void doc_file_ds_lop(ClassList &ds_l)
@@ -70,7 +76,7 @@ void doc_file_ds_sv(ClassList &ds_l)
 	{
 		filein >> ds_l.classList[i]->studentList.index;
 		filein.ignore();
-		for (int j=0;j< ds_l.classList[i]->studentList.index;j++)
+		for (int j=0;j< ds_l.classList[i]->studentList.index; j++)
 		{
 			Student *p = khoi_tao_node_sv();
 			getline(filein, p->studentID, ',');
@@ -117,7 +123,8 @@ void doc_file_ds_sv(ClassList &ds_l)
 void ghi_file_lop(ClassList &ds_l)
 {
 	ofstream fileout;
-	fileout.open("lop1.txt", ios_base::out);
+	//fileout.open("lop.txt", ios_base::out);
+	fileout.open("lop.txt", ios_base::trunc);
 	for (int i = 0; i < ds_l.index; i++)
 	{
 		fileout << ds_l.classList[i]->classID << ",";
@@ -133,7 +140,7 @@ void ghi_file_lop(ClassList &ds_l)
 void ghi_file_mon(SubjectList &ds_mon)
 {
 	ofstream fileout;
-	fileout.open("mon1.txt", ios_base::out);
+	fileout.open("mon.txt", ios_base::trunc);
 	for (int i = 0; i < ds_mon.index; i++)
 	{
 		fileout << ds_mon.subjectList[i].subjectID <<",";
