@@ -1,4 +1,4 @@
-﻿#ifndef DO_HOA_H
+#ifndef DO_HOA_H
 #define	DO_HOA_H
 
 #include "xu_li_de.h"
@@ -369,12 +369,12 @@ int menu_tong(ClassList &ds_l, StudentList &ds_sv, QuestionnaireList &ds_cau, Su
 		}
 		case so_item:
 		{
-			// HighLight();
-			// gotoxy(60, 20);
-			// cout << "DANG TAT CHUONG TRINH! ";
-			// gotoxy(60, 21);
-			// system("pause");
-			// return 0;
+			 HighLight();
+			 gotoxy(60, 20);
+			 cout << "DANG TAT CHUONG TRINH! ";
+			 gotoxy(60, 21);
+			 system("pause");
+			 return 0;
 		}
 		case 27:
 		{
