@@ -1636,260 +1636,259 @@ void shuffle_array(Questionnaire *ds[], int nds)
 	}
 }
 
-// void menu_thi_thu(ds_mon_hoc &ds_mon, cau_hoi_thi *ds[], int &nds)
-// {
-// check_mon:
-// 	string a;
-// 	gotoxy(50, 10);
-// 	cout << "                      ";
-// 	gotoxy(76, 8);
-// 	cout << "                      ";
-// 	gotoxy(50, 8);
-// 	cout << "NHAP MA MON BAN MUON THI: ";
-// 	getline(cin, a);
-// 	chuan_hoa_chu(a);
-// 	if (ktra_trung_mon(a, ds_mon) < 0)
-// 	{
-// 		gotoxy(50, 10);
-// 		cout << "MON HOC KHONG TON TAI!";
-// 		gotoxy(60, 35);
-// 		system("pause");
-// 		goto check_mon;
-// 	}
-// 	int chon;	
-// 	int sl_cau = dem_sl_cau(a, ds, nds);
-// 	bool kt = true;
-// 	//while (kt == true)
-// 	//{
-// 		int so_cau;
-// 		int hour = 00, minute = 00, second = 00;
-// 		gotoxy(55, 17);
-// 		cout << "                                          ";
-// 		gotoxy(57, 15);
-// 		cout << "    ";
-// 		gotoxy(50, 9);
-// 		cout << "NHAP SO LUONG CAU HOI : ";	
-// 		gotoxy(76, 9);
-// 		cin >> so_cau;
-// 		if (sl_cau < so_cau)
-// 		{
-// 			gotoxy(55, 17);
-// 			cout << "KHONG DU SO LUONG CAU CUA MON " << a << " DE THI, THIEU: " << so_cau-sl_cau;
-// 			gotoxy(60, 35);
-// 			system("pause");
-// 		}	
-// 		else
-// 		{
-// 			gotoxy(50, 10);
-// 			cout << "NHAP TGIAN DE THI. TIME DINH DANG THEO KIEU: 00:00:00.";
-// 			gotoxy(70, 12);
-// 			cout << "  :"; 
-// 			gotoxy(73, 12);
-// 			cout << "  :"; 
-// 			gotoxy(76, 12);
-// 			cout << "  "; 
-// 		hour:
-// 			gotoxy(70, 12);
-// 			cin >> setw(2) >> right >> hour;
-// 			if (hour >= 10)
-// 			{
-// 				gotoxy(70, 12);
-// 				cout << "  :";
-// 				goto hour;
-// 			}
-// 			else if (hour == 0)
-// 			{
-// 			minute_1:
-// 				gotoxy(73, 12);
-// 				cin >> setw(2) >> right >> minute;
-// 				if (minute >= 100)
-// 				{
-// 					gotoxy(73, 12);
-// 					cout << "  :";
-// 					goto minute_1;
-// 				}
-// 			second_1:
-// 				gotoxy(76, 12);
-// 				cin >> setw(2) >> right >> second;
-// 				if (second >= 60)
-// 				{
-// 					gotoxy(76, 12);
-// 					cout << "  :";
-// 					goto second_1;
-// 				}
-// 			}
-// 			else
-// 			{
-// 			minute_2:
-// 				gotoxy(73, 12);
-// 				cin >> setw(2) >> right >> minute;
-// 				if (minute >= 60)
-// 				{
-// 					gotoxy(73, 12);
-// 					cout << "  :";
-// 					goto minute_2;
-// 				}
-// 			second_2:
-// 				gotoxy(76, 12);
-// 				cin >> setw(2) >> right >> second;
-// 				if (second >= 60)
-// 				{
-// 					gotoxy(76, 12);
-// 					cout << "  :";
-// 					goto second_2;
-// 				}
-// 			}		
-// 			bo_de(ds, nds, a, so_cau, hour, minute, second);
-// 		}
-// }
+void menu_thi_thu(SubjectList &ds_mon, Questionnaire *ds[], int &nds)
+{
+check_mon:
+	string a;
+	gotoxy(50, 10);
+	cout << "                      ";
+	gotoxy(76, 8);
+	cout << "                      ";
+	gotoxy(50, 8);
+	cout << "NHAP MA MON BAN MUON THI: ";
+	getline(cin, a);
+	chuan_hoa_chu(a);
+	if (ktra_trung_mon(a, ds_mon) < 0)
+	{
+		gotoxy(50, 10);
+		cout << "MON HOC KHONG TON TAI!";
+		gotoxy(60, 35);
+		system("pause");
+		goto check_mon;
+	}
+	int chon;	
+	int sl_cau = dem_sl_cau(a, ds, nds);
+	bool kt = true;
+	//while (kt == true)
+	//{
+		int so_cau;
+		// int hour = 00, minute = 00, second = 00;
+		gotoxy(55, 17);
+		cout << "                                          ";
+		gotoxy(57, 15);
+		cout << "    ";
+		gotoxy(50, 9);
+		cout << "NHAP SO LUONG CAU HOI : ";	
+		gotoxy(76, 9);
+		cin >> so_cau;
+		if (sl_cau < so_cau)
+		{
+			gotoxy(55, 17);
+			cout << "KHONG DU SO LUONG CAU CUA MON " << a << " DE THI, THIEU: " << so_cau-sl_cau;
+			gotoxy(60, 35);
+			system("pause");
+		}	
+		else
+		{
+		// 	gotoxy(50, 10);
+		// 	cout << "NHAP TGIAN DE THI. TIME DINH DANG THEO KIEU: 00:00:00.";
+		// 	gotoxy(70, 12);
+		// 	cout << "  :"; 
+		// 	gotoxy(73, 12);
+		// 	cout << "  :"; 
+		// 	gotoxy(76, 12);
+		// 	cout << "  "; 
+		// hour:
+		// 	gotoxy(70, 12);
+		// 	cin >> setw(2) >> right >> hour;
+		// 	if (hour >= 10)
+		// 	{
+		// 		gotoxy(70, 12);
+		// 		cout << "  :";
+		// 		goto hour;
+		// 	}
+		// 	else if (hour == 0)
+		// 	{
+		// 	minute_1:
+		// 		gotoxy(73, 12);
+		// 		cin >> setw(2) >> right >> minute;
+		// 		if (minute >= 100)
+		// 		{
+		// 			gotoxy(73, 12);
+		// 			cout << "  :";
+		// 			goto minute_1;
+		// 		}
+		// 	second_1:
+		// 		gotoxy(76, 12);
+		// 		cin >> setw(2) >> right >> second;
+		// 		if (second >= 60)
+		// 		{
+		// 			gotoxy(76, 12);
+		// 			cout << "  :";
+		// 			goto second_1;
+		// 		}
+		// 	}
+		// 	else
+		// 	{
+		// 	minute_2:
+		// 		gotoxy(73, 12);
+		// 		cin >> setw(2) >> right >> minute;
+		// 		if (minute >= 60)
+		// 		{
+		// 			gotoxy(73, 12);
+		// 			cout << "  :";
+		// 			goto minute_2;
+		// 		}
+		// 	second_2:
+		// 		gotoxy(76, 12);
+		// 		cin >> setw(2) >> right >> second;
+		// 		if (second >= 60)
+		// 		{
+		// 			gotoxy(76, 12);
+		// 			cout << "  :";
+		// 			goto second_2;
+		// 		}
+		// 	}		
+			bo_de(ds, nds, a, so_cau);
+			
+		}
+}
 
-// void bo_de(cau_hoi_thi *ds[], int &nds, string a, int n,int hour, int minute, int second)
-// {
-// 	xoa_nen();
-// 	khung_cau_hoi();
-// 	cin.ignore();
-// 	cau_hoi_thi *ds_luu[1000];
-// 	char tl[1000];
-// 	int point = 0;
-// 	thread clock;	
-// 	shuffle_array(ds, nds);
-// 	khung_cau_hoi();
-// 	HighLight();
-// 	clock = thread(printClock,hour, minute, second );
-// 	gotoxy(70, 8);
-// 	cout << "====== DE THI ======";
-// 	for (int i = 0; i < n; i++)
-// 	{
-// 		if (ds[i]->ma_mh == a)
-// 		{
-// 			gotoxy(47, 13);
-// 			cout << "                                                                         ";
-// 			gotoxy(68, 13);
-// 			cout << "                                   ";
-// 			gotoxy(50, 18);
-// 			cout << "                                 ";
-// 			gotoxy(88, 18);
-// 			cout << "                                ";
-// 			gotoxy(50, 22);
-// 			cout << "                                 ";
-// 			gotoxy(88, 22);
-// 			cout << "                                ";
-// 			gotoxy(50, 10);
-// 			cout << "Cau so " << i + 1;
-// 			gotoxy(47, 13);
-// 			cout << "Cau hoi: " << ds[i]->cau_hoi;
-// 			gotoxy(47, 18);
-// 			cout << "A. " << ds[i]->A;
-// 			gotoxy(85, 18);
-// 			cout << "B. " << ds[i]->B;
-// 			gotoxy(47, 22);
-// 			cout << "C. " << ds[i]->C;
-// 			gotoxy(85, 22);
-// 			cout << "D. " << ds[i]->D;
-// 		check_tl:
-// 			gotoxy(77, 27);
-// 			cout << "DAP AN: ";
-// 			gotoxy(85, 27);
-// 			cout << "    ";
-// 			gotoxy(85, 27);
-// 			cin >> tl[i];
-// 			up_case_char(tl[i]);
-// 			string cau_tl;
-// 			if (tl[i] == 'A')
-// 			{
-// 				cau_tl = ds[i]->A;
-// 			}
-// 			else if (tl[i] == 'B')
-// 			{
-// 				cau_tl = ds[i]->B;
-// 			}
-// 			else if (tl[i] == 'C')
-// 			{
-// 				cau_tl = ds[i]->C;
-// 			}
-// 			else if (tl[i] == 'D')
-// 			{
-// 				cau_tl = ds[i]->D;
-// 			}
-// 			else
-// 			{
-// 				gotoxy(65, 30);
-// 				cout << "NHAP DAP AN KHONG HOP LE, YEU CAU NHAP LAI!";
-// 				goto check_tl;
-// 			}
-// 			ds_luu[i] = new cau_hoi_thi;
-// 			ds_luu[i]->id = ds[i]->id;
-// 			ds_luu[i]->cau_hoi = ds[i]->cau_hoi;
-// 			ds_luu[i]->A = ds[i]->A;
-// 			ds_luu[i]->B = ds[i]->B;
-// 			ds_luu[i]->C = ds[i]->C;
-// 			ds_luu[i]->D = ds[i]->D;
-// 			ds_luu[i]->dap_an = ds[i]->dap_an;
-// 			ds_luu[i]->cau_dap_an = ds[i]->cau_dap_an;
-// 			if (cau_tl == ds[i]->cau_dap_an)
-// 			{
-// 				point++;
-// 			}
-// 		}
-// 	}
-// 	stop = 0;
-// 	clock.join();
-// 	xoa_nen();
+void bo_de(Questionnaire *ds[], int &nds, string a, int n)
+{
+	xoa_nen();
+	khung_cau_hoi();
+	cin.ignore();
+	Questionnaire *ds_luu[1000];
+	char tl[1000];
+	int point = 0;
+	shuffle_array(ds, nds);
+	khung_cau_hoi();
+	HighLight();
+	gotoxy(70, 8);
+	//create a array of question for the chosen subject
+	cout << "====== DE THI ======";
+	for (int i = 0; i < n; i++)
+	{
+		if (ds[i]->ma_mh == a)
+		{
+			gotoxy(47, 13);
+			cout << "                                                                         ";
+			gotoxy(68, 13);
+			cout << "                                   ";
+			gotoxy(50, 18);
+			cout << "                                 ";
+			gotoxy(88, 18);
+			cout << "                                ";
+			gotoxy(50, 22);
+			cout << "                                 ";
+			gotoxy(88, 22);
+			cout << "                                ";
+			gotoxy(50, 10);
+			cout << "Cau so " << i + 1;
+			gotoxy(47, 13);
+			cout << "Cau hoi: " << ds[i]->content;
+			gotoxy(47, 18);
+			cout << "A. " << ds[i]->A;
+			gotoxy(85, 18);
+			cout << "B. " << ds[i]->B;
+			gotoxy(47, 22);
+			cout << "C. " << ds[i]->C;
+			gotoxy(85, 22);
+			cout << "D. " << ds[i]->D;
+		check_tl:
+			gotoxy(77, 27);
+			cout << "DAP AN: ";
+			gotoxy(85, 27);
+			cout << "    ";
+			gotoxy(85, 27);
+			cin >> tl[i];
+			up_case_char(tl[i]);
+			string cau_tl;
+			if (tl[i] == 'A')
+			{
+				cau_tl = ds[i]->A;
+			}
+			else if (tl[i] == 'B')
+			{
+				cau_tl = ds[i]->B;
+			}
+			else if (tl[i] == 'C')
+			{
+				cau_tl = ds[i]->C;
+			}
+			else if (tl[i] == 'D')
+			{
+				cau_tl = ds[i]->D;
+			}
+			else
+			{
+				gotoxy(65, 30);
+				cout << "NHAP DAP AN KHONG HOP LE, YEU CAU NHAP LAI!";
+				goto check_tl;
+			}
+			ds_luu[i] = new Questionnaire;
+			ds_luu[i]->questionnaireID = ds[i]->questionnaireID;
+			ds_luu[i]->content = ds[i]->content;
+			ds_luu[i]->A = ds[i]->A;
+			ds_luu[i]->B = ds[i]->B;
+			ds_luu[i]->C = ds[i]->C;
+			ds_luu[i]->D = ds[i]->D;
+			ds_luu[i]->correct = ds[i]->correct;
+			ds_luu[i]->answerCorrect = ds[i]->answerCorrect;
+			if (cau_tl == ds[i]->answerCorrect)
+			{
+				point++;
+			}
+		}
+	}
+	stop = 0;
+	xoa_nen();
 	
-// 	bool kt = true;
-// 	while (kt == true)
-// 	{
-// 		xoa_nen();
-// 		gotoxy(50, 9);
-// 		cout << "SO DIEM BAN DAT DUOC LA: "<< point << "/" << n << ".";
-// 		gotoxy(50, 10);
-// 		cout << "BAN CO MUON IN RA KET QUA KHONG?";
-// 		gotoxy(50, 11);
-// 		cout << "1. Co.";
-// 		gotoxy(50, 12);
-// 		cout << "0. Khong.";
-// 		gotoxy(50, 13);
-// 		cout << "Ban chon: ";
-// 		int xem_kq;
-// 		cin >> xem_kq;
-// 		switch (xem_kq)
-// 		{
-// 		case 1:
-// 		{
-// 			xoa_nen();
-// 			gotoxy(50, 8);
-// 			cout << "==================================================================";
-// 			gotoxy(50, 9);
-// 			cout << "|CAU| ID |         DAP AN DUNG                         |BAN CHON |";
-// 			gotoxy(50, 10);
-// 			cout << "==================================================================";
-// 			int i = 0;
-// 			for (i = 0; i < n; i++)
-// 			{
-// 				gotoxy(50, 11 + i); cout << "| " << i + 1;
-// 				gotoxy(54, 11 + i); cout << "| " << ds_luu[i]->id ;
-// 				gotoxy(59, 11 + i); cout << "|";
-// 				gotoxy(61, 11 + i); cout << ds_luu[i]->dap_an << ". " << ds_luu[i]->cau_dap_an;
-// 				gotoxy(105, 11 + i); cout << "|";
-// 				gotoxy(110, 11 + i); cout << tl[i];
-// 				gotoxy(115, 11 + i); cout << "|";	
-// 			}
-// 			gotoxy(50, 11 + i);
-// 			cout << "------------------------------------------------------------------";
-// 			cin.ignore();
-// 			gotoxy(60, 35);
-// 			system("pause");
-// 			break;		
-// 		}
-// 		case 0:
-// 		{
-// 			cin.ignore();
-// 			kt = false;
-// 			break;
-// 		}
-// 		}
-// 	}
-// }
+	bool kt = true;
+	while (kt == true)
+	{
+		xoa_nen();
+		gotoxy(50, 9);
+		cout << "SO DIEM BAN DAT DUOC LA: "<< point << "/" << n << ".";
+		gotoxy(50, 10);
+		cout << "BAN CO MUON IN RA KET QUA KHONG?";
+		gotoxy(50, 11);
+		cout << "1. Co.";
+		gotoxy(50, 12);
+		cout << "0. Khong.";
+		gotoxy(50, 13);
+		cout << "Ban chon: ";
+		int xem_kq;
+		cin >> xem_kq;
+		switch (xem_kq)
+		{
+		case 1:
+		{
+			xoa_nen();
+			gotoxy(50, 8);
+			cout << "==================================================================";
+			gotoxy(50, 9);
+			cout << "|CAU| ID |         DAP AN DUNG                         |BAN CHON |";
+			gotoxy(50, 10);
+			cout << "==================================================================";
+			int i = 0;
+			for (i = 0; i < n; i++)
+			{
+				gotoxy(50, 11 + i); cout << "| " << i + 1;
+				gotoxy(54, 11 + i); cout << "| " << ds_luu[i]->questionnaireID ;
+				gotoxy(59, 11 + i); cout << "|";
+				gotoxy(61, 11 + i); cout << ds_luu[i]->correct << ". " << ds_luu[i]->answerCorrect;
+				gotoxy(105, 11 + i); cout << "|";
+				gotoxy(110, 11 + i); cout << tl[i];
+				gotoxy(115, 11 + i); cout << "|";	
+			}
+			gotoxy(50, 11 + i);
+			cout << "------------------------------------------------------------------";
+			cin.ignore();
+			gotoxy(60, 35);
+			system("pause");
+			break;		
+		}
+		case 0:
+		{
+			cin.ignore();
+			kt = false;
+			break;
+		}
+		}
+	}
+}
 
 // void thi(string ma_sv,DS_LOP ds_l, DS_MON_HOC &ds_mon, cau_hoi_thi *ds[], int &nds)
 // {
