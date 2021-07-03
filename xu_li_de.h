@@ -1,4 +1,4 @@
-﻿#ifndef XU_LI_DE_h
+#ifndef XU_LI_DE_h
 #define	XU_LI_DE_h
 
 #include "doc_ghi_file.h"
@@ -73,7 +73,7 @@ void shuffle_array(Questionnaire *ds[], int nds);
 // ------------------------ THI ----------------------------
 // void shuffle_array(cau_hoi_thi *ds[], int nds); // xao tron bo cau hoi truoc khi phat de
 // void menu_thi_thu(ds_mon_hoc &ds_mon, cau_hoi_thi *ds[], int &nds);
-// void bo_de(cau_hoi_thi *ds[], int &nds,string a,int n,int hour, int minute, int second);
+void bo_de(Questionnaire *ds[], int &nds, string a, int n);
 // void bo_de_sv(DS_LOP &ds_l, string ma_sv, cau_hoi_thi *ds[], int &nds, string ma_mh, int n, int hour, int minute, int second);
 // void thi(string ma_sv, DS_LOP ds_l, DS_MON_HOC &ds_mon, cau_hoi_thi *ds[], int &nds);
 
@@ -1752,7 +1752,19 @@ void bo_de(Questionnaire *ds[], int &nds, string a, int n)
 	Questionnaire *ds_luu[1000];
 	char tl[1000];
 	int point = 0;
-	shuffle_array(ds, nds);
+	Questionnaire *monthi[n];
+	int demmon = 0;
+	for(int i = 0 ; i<nds; i++){
+		if(ds[i]->subjectID == a){
+			monthi[demmon] = ds[i];
+			demmon++;
+		}
+		if(demmon == n){
+				break;
+			}
+	}
+	//shuffle_array(ds, nds);
+	shuffle_array(monthi, n);
 	khung_cau_hoi();
 	HighLight();
 	gotoxy(70, 8);
@@ -1760,8 +1772,8 @@ void bo_de(Questionnaire *ds[], int &nds, string a, int n)
 	cout << "====== DE THI ======";
 	for (int i = 0; i < n; i++)
 	{
-		if (ds[i]->ma_mh == a)
-		{
+//		if (monthi[i]->subjectID == a)
+//		{
 			gotoxy(47, 13);
 			cout << "                                                                         ";
 			gotoxy(68, 13);
@@ -1777,15 +1789,15 @@ void bo_de(Questionnaire *ds[], int &nds, string a, int n)
 			gotoxy(50, 10);
 			cout << "Cau so " << i + 1;
 			gotoxy(47, 13);
-			cout << "Cau hoi: " << ds[i]->content;
+			cout << "Cau hoi: " << monthi[i]->content;
 			gotoxy(47, 18);
-			cout << "A. " << ds[i]->A;
+			cout << "A. " << monthi[i]->A;
 			gotoxy(85, 18);
-			cout << "B. " << ds[i]->B;
+			cout << "B. " << monthi[i]->B;
 			gotoxy(47, 22);
-			cout << "C. " << ds[i]->C;
+			cout << "C. " << monthi[i]->C;
 			gotoxy(85, 22);
-			cout << "D. " << ds[i]->D;
+			cout << "D. " << monthi[i]->D;
 		check_tl:
 			gotoxy(77, 27);
 			cout << "DAP AN: ";
@@ -1797,19 +1809,19 @@ void bo_de(Questionnaire *ds[], int &nds, string a, int n)
 			string cau_tl;
 			if (tl[i] == 'A')
 			{
-				cau_tl = ds[i]->A;
+				cau_tl = monthi[i]->A;
 			}
 			else if (tl[i] == 'B')
 			{
-				cau_tl = ds[i]->B;
+				cau_tl = monthi[i]->B;
 			}
 			else if (tl[i] == 'C')
 			{
-				cau_tl = ds[i]->C;
+				cau_tl = monthi[i]->C;
 			}
 			else if (tl[i] == 'D')
 			{
-				cau_tl = ds[i]->D;
+				cau_tl = monthi[i]->D;
 			}
 			else
 			{
@@ -1818,21 +1830,21 @@ void bo_de(Questionnaire *ds[], int &nds, string a, int n)
 				goto check_tl;
 			}
 			ds_luu[i] = new Questionnaire;
-			ds_luu[i]->questionnaireID = ds[i]->questionnaireID;
-			ds_luu[i]->content = ds[i]->content;
-			ds_luu[i]->A = ds[i]->A;
-			ds_luu[i]->B = ds[i]->B;
-			ds_luu[i]->C = ds[i]->C;
-			ds_luu[i]->D = ds[i]->D;
-			ds_luu[i]->correct = ds[i]->correct;
-			ds_luu[i]->answerCorrect = ds[i]->answerCorrect;
-			if (cau_tl == ds[i]->answerCorrect)
+			ds_luu[i]->questionnaireID = monthi[i]->questionnaireID;
+			ds_luu[i]->content = monthi[i]->content;
+			ds_luu[i]->A = monthi[i]->A;
+			ds_luu[i]->B = monthi[i]->B;
+			ds_luu[i]->C = monthi[i]->C;
+			ds_luu[i]->D = monthi[i]->D;
+			ds_luu[i]->correct = monthi[i]->correct;
+			ds_luu[i]->answerCorrect = monthi[i]->answerCorrect;
+			if (cau_tl == monthi[i]->answerCorrect)
 			{
 				point++;
 			}
-		}
+//		}
 	}
-	stop = 0;
+//	stop = 0;
 	xoa_nen();
 	
 	bool kt = true;
@@ -1886,8 +1898,13 @@ void bo_de(Questionnaire *ds[], int &nds, string a, int n)
 			kt = false;
 			break;
 		}
+		break;
 		}
+	//	break;
 	}
+	
+//	delete [] ds_luu;
+//	delete [] monthi;
 }
 
 // void thi(string ma_sv,DS_LOP ds_l, DS_MON_HOC &ds_mon, cau_hoi_thi *ds[], int &nds)

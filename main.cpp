@@ -6,8 +6,8 @@ int main() {
  	QuestionnaireList ds_cau;
  	SubjectList ds_mon;
  	ClassList ds_l;
- 	Questionnaire *ds[1000];
- 	int nds = 0;
+// 	Questionnaire *ds[1000];
+// 	int nds = 0;
  	
  	doc_file_ds_cau(ds_cau); //work well
 	doc_file_ds_lop(ds_l); // work well
