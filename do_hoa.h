@@ -172,9 +172,10 @@ void khung_login()
 int menu_tong(ClassList &ds_l, StudentList &ds_sv, QuestionnaireList &ds_cau, SubjectList &ds_mon)
 {
 
-	system("cls");
-	Questionnaire *ds[1000];
+system("cls");
+	Questionnaire *binaryTreeToArrayQuestionnaire[1000];
 	int nds = 0;
+	ofstream fileout;
 	int chon;
 	bool kt = true;
 	while (kt == true)
@@ -184,7 +185,7 @@ int menu_tong(ClassList &ds_l, StudentList &ds_sv, QuestionnaireList &ds_cau, Su
 		{
 		case 2: // them lop
 		{
-			if (ds_l.index >= 500)
+			if (ds_l.currentNumberOfClass >= MAX_CLASS)
 			{
 				gotoxy(60, 8);
 				cout << "Them khong thanh cong vi vuot qua so lop cho phep!";
@@ -201,7 +202,7 @@ int menu_tong(ClassList &ds_l, StudentList &ds_sv, QuestionnaireList &ds_cau, Su
 		}
 		case 3:	// xoa lop
 		{
-			if (ds_l.index == 0)
+			if (ds_l.currentNumberOfClass == 0)
 			{
 				gotoxy(50, 8);
 				cout << "Chua co lop nao de xoa ca!";
@@ -217,7 +218,7 @@ int menu_tong(ClassList &ds_l, StudentList &ds_sv, QuestionnaireList &ds_cau, Su
 		}
 		case 4:// chinh lop
 		{
-			if (ds_l.index == 0)
+			if (ds_l.currentNumberOfClass == 0)
 			{
 				gotoxy(50, 8);
 				cout << "DATA RONG~~";
@@ -233,7 +234,7 @@ int menu_tong(ClassList &ds_l, StudentList &ds_sv, QuestionnaireList &ds_cau, Su
 		}
 		case 5: // in ds lop theo nien khoa
 		{
-			if (ds_l.index == 0)
+			if (ds_l.currentNumberOfClass == 0)
 			{
 				gotoxy(50, 8);
 				cout << "KHONG CO LOP NAO DE IN CA";
@@ -259,7 +260,7 @@ int menu_tong(ClassList &ds_l, StudentList &ds_sv, QuestionnaireList &ds_cau, Su
 		case 8:
 		{
 			//in_ds_sv(ds_l, ds_sv);
-			in_ds_sv(ds_sv, ds_l);
+			in_ds_sv(ds_l);
 			gotoxy(60, 35);
 			system("pause");
 			break;
@@ -308,50 +309,53 @@ int menu_tong(ClassList &ds_l, StudentList &ds_sv, QuestionnaireList &ds_cau, Su
 		}
 		case 15:
 		{
-			nhap_cau_hoi(ds_cau,ds_mon);
-			chuyen_cay_sang_mang(ds_cau.TREE, ds, nds);
-			ghi_file_cau(ds, nds);
-			giai_phong_ds_cau(ds, nds);
+
+		Questionnaire_InputQuestion(ds_cau,ds_mon);
+			fileout.open("questionnaireTest.txt", ios_base::out);
+			QuestionnaireList_WriteFile(ds_cau.questionList, fileout);
+			fileout.close();
 			Normal();
 			gotoxy(60, 35);
 			system("pause");
-			//Sleep(2000);
 			break;
 		}
 		case 16:
 		{
-			xoa_cau(ds_cau);
-			chuyen_cay_sang_mang(ds_cau.TREE, ds, nds);
-			ghi_file_cau(ds, nds);
-			giai_phong_ds_cau(ds, nds);
+			fileout.open("questionnaireTest.txt",ios_base::out);
+			int ID_To_Delete = 0;
+			cout<<"\nInput ID to delete";
+			cin>> ID_To_Delete;
+			ds_cau.questionList = QuestionnaireList_DeleteQuestion(ds_cau.questionList, ID_To_Delete);
+			QuestionnaireList_WriteFile(ds_cau.questionList, fileout);
+			fileout.close();
 			gotoxy(60, 35);
 			system("pause");
 			break;	
 		}
 		case 17:
 		{
-			hieu_chinh_cau(ds_cau, ds_mon);
-			chuyen_cay_sang_mang(ds_cau.TREE, ds, nds);
-			ghi_file_cau(ds, nds);
-			giai_phong_ds_cau(ds, nds);
-			gotoxy(60, 35);
-			system("pause");
+		ofstream fileout;
+			 QuestionnaireList_ExecuteFoundID(ds_cau);
+			fileout.open("questionnaireTest2.txt", ios_base::out);
+			QuestionnaireList_WriteFile(ds_cau.questionList, fileout);
+			fileout.close();
+			QuestionnaireList_CopyOneFileToAnother();
 			break;
 		}
 		case 18:
 		{
-			chuyen_cay_sang_mang(ds_cau.TREE, ds, nds);
-			in_ds_cau_hoi(ds, nds);
-			giai_phong_ds_cau(ds, nds);
-			gotoxy(60, 35);
+		//	string subject_ID_Return = SubjectList_ReturnExistedID(ds_mon);
+			QuestionnaireList_TransferTreeToArray(ds_cau.questionList, binaryTreeToArrayQuestionnaire, nds);
+		//	QuestionnaireList_PrintArray(binaryTreeToArrayQuestionnaire, nds);
+			QuestionnaireList_PrintListOfQuestions(ds_cau, binaryTreeToArrayQuestionnaire, ds_mon);
 			system("pause");
 			break;
 		}
 		case 19:
 		{			
-			chuyen_cay_sang_mang(ds_cau.TREE, ds, nds);
-			menu_thi_thu(ds_mon, ds, nds);
-			giai_phong_ds_cau(ds, nds);
+			QuestionnaireList_TransferTreeToArray(ds_cau.questionList, binaryTreeToArrayQuestionnaire, nds);
+			menu_thi_thu(ds_mon, binaryTreeToArrayQuestionnaire, nds);
+			QuestionnaireList_FreeAllocateArray(binaryTreeToArrayQuestionnaire, nds);
 			gotoxy(60, 35);
 			system("pause");
 			//giai phong 
@@ -408,7 +412,7 @@ int menu_tong(ClassList &ds_l, StudentList &ds_sv, QuestionnaireList &ds_cau, Su
 // 		{
 // 		case 1: 
 // 		{
-// 			chuyen_cay_sang_mang(ds_cau.TREE, ds, nds);
+// 			chuyen_cay_sang_mang(ds_cau.questionList, ds, nds);
 // 			thi(ma_sv, ds_l, ds_mon, ds, nds);
 // 			giai_phong_ds_cau(ds, nds);
 // 			gotoxy(60, 35);
@@ -533,7 +537,7 @@ int menu_gv()
 
 		int chon = 0;
 		Normal();
-		char thucdon[so_item][35] = { " + LOP                            ",
+		char thucdon[so_item][50] = { " + LOP                            ",
 										"   - THEM LOP                     ",
 										"   - XOA LOP                      ",
 										"   - HIEU CHINH LOP               ",
@@ -546,11 +550,11 @@ int menu_gv()
 										"   - XOA MON HOC                  ",
 										"   - HIEU CHINH MON               ",
 										"   - IN DANH SACH MON             ",
-										" + CAU HOI THI                    ",
-										"   - THEM CAU HOI                 ",
-										"   - XOA CAU HOI                  ",
-										"   - HIEU CHINH CAU HOI           ",
-										"   - IN DANH SACH CAU HOI         ",
+										" + QUESTIONNAIRE                    ",
+										"   - ADD                 ",//15
+										"   - DELETE                  ",//16
+										"   - UPDATE           ",
+										"   - PRINT QUESTION         ",//17
 										" + THI THU                        ",
 										" + IN BAI THI CUA SINH VIEN       ",
 										" + IN KET QUA THI CUA 1 LOP       ",

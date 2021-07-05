@@ -6,10 +6,11 @@
 #include <conio.h>
 #include <fstream>
 #include <ctime>
-#include <cstdlib>
+//#include <cstdlib>
 #include <windows.h>
 //#include <thread>
-#include <dos.h>
+#include <direct.h>
+#include <sstream>
 #include "mylib.h"
 
 using namespace std;
@@ -75,7 +76,8 @@ struct Class
 struct ClassList
 {
 	Class *classList[MAX_CLASS];
-	int index = 0;
+	int currentNumberOfClass = 0;
+	int a = 5;
 };
 
 //============Questionnaire============
@@ -84,21 +86,23 @@ struct Questionnaire
 	int questionnaireID;
 	string subjectID;
 	string content;
+	int height = 1;
 	string A;
 	string B;
 	string C;
 	string D;
 	char correct;
 	string answerCorrect;
-	Questionnaire *pLeft;
-	Questionnaire *pRight;
+	Questionnaire *pLeft = NULL;
+	Questionnaire *pRight = NULL;
 };
 typedef struct Questionnaire *tree;
 
 struct QuestionnaireList
 {
-	tree TREE = NULL;
+	tree questionList = NULL;
 	int index = 0;
 };
 
 #endif
+

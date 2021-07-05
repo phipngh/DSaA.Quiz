@@ -8,10 +8,11 @@
 #include <windows.h>
 
 #define Enter 13
+#define RIGHT 77
+#define LEFT 75
 //const int WHITE=15;
 #define PASSWORD "abcdef"
 //const int WHITE=15;
-
 char* Pwd () {
      char *S = new char[40];
 	 int i=0;
