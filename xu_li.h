@@ -1,4 +1,4 @@
-﻿#ifndef XU_LY_H
+#ifndef XU_LY_H
 #define	XU_LY_H
 
 #include "ctdl.h"

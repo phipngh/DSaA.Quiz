@@ -349,12 +349,13 @@ int menu_tong(ClassList &ds_l, StudentList &ds_sv, QuestionnaireList &ds_cau, Su
 		}
 		case 19:
 		{			
-//			chuyen_cay_sang_mang(ds_cau.TREE, ds, nds);
-//			menu_thi_thu(ds_mon, ds, nds);
-//			giai_phong_ds_cau(ds, nds);
-//			gotoxy(60, 35);
-//			system("pause");
-//			break;
+			chuyen_cay_sang_mang(ds_cau.TREE, ds, nds);
+			menu_thi_thu(ds_mon, ds, nds);
+			giai_phong_ds_cau(ds, nds);
+			gotoxy(60, 35);
+			system("pause");
+			//giai phong 
+			break;
 		}
 		case 20:
 		{
