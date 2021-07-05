@@ -1,4 +1,4 @@
-#ifndef XU_LI_DE_h
+﻿#ifndef XU_LI_DE_h
 #define	XU_LI_DE_h
 
 #include "doc_ghi_file.h"
@@ -1635,6 +1635,19 @@ void shuffle_array(Questionnaire *ds[], int nds)
 		i++;
 	}
 }
+
+//please test this
+void randomize_array (Questionnaire *arr[], int n)
+{
+    srand (time(NULL));
+ 
+    for (int i = n - 1; i > 0; i--)
+    {
+        int j = rand() % (i + 1);
+        swap(&arr[i], &arr[j]);
+    }
+}
+ 
 
 void menu_thi_thu(SubjectList &ds_mon, Questionnaire *ds[], int &nds)
 {

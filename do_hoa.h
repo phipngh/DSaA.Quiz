@@ -1,4 +1,4 @@
-#ifndef DO_HOA_H
+﻿#ifndef DO_HOA_H
 #define	DO_HOA_H
 
 #include "xu_li_de.h"
@@ -610,131 +610,130 @@ int menu_gv()
 	}	
 }
 
-// int login()
-// {
-// 	// =============== khai bao bien =================
-// 	DS_SINH_VIEN ds_sv;
-// 	DS_CAU_HOI_THI ds_cau;
-// 	DS_MON_HOC ds_mon;
-// 	DS_LOP ds_l;
-// 	cau_hoi_thi *ds[1000];
+int login()
+{
+	// =============== khai bao bien =================
+ 	StudentList ds_sv;
+ 	QuestionnaireList ds_cau;
+ 	SubjectList ds_mon;
+ 	ClassList ds_l;
+// 	Questionnaire *ds[1000];
 // 	int nds = 0;
-// 	// ============ load file ==================
-// 	doc_file_ds_cau(ds_cau);
-// 	doc_file_ds_lop(ds_l);
-// 	doc_file_ds_mon(ds_mon);
-// 	doc_file_ds_sv(ds_l);
-// 	//doc_file_diem__thi(ds_l);
-// 	system("cls");
-// 	khung_login();
-// 	string id;
-// 	int count = 0, ch;
-// 	string pass = "";
-// 	HighLight();
-// 	gotoxy(42, 6);
-// 	cout << "  ___  _   _         _   _   _     ___     ";
-// 	gotoxy(42, 7);
-// 	cout << " / _ \\| | | |  /\\   | \\ | | | |   | o |   ";
-// 	gotoxy(42, 8);
-// 	cout << "| | | | | | | /  \\  |  \\| | | |    | |    ";
-// 	gotoxy(42, 9);
-// 	cout << "| | | | | | |/ /\\ \\ | . ' | | |    | |    ";
-// 	gotoxy(42, 10);
-// 	cout << "| |_| | |_| / ____ \\| |\\  | | |___ | |    ";
-// 	gotoxy(42, 11);
-// 	cout << " \\__\\_\\\\___/_/    \\_\\_| \\_| |_____|___|   ";
-// 	gotoxy(18, 13);
-// 	cout << "  _______ _   _ ___    _______ _____           ___     _   _  ___  _   _ ___ _____  __    __   ";
-// 	gotoxy(18, 14);
-// 	cout << " |__   __| | | | o |  |__   __/  _  |   /\\    / _ \\   | \\ | |/ __\\| | | | o |  ___||  \\  /  |  ";
-// 	gotoxy(18, 15);
-// 	cout << "    | |  | |_| || |      | |  | | | |  /  \\  | / \\_\\  |  \\| | / __| |_| || || |___ | . \\/ . |  ";
-// 	gotoxy(18, 16);
-// 	cout << "    | |  |  _  || |      | |  | |/ /  / /\\ \\ | |  __  | . ' | |[_ ]  _  || ||  ___|| |\\  /| |  ";
-// 	gotoxy(18, 17);
-// 	cout << "    | |  | | | || |      | |  | | \\ \\/ ____ \\| \\_/ /  | |\\  | \\_/ / | | || || |___ | | \\/ | |  ";
-// 	gotoxy(18, 18);
-// 	cout << "    |_|  |_| |_|___|     |_|  |_|  \\/_/    \\_\\\\___/   |_| \\_|\\___/|_| |_|___|_____|___|  |___| ";
-// wrong:
-// 	HighLight();
-// 	gotoxy(45, 24);
-// 	cout << "NHAP ID	:";
-// 	gotoxy(45, 26);
-// 	cout << "NHAP PASS	:";
-// 	gotoxy(60, 24);
-// 	getline(cin, id);
-// 	chuan_hoa_chu(id);
-// 	gotoxy(60, 26);
-// 	while (ch = _getch())
-// 	{
-// 		bool kt_break = false;
-// 		if (ch == 80 || ch == 72 || ch == 77 || ch == 75) ch = _getch();
-// 		else if(ch == 27) break;
-// 		else
-// 		{
-// 			if (ch == 13)
-// 			{
-// 				if ((pass == "GV") && (id == "GV"))
-// 				{
-// 					gotoxy(52, 30);
-// 					cout << "LOGIN SUCCESSFUL!";
-// 					gotoxy(48, 35);
-// 					system("pause");
-// 					menu_tong(ds_l, ds_sv, ds_cau, ds_mon);
-// 					kt_break = true;
-// 					break;
-// 				}
-// 				for (int i = 0; i < ds_l.sl; i++)
-// 				{
-// 					for (SINH_VIEN *k = ds_l.ds[i]->danh_sach_sv.p_head; k != NULL; k = k->p_next)
-// 					{
-// 						if ((id == k->ma_sv) && (pass == k->password))
-// 						{
-// 							gotoxy(52, 30);
-// 							cout << "LOGIN  SUCCESSFUL!";
-// 							gotoxy(48, 35);
-// 							system("pause");
-// 							menu_tong_sv(k->ma_sv,k->ho,k->ten,ds_l, ds_sv, ds_cau, ds_mon);
-// 							kt_break = true;
-// 							break;
-// 						}
-// 					}
-// 				}								
-// 			gotoxy(55, 30);
-// 			cout << "LOGIN FALSE!";
-// 			pass = "";
-// 			count++;
-// 			if (count == 3)
-// 			{
-// 				cout << "YOU ENTER WRONG 3 TIMES, SYSTEM SUT DOWN AFTER 3 SECONDS!";
-// 				return 0;
-// 			}				
-// 			gotoxy(60, 24);
-// 			cout << "                    ";
-// 			gotoxy(60, 26);
-// 			cout << "                    ";
-// 			goto wrong;
-// 			}
-// 			else if (ch == 8)
-// 			{
-// 				if (pass.length() > 0)
-// 				{
-// 					cout << "\b \b";
-// 					pass.erase(pass.length() - 1);
-// 				}
-// 			}
-// 			else
-// 			{
-// 				cout << "*";
-// 				pass += ch;
-// 				chuan_hoa_chu(pass);
-// 			}
-// 		}
-// 		if (kt_break == true)
-// 		{
-// 			break;
-// 		}
-// 	}
-// }
+	// ============ load file ==================
+ 	doc_file_ds_cau(ds_cau); //work well
+	doc_file_ds_lop(ds_l); // work well
+	doc_file_ds_mon(ds_mon); //work well
+	doc_file_ds_sv(ds_l); //worl well
+	system("cls");
+	khung_login();
+	string id;
+	int count = 0, ch;
+	string pass = "";
+	HighLight();
+	gotoxy(42, 6);
+	cout << "  ___  _   _         _   _   _     ___     ";
+	gotoxy(42, 7);
+	cout << " / _ \\| | | |  /\\   | \\ | | | |   | o |   ";
+	gotoxy(42, 8);
+	cout << "| | | | | | | /  \\  |  \\| | | |    | |    ";
+	gotoxy(42, 9);
+	cout << "| | | | | | |/ /\\ \\ | . ' | | |    | |    ";
+	gotoxy(42, 10);
+	cout << "| |_| | |_| / ____ \\| |\\  | | |___ | |    ";
+	gotoxy(42, 11);
+	cout << " \\__\\_\\\\___/_/    \\_\\_| \\_| |_____|___|   ";
+	gotoxy(18, 13);
+	cout << "  _______ _   _ ___    _______ _____           ___     _   _  ___  _   _ ___ _____  __    __   ";
+	gotoxy(18, 14);
+	cout << " |__   __| | | | o |  |__   __/  _  |   /\\    / _ \\   | \\ | |/ __\\| | | | o |  ___||  \\  /  |  ";
+	gotoxy(18, 15);
+	cout << "    | |  | |_| || |      | |  | | | |  /  \\  | / \\_\\  |  \\| | / __| |_| || || |___ | . \\/ . |  ";
+	gotoxy(18, 16);
+	cout << "    | |  |  _  || |      | |  | |/ /  / /\\ \\ | |  __  | . ' | |[_ ]  _  || ||  ___|| |\\  /| |  ";
+	gotoxy(18, 17);
+	cout << "    | |  | | | || |      | |  | | \\ \\/ ____ \\| \\_/ /  | |\\  | \\_/ / | | || || |___ | | \\/ | |  ";
+	gotoxy(18, 18);
+	cout << "    |_|  |_| |_|___|     |_|  |_|  \\/_/    \\_\\\\___/   |_| \\_|\\___/|_| |_|___|_____|___|  |___| ";
+wrong:
+	HighLight();
+	gotoxy(45, 24);
+	cout << "NHAP ID	:";
+	gotoxy(45, 26);
+	cout << "NHAP PASS	:";
+	gotoxy(60, 24);
+	getline(cin, id);
+	chuan_hoa_chu(id);
+	gotoxy(60, 26);
+	while (ch = _getch())
+	{
+		bool kt_break = false;
+		if (ch == 80 || ch == 72 || ch == 77 || ch == 75) ch = _getch();
+		else if(ch == 27) break;
+		else
+		{
+			if (ch == 13)
+			{
+				if ((pass == "GV") && (id == "GV"))
+				{
+					gotoxy(52, 30);
+					cout << "LOGIN SUCCESSFUL!";
+					gotoxy(48, 35);
+					system("pause");
+					menu_tong(ds_l, ds_sv, ds_cau, ds_mon);	
+					kt_break = true;
+					break;
+				}
+				for (int i = 0; i < ds_l.sl; i++)
+				{
+					for (Student *k = ds_l.classList[i]->studentList.pHead; k != NULL; k = k->pNext)
+					{
+						if ((id == k->studentID) && (pass == k->password))
+						{
+							gotoxy(52, 30);
+							cout << "LOGIN  SUCCESSFUL!";
+							gotoxy(48, 35);
+							system("pause");
+							//menu_tong_sv(k->ma_sv,k->ho,k->ten,ds_l, ds_sv, ds_cau, ds_mon);
+							kt_break = true;
+							break;
+						}
+					}
+				}								
+			gotoxy(55, 30);
+			cout << "LOGIN FALSE!";
+			pass = "";
+			count++;
+			if (count == 3)
+			{
+				cout << "YOU ENTER WRONG 3 TIMES, SYSTEM SUT DOWN AFTER 3 SECONDS!";
+				return 0;
+			}				
+			gotoxy(60, 24);
+			cout << "                    ";
+			gotoxy(60, 26);
+			cout << "                    ";
+			goto wrong;
+			}
+			else if (ch == 8)
+			{
+				if (pass.length() > 0)
+				{
+					cout << "\b \b";
+					pass.erase(pass.length() - 1);
+				}
+			}
+			else
+			{
+				cout << "*";
+				pass += ch;
+				chuan_hoa_chu(pass);
+			}
+		}
+		if (kt_break == true)
+		{
+			break;
+		}
+	}
+}
 
 #endif

@@ -7,7 +7,9 @@
 #include <fstream>
 #include <ctime>
 #include <cstdlib>
-#include <windows.h>
+#include<bits/stdc++.h>
+#include <stdlib.h>
+#include <time.h>
 //#include <thread>
 #include <dos.h>
 #include "mylib.h"
