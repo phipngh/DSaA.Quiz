@@ -7,7 +7,7 @@ using namespace std;
 
 #define width 1300
 #define height 800
-const int so_item = 23;
+const int so_item = 22;
 const int so_item_sv = 3;
 const int dong = 9;
 const int cot = 5;
