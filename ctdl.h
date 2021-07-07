@@ -1,5 +1,5 @@
 #ifndef CTDL_H
-#define	CTDL_H
+#define CTDL_H
 
 #include <iostream>
 #include <string>
@@ -28,7 +28,7 @@ struct Subject
 
 struct SubjectList
 {
-	Subject subjectList[MAX_SUBJECT];	
+	Subject subjectList[MAX_SUBJECT];
 	int index = 0;
 };
 
@@ -50,7 +50,7 @@ struct ScoreList
 //============Student============
 struct Student
 {
-	string studentID;//key
+	string studentID; //key
 	string studentLastName;
 	string studentFirstName;
 	string gender;
@@ -105,4 +105,3 @@ struct QuestionnaireList
 };
 
 #endif
-

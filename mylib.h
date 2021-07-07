@@ -6,10 +6,12 @@
 #include <dos.h>
 #include <string.h>
 #include <windows.h>
-
 #define Enter 13
 #define RIGHT 77
 #define LEFT 75
+#define UP  72
+#define DOWN  80
+#define ESC  27
 //const int WHITE=15;
 #define PASSWORD "abcdef"
 //const int WHITE=15;

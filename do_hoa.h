@@ -1,5 +1,5 @@
 #ifndef DO_HOA_H
-#define	DO_HOA_H
+#define DO_HOA_H
 
 #include "xu_li_de.h"
 
@@ -7,15 +7,12 @@ using namespace std;
 
 #define width 1300
 #define height 800
-const int so_item = 22;
+const int so_item = 23;
 const int so_item_sv = 3;
 const int dong = 9;
 const int cot = 5;
-const int Up = 72;
-const int Down = 80;
-const int ESC = 27;
+
 const int superTest = 30;
-int menu_tong(ClassList &ds_l, StudentList &ds_sv, QuestionnaireList &ds_cau, SubjectList &ds_mon);
 //int menu_tong_sv(DS_LOP &ds_l, DS_SINH_VIEN &ds_sv, DS_CAU_HOI_THI &ds_cau, DS_MON_HOC &ds_mon);
 int menu_gv();
 //int menu_sv();
@@ -31,8 +28,6 @@ void ke_khung_ngang_3();
 // void khung_login_mini();
 
 //int login();
-
-
 
 void ke_khung_doc_1()
 {
@@ -168,17 +163,16 @@ void khung_login()
 	khung_login_mini();
 }
 
-
-int menu_tong(ClassList &ds_l, StudentList &ds_sv, QuestionnaireList &ds_cau, SubjectList &ds_mon)
+void menu_tong(ClassList &ds_l, StudentList &ds_sv, QuestionnaireList &ds_cau, SubjectList &ds_mon)
 {
 
-system("cls");
+	system("cls");
 	Questionnaire *binaryTreeToArrayQuestionnaire[1000];
 	int nds = 0;
 	ofstream fileout;
 	int chon;
 	bool kt = true;
-	while (kt == true)
+	while (kt)
 	{
 		chon = menu_gv();
 		switch (chon)
@@ -200,7 +194,7 @@ system("cls");
 			system("pause");
 			break;
 		}
-		case 3:	// xoa lop
+		case 3: // xoa lop
 		{
 			if (ds_l.currentNumberOfClass == 0)
 			{
@@ -216,7 +210,7 @@ system("cls");
 			system("pause");
 			break;
 		}
-		case 4:// chinh lop
+		case 4: // chinh lop
 		{
 			if (ds_l.currentNumberOfClass == 0)
 			{
@@ -275,13 +269,13 @@ system("cls");
 				system("pause");
 			}
 			else
-			{				
+			{
 				them_mon(ds_mon);
 				sap_xep_chen(ds_mon);
 				ghi_file_mon(ds_mon);
 				gotoxy(60, 35);
 				system("pause");
-			} 
+			}
 			break;
 		}
 		case 11:
@@ -310,7 +304,7 @@ system("cls");
 		case 15:
 		{
 
-		Questionnaire_InputQuestion(ds_cau,ds_mon);
+			Questionnaire_InputQuestion(ds_cau, ds_mon);
 			fileout.open("questionnaireTest.txt", ios_base::out);
 			QuestionnaireList_WriteFile(ds_cau.questionList, fileout);
 			fileout.close();
@@ -321,64 +315,112 @@ system("cls");
 		}
 		case 16:
 		{
-			fileout.open("questionnaireTest.txt",ios_base::out);
-			int ID_To_Delete = 0;
-			cout<<"\nInput ID to delete";
-			cin>> ID_To_Delete;
-			ds_cau.questionList = QuestionnaireList_DeleteQuestion(ds_cau.questionList, ID_To_Delete);
-			QuestionnaireList_WriteFile(ds_cau.questionList, fileout);
-			fileout.close();
-			gotoxy(60, 35);
-			system("pause");
-			break;	
+			int currentTask = 2;
+			bool keyFlag = false;
+			while (currentTask == 1 || currentTask == 2)
+			{
+				if (keyFlag)
+					currentTask = 1;
+				else
+					currentTask = 2;
+				if (currentTask == 2)
+				{
+					QuestionnaireList_TransferTreeToArray(ds_cau.questionList, binaryTreeToArrayQuestionnaire, nds);
+					QuestionnaireList_Print_ID_List(ds_cau, binaryTreeToArrayQuestionnaire, keyFlag, currentTask);
+				}
+				else if (currentTask == 1 && ds_cau.questionList != NULL)
+				{
+					bool checkID = false;
+					QuestionnaireList_ExecuteFoundDeleteID(ds_cau, checkID, keyFlag);
+					if (checkID)
+					{
+						ofstream fileout;
+						fileout.open("questionnaireTest.txt", ios_base::out);
+						QuestionnaireList_WriteFile(ds_cau.questionList, fileout);
+						fileout.close();
+						gotoxy(75, 23);
+						cout << "DELETE COMPLETED!!!";
+						currentTask = 0;
+					}
+				}
+			}
+			QuestionnaireList_FreeAllocateArray(binaryTreeToArrayQuestionnaire, nds);
+			break;
 		}
 		case 17:
 		{
-		ofstream fileout;
-			 QuestionnaireList_ExecuteFoundID(ds_cau);
-			fileout.open("questionnaireTest2.txt", ios_base::out);
-			QuestionnaireList_WriteFile(ds_cau.questionList, fileout);
-			fileout.close();
-			QuestionnaireList_CopyOneFileToAnother();
+			int currentTask = 2;
+			bool keyFlag = false;
+			while (currentTask == 1 || currentTask == 2)
+			{
+				if (keyFlag)
+					currentTask = 1;
+				else
+					currentTask = 2;
+				if (currentTask == 2)
+				{
+					QuestionnaireList_TransferTreeToArray(ds_cau.questionList, binaryTreeToArrayQuestionnaire, nds);
+					QuestionnaireList_Print_ID_List(ds_cau, binaryTreeToArrayQuestionnaire, keyFlag, currentTask);
+					if (ds_cau.questionList != NULL)
+					{
+						gotoxy(73, 12);
+						cout << "PRESS UP TO INPUT ID";
+					}
+				}
+				else if (currentTask == 1 && ds_cau.questionList != NULL)
+				{
+
+					bool checkID = false;
+					QuestionnaireList_ExecuteFoundUpdateID(ds_cau, checkID, keyFlag);
+					if (checkID)
+					{
+						ofstream fileout;
+						fileout.open("questionnaireTest2.txt", ios_base::out);
+						QuestionnaireList_WriteFile(ds_cau.questionList, fileout);
+						fileout.close();
+						QuestionnaireList_CopyOneFileToAnother();
+						currentTask = 0;
+					}
+				}
+			}
+			QuestionnaireList_FreeAllocateArray(binaryTreeToArrayQuestionnaire, nds);
+
 			break;
 		}
 		case 18:
 		{
-		//	string subject_ID_Return = SubjectList_ReturnExistedID(ds_mon);
+			//	string subject_ID_Return = SubjectList_ReturnExistedID(ds_mon);
 			QuestionnaireList_TransferTreeToArray(ds_cau.questionList, binaryTreeToArrayQuestionnaire, nds);
-		//	QuestionnaireList_PrintArray(binaryTreeToArrayQuestionnaire, nds);
+			//QuestionnaireList_PrintArray(binaryTreeToArrayQuestionnaire, nds);
 			QuestionnaireList_PrintListOfQuestions(ds_cau, binaryTreeToArrayQuestionnaire, ds_mon);
-			system("pause");
+			QuestionnaireList_FreeAllocateArray(binaryTreeToArrayQuestionnaire, nds);
 			break;
 		}
 		case 19:
-		{			
+		{
 			QuestionnaireList_TransferTreeToArray(ds_cau.questionList, binaryTreeToArrayQuestionnaire, nds);
 			menu_thi_thu(ds_mon, binaryTreeToArrayQuestionnaire, nds);
 			QuestionnaireList_FreeAllocateArray(binaryTreeToArrayQuestionnaire, nds);
 			gotoxy(60, 35);
 			system("pause");
-			//giai phong 
+			//giai phong
 			break;
 		}
 		case 20:
 		{
+		}
+
+		/*case 22:{
 			
-			break;
-		}
-		case 21:
-		{
-			// in_ds_diem_thi_lop(ds_l);
-			// break;
-		}
+		}*/
 		case so_item:
 		{
-			 HighLight();
-			 gotoxy(60, 20);
-			 cout << "DANG TAT CHUONG TRINH! ";
-			 gotoxy(60, 21);
-			 system("pause");
-			 return 0;
+			HighLight();
+			gotoxy(60, 20);
+			cout << "DANG TAT CHUONG TRINH! ";
+			gotoxy(60, 21);
+			system("pause");
+			kt = false;
 		}
 		case 27:
 		{
@@ -389,9 +431,7 @@ system("cls");
 			// system("pause");
 			// return 0;
 		}
-			
 		}
-		
 	}
 }
 
@@ -410,7 +450,7 @@ system("cls");
 // 		chon = menu_sv();
 // 		switch (chon)
 // 		{
-// 		case 1: 
+// 		case 1:
 // 		{
 // 			chuyen_cay_sang_mang(ds_cau.questionList, ds, nds);
 // 			thi(ma_sv, ds_l, ds_mon, ds, nds);
@@ -419,7 +459,7 @@ system("cls");
 // 			system("pause");
 // 			break;
 // 		}
-// 		case 2:	
+// 		case 2:
 // 		{
 // 			break;
 // 		}
@@ -519,7 +559,7 @@ system("cls");
 int menu_gv()
 {
 	while (true)
-	{		
+	{
 		khung_menu();
 		HighLight();
 		gotoxy(5, 3);
@@ -537,28 +577,28 @@ int menu_gv()
 
 		int chon = 0;
 		Normal();
-		char thucdon[so_item][50] = { " + LOP                            ",
-										"   - THEM LOP                     ",
-										"   - XOA LOP                      ",
-										"   - HIEU CHINH LOP               ",
-										"   - IN DANH SACH LOP             ",
-										" + SINH VIEN                      ",
-										"   - THEM SINH VIEN               ",
-										"   - IN DANH SACH SINH VIEN       ",
-										" + MON HOC                        ",
-										"   - THEM MON HOC                 ",
-										"   - XOA MON HOC                  ",
-										"   - HIEU CHINH MON               ",
-										"   - IN DANH SACH MON             ",
-										" + QUESTIONNAIRE                    ",
-										"   - ADD                 ",//15
-										"   - DELETE                  ",//16
-										"   - UPDATE           ",
-										"   - PRINT QUESTION         ",//17
-										" + THI THU                        ",
-										" + IN BAI THI CUA SINH VIEN       ",
-										" + IN KET QUA THI CUA 1 LOP       ",
-										" + EXIT                           " };
+		char thucdon[so_item][50] = {" + LOP                            ",
+									 "   - THEM LOP                     ",
+									 "   - XOA LOP                      ",
+									 "   - HIEU CHINH LOP               ",
+									 "   - IN DANH SACH LOP             ",
+									 " + SINH VIEN                      ",
+									 "   - THEM SINH VIEN               ",
+									 "   - IN DANH SACH SINH VIEN       ",
+									 " + MON HOC                        ",
+									 "   - THEM MON HOC                 ",
+									 "   - XOA MON HOC                  ",
+									 "   - HIEU CHINH MON               ",
+									 "   - IN DANH SACH MON             ",
+									 " + QUESTIONNAIRE                    ",
+									 "   - ADD                 ",	  //15
+									 "   - DELETE                  ", //16
+									 "   - UPDATE           ",
+									 "   - PRINT QUESTION         ", //17
+									 " + THI THU                        ",
+									 " + IN BAI THI CUA SINH VIEN       ",
+									 " + IN KET QUA THI CUA 1 LOP       ",
+									 " + EXIT                           "};
 		for (int i = 0; i < so_item; i++)
 		{
 			gotoxy(cot, dong + i);
@@ -572,31 +612,37 @@ int menu_gv()
 		do
 		{
 			kytu = _getch();
-			if (kytu == -32) kytu = _getch();
-			if (kytu == 8) kytu != _getch();
+			if (kytu == -32)
+				kytu = _getch();
+			if (kytu == 8)
+				kytu != _getch();
 			switch (kytu)
 			{
-			case Up:
+			case UP:
 			{
 				if (chon > 0)
 				{
 					Normal();
-					gotoxy(cot, dong + chon); cout << thucdon[chon];
+					gotoxy(cot, dong + chon);
+					cout << thucdon[chon];
 					chon--;
 					HighLight();
-					gotoxy(cot, dong + chon); 	cout << thucdon[chon];
+					gotoxy(cot, dong + chon);
+					cout << thucdon[chon];
 				}
 				break;
 			}
-			case Down:
+			case DOWN:
 			{
 				if (chon + 1 < so_item)
 				{
 					Normal();
-					gotoxy(cot, dong + chon);	cout << thucdon[chon];
+					gotoxy(cot, dong + chon);
+					cout << thucdon[chon];
 					chon++;
 					HighLight();
-					gotoxy(cot, dong + chon); 	cout << thucdon[chon];
+					gotoxy(cot, dong + chon);
+					cout << thucdon[chon];
 				}
 				break;
 			}
@@ -610,8 +656,7 @@ int menu_gv()
 			}
 			}
 		} while (true);
-		
-	}	
+	}
 }
 
 // int login()
@@ -703,7 +748,7 @@ int menu_gv()
 // 							break;
 // 						}
 // 					}
-// 				}								
+// 				}
 // 			gotoxy(55, 30);
 // 			cout << "LOGIN FALSE!";
 // 			pass = "";
@@ -712,7 +757,7 @@ int menu_gv()
 // 			{
 // 				cout << "YOU ENTER WRONG 3 TIMES, SYSTEM SUT DOWN AFTER 3 SECONDS!";
 // 				return 0;
-// 			}				
+// 			}
 // 			gotoxy(60, 24);
 // 			cout << "                    ";
 // 			gotoxy(60, 26);

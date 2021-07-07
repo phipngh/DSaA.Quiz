@@ -1,10 +1,8 @@
-
+ï»¿
 #ifndef XU_LY_H
-#define	XU_LY_H
-
+#define XU_LY_H
 
 #include "ctdl.h"
-
 
 void Normal();
 void HighLight();
@@ -27,14 +25,13 @@ void standardizeSentence(string &a)
 
 	for (size_t i = 0; i < a.length(); i++)
 	{
-		if (a[i] == ' '&& a[i + 1] == ' ')
+		if (a[i] == ' ' && a[i + 1] == ' ')
 		{
 			a.erase(a.begin() + i + 1);
 			i--;
 		}
 	}
 }
-
 
 void standardizeID(string &a)
 {
@@ -53,7 +50,7 @@ void standardizeID(string &a)
 
 	for (unsigned int i = 0; i < a.length(); i++)
 	{
-		if (a[i] == ' '&& a[i + 1] == ' ')
+		if (a[i] == ' ' && a[i + 1] == ' ')
 		{
 			a.erase(a.begin() + i + 1);
 			i--;
@@ -77,7 +74,7 @@ void uppercaseLetter(char &a)
 	}
 }
 
-// ============ x? lí câu h?i ===================
+// ============ x? lÃ­ cÃ¢u h?i ===================
 
 bool QuestionnaireList_CheckExistID(Questionnaire *currentQuestion, int questionnaireID)
 {
@@ -102,26 +99,27 @@ bool QuestionnaireList_CheckExistID(Questionnaire *currentQuestion, int question
 	}
 }
 
-int Questionnaire_CreateRandomID(Questionnaire* t)
+int Questionnaire_CreateRandomID(Questionnaire *t)
 {
-	int cauHoiID;// 000->999;
+	int cauHoiID; // 000->999;
 	srand(time(NULL));
 	do
 	{
-		cauHoiID = rand() % (1000 - 1 + 1)  +1;
+		cauHoiID = rand() % (1000 - 1 + 1) + 1;
 	} while (QuestionnaireList_CheckExistID(t, cauHoiID));
 	return cauHoiID;
 }
 
-Questionnaire* Questionnaire_CreateNodeWithoutID(){
-	Questionnaire* questionnaireReturn = new Questionnaire;
+Questionnaire *Questionnaire_CreateNodeWithoutID()
+{
+	Questionnaire *questionnaireReturn = new Questionnaire;
 	questionnaireReturn->height = 1;
 	questionnaireReturn->pLeft = NULL;
 	questionnaireReturn->pRight = NULL;
 	return questionnaireReturn;
 }
 
-Questionnaire* Questionnaire_CreateNode(tree treeCheckingExist)
+Questionnaire *Questionnaire_CreateNode(tree treeCheckingExist)
 {
 	Questionnaire *p = new Questionnaire;
 	p->questionnaireID = Questionnaire_CreateRandomID(treeCheckingExist);
@@ -131,85 +129,95 @@ Questionnaire* Questionnaire_CreateNode(tree treeCheckingExist)
 	return p;
 }
 
-int Questionnaire_GetHeight(tree currentNode){
-	if(currentNode == NULL) return 0;
+int Questionnaire_GetHeight(tree currentNode)
+{
+	if (currentNode == NULL)
+		return 0;
 	return currentNode->height;
 }
 
-int Questionnaire_GetBalanceFactor(tree currentNode){
-	if(currentNode == NULL) return 0;
+int Questionnaire_GetBalanceFactor(tree currentNode)
+{
+	if (currentNode == NULL)
+		return 0;
 	return Questionnaire_GetHeight(currentNode->pLeft) - Questionnaire_GetHeight(currentNode->pRight);
 }
 
-int returnMaxNumber(int a, int b){
-	if(a > b){
+int returnMaxNumber(int a, int b)
+{
+	if (a > b)
+	{
 		return a;
 	}
 	return b;
 }
 
-Questionnaire* QuestionnaireList_LeftRotation(Questionnaire* &currentNode){
-	if(currentNode == NULL) return NULL;
-		Questionnaire* nodeToRotate = currentNode->pRight;
-		currentNode->pRight = nodeToRotate->pLeft;
-		nodeToRotate->pLeft = currentNode;
-		currentNode->height = returnMaxNumber(Questionnaire_GetHeight(currentNode->pLeft),Questionnaire_GetHeight(currentNode->pRight)) +1 ;
-		nodeToRotate->height = returnMaxNumber(Questionnaire_GetHeight(nodeToRotate->pLeft),Questionnaire_GetHeight(nodeToRotate->pRight)) +1;
-		return nodeToRotate;
-}
-
-Questionnaire* QuestionnaireList_RightRotation(Questionnaire* &currentNode){
-	if(currentNode == NULL) return NULL;
-		Questionnaire* nodeToRotate = currentNode->pLeft;
-		currentNode->pLeft = nodeToRotate->pRight;
-		nodeToRotate->pRight = currentNode;
-		
-		currentNode->height = returnMaxNumber(Questionnaire_GetHeight(currentNode->pLeft),Questionnaire_GetHeight(currentNode->pRight)) + 1;
-		nodeToRotate->height = returnMaxNumber(Questionnaire_GetHeight(nodeToRotate->pLeft),Questionnaire_GetHeight(nodeToRotate->pRight)) + 1;
-		return nodeToRotate;
-}
-
-Questionnaire* QuestionnaireList_Add(tree &t, Questionnaire *p)
+Questionnaire *QuestionnaireList_LeftRotation(Questionnaire *&currentNode)
 {
-	if(p->content != ""){
-	if (t == NULL)
-	{
-		return p;
-	}
-	else
-	{
-		if (p->questionnaireID > t->questionnaireID)
-		{
-			t->pRight = QuestionnaireList_Add(t->pRight, p);
-		}
-		else if (p->questionnaireID < t->questionnaireID)
-		{
-			t->pLeft = QuestionnaireList_Add(t->pLeft, p);
-		}
-		t->height = returnMaxNumber(Questionnaire_GetHeight(t->pLeft), Questionnaire_GetHeight(t->pRight)) + 1;
-		int balance = Questionnaire_GetBalanceFactor(t);
-		if (balance > 1)
-		{ // left tree has more node
-			if (p->questionnaireID > t->pLeft->questionnaireID)
-			{
+	if (currentNode == NULL)
+		return NULL;
+	Questionnaire *nodeToRotate = currentNode->pRight;
+	currentNode->pRight = nodeToRotate->pLeft;
+	nodeToRotate->pLeft = currentNode;
+	currentNode->height = returnMaxNumber(Questionnaire_GetHeight(currentNode->pLeft), Questionnaire_GetHeight(currentNode->pRight)) + 1;
+	nodeToRotate->height = returnMaxNumber(Questionnaire_GetHeight(nodeToRotate->pLeft), Questionnaire_GetHeight(nodeToRotate->pRight)) + 1;
+	return nodeToRotate;
+}
 
-				t->pLeft = QuestionnaireList_LeftRotation(t->pLeft);
-			}
-			return QuestionnaireList_RightRotation(t);
-		}
-		else if (balance < -1)
+Questionnaire *QuestionnaireList_RightRotation(Questionnaire *&currentNode)
+{
+	if (currentNode == NULL)
+		return NULL;
+	Questionnaire *nodeToRotate = currentNode->pLeft;
+	currentNode->pLeft = nodeToRotate->pRight;
+	nodeToRotate->pRight = currentNode;
+
+	currentNode->height = returnMaxNumber(Questionnaire_GetHeight(currentNode->pLeft), Questionnaire_GetHeight(currentNode->pRight)) + 1;
+	nodeToRotate->height = returnMaxNumber(Questionnaire_GetHeight(nodeToRotate->pLeft), Questionnaire_GetHeight(nodeToRotate->pRight)) + 1;
+	return nodeToRotate;
+}
+
+Questionnaire *QuestionnaireList_Add(tree &t, Questionnaire *p)
+{
+	if (p->content != "")
+	{
+		if (t == NULL)
 		{
-			if (p->questionnaireID < t->pRight->questionnaireID)
-			{
-				t->pRight = QuestionnaireList_RightRotation(t->pRight);
-			}
-			return QuestionnaireList_LeftRotation(t);
+			return p;
 		}
-	}
+		else
+		{
+			if (p->questionnaireID > t->questionnaireID)
+			{
+				t->pRight = QuestionnaireList_Add(t->pRight, p);
+			}
+			else if (p->questionnaireID < t->questionnaireID)
+			{
+				t->pLeft = QuestionnaireList_Add(t->pLeft, p);
+			}
+			t->height = returnMaxNumber(Questionnaire_GetHeight(t->pLeft), Questionnaire_GetHeight(t->pRight)) + 1;
+			int balance = Questionnaire_GetBalanceFactor(t);
+			if (balance > 1)
+			{ // left tree has more node
+				if (p->questionnaireID > t->pLeft->questionnaireID)
+				{
+
+					t->pLeft = QuestionnaireList_LeftRotation(t->pLeft);
+				}
+				return QuestionnaireList_RightRotation(t);
+			}
+			else if (balance < -1)
+			{
+				if (p->questionnaireID < t->pRight->questionnaireID)
+				{
+					t->pRight = QuestionnaireList_RightRotation(t->pRight);
+				}
+				return QuestionnaireList_LeftRotation(t);
+			}
+		}
 	}
 	return t;
 }
-
 
 void Questionnaire_AcceptAnswer(Questionnaire *&p)
 {
@@ -250,7 +258,7 @@ void them_1_sinh_vien(Student *&pHead, Student *p)
 	}
 }
 
-Student* khoi_tao_node_sv()
+Student *khoi_tao_node_sv()
 {
 	Student *p = new Student;
 	if (p == NULL)
@@ -322,11 +330,35 @@ void xoa_nen()
 	}
 }
 
+void clearInputID()
+{
+	int x = 50, y = 9;
+	while (y <= 11)
+	{
+		gotoxy(x, y);
+		for (int i = 0; i < 70; i++)
+			cout << " ";
+		y++;
+	}
+}
+
+void clearPrint_ID_List()
+{
+	int x = 50, y = 19;
+	while (y < 36)
+	{
+		gotoxy(x, y);
+		for (int i = 0; i < 70; i++)
+			cout << " ";
+		y++;
+	}
+}
+
 void khung_them_lop()
 {
 	HighLight();
 	// ke thanh ngang
-	
+
 	int x1 = 60, y1 = 16;
 	while (x1 < 110)
 	{
@@ -521,7 +553,7 @@ void khung_cau_hoi()
 	}
 	// ke thanh doc
 	color_khung();
-	int x5= 45, y5 = 12;
+	int x5 = 45, y5 = 12;
 	while (y5 < 25)
 	{
 		gotoxy(x5, y5);
@@ -656,7 +688,4 @@ void printClock(int hour, int minute, int second )
 
 */
 
-
 #endif
-
-
