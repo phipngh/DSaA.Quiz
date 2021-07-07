@@ -21,7 +21,7 @@ const int MAX_CLASS = 500;
 //============Subject============
 struct Subject
 {
-	string subjectID; //key // only 15 characters
+	string subjectID;
 	string subjectName;
 };
 
@@ -67,9 +67,9 @@ struct StudentList
 //============Class============
 struct Class
 {
-	string classID; //key
+	string classID;
 	string className;
-	StudentList studentList; // struct already has pointer
+	StudentList studentList;
 };
 
 struct ClassList

@@ -2,13 +2,6 @@
 #define	DOC_GHI_FILE_H
 
 #include "xu_li.h"
-/*
-	- Subject and Questionare, write and read as normal.
-	- Class : W/R Class, in CLass has students. 
-
-	Ex : D16dcpt01,
-*/
-
 //===================== doc file danh sach lop =======================
 void doc_file_ds_lop(ClassList &ds_l)
 {
@@ -95,29 +88,7 @@ void doc_file_ds_sv(ClassList &ds_l)
 	filein.close();
 }
 
-//void doc_file_diem__thi(DS_LOP &ds_l)
-//{
-//	ifstream filein;
-//	filein.open("diemthi.txt", ios_base::in);
-//	for (int i = 0; i < ds_l.sl; i++)
-//	{		
-//		for (int j = 0; j < ds_l.ds[i]->danh_sach_sv.sl; j++)
-//		{
-//			int n;
-//			filein >> n;
-//			cin.ignore();
-//			for (int m = 0; m < n; n++)
-//			{
-//				DIEM_THI *p = khoi_tao_node_diem();
-//				getline(filein, p->ma_mh, ':');
-//				filein >> p->diem;
-//				them_1_diem_thi(ds_l.ds[i]->danh_sach_sv.p_head->danh_sach_diem.p_head, p);
-//			}
-//		}
-//		
-//	}
-//	filein.close();
-//}
+
 // =============== GHI FILE =======================
 
 void ghi_file_lop(ClassList &ds_l)
@@ -202,40 +173,5 @@ void ghi_file_cau(Questionnaire *ds[],int &nds)
 	}
 	fileout.close();
 }
-
-// void ghi_file_diem(DS_LOP &ds_l)
-// {
-// 	ofstream fileout;
-// 	fileout.open("diemthi1.txt", ios_base::out);
-// 	for (int i = 0; i < ds_l.sl; i++)
-// 	{
-// 		for (SINH_VIEN *k = ds_l.ds[i]->danh_sach_sv.p_head; k != NULL; k = k->p_next)
-// 		{	
-// 			fileout << k->ma_sv;
-// 			fileout << "\n";
-// 			fileout << k->danh_sach_diem.sl;
-// 			fileout << "\n";
-// 			for (DIEM_THI *p = k->danh_sach_diem.p_head; p != NULL; p = p->p_next)
-// 			{
-
-// 				fileout << p->ma_mh << ":";
-// 				fileout << p->diem;
-// 				if (p->p_next != NULL)
-// 				{
-// 					fileout << "\n";
-// 				}
-// 			}
-// 			if (k->p_next != NULL)
-// 			{
-// 				fileout << "\n";
-// 			}
-// 		}
-// 		if (i != ds_l.sl - 1)
-// 		{
-// 			fileout << "\n";
-// 		}
-// 	}
-// 	fileout.close();
-// }
 
 #endif

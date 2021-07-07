@@ -27,7 +27,6 @@ int ktra_trung_lop(string a, ClassList ds_l);
 int check_lop(ClassList ds_l,string a);
 void xoa_lop(ClassList &ds_l);
 void in_ds_lop(ClassList ds_l);
-//int ktra_nien_khoa(string a, DS_LOP ds_l);
 void hieu_chinh_lop(ClassList &ds_l);
 void giai_phong_bo_nho_lop(ClassList &ds_l);
 
@@ -1680,67 +1679,7 @@ check_mon:
 		}	
 		else
 		{
-		// 	gotoxy(50, 10);
-		// 	cout << "NHAP TGIAN DE THI. TIME DINH DANG THEO KIEU: 00:00:00.";
-		// 	gotoxy(70, 12);
-		// 	cout << "  :"; 
-		// 	gotoxy(73, 12);
-		// 	cout << "  :"; 
-		// 	gotoxy(76, 12);
-		// 	cout << "  "; 
-		// hour:
-		// 	gotoxy(70, 12);
-		// 	cin >> setw(2) >> right >> hour;
-		// 	if (hour >= 10)
-		// 	{
-		// 		gotoxy(70, 12);
-		// 		cout << "  :";
-		// 		goto hour;
-		// 	}
-		// 	else if (hour == 0)
-		// 	{
-		// 	minute_1:
-		// 		gotoxy(73, 12);
-		// 		cin >> setw(2) >> right >> minute;
-		// 		if (minute >= 100)
-		// 		{
-		// 			gotoxy(73, 12);
-		// 			cout << "  :";
-		// 			goto minute_1;
-		// 		}
-		// 	second_1:
-		// 		gotoxy(76, 12);
-		// 		cin >> setw(2) >> right >> second;
-		// 		if (second >= 60)
-		// 		{
-		// 			gotoxy(76, 12);
-		// 			cout << "  :";
-		// 			goto second_1;
-		// 		}
-		// 	}
-		// 	else
-		// 	{
-		// 	minute_2:
-		// 		gotoxy(73, 12);
-		// 		cin >> setw(2) >> right >> minute;
-		// 		if (minute >= 60)
-		// 		{
-		// 			gotoxy(73, 12);
-		// 			cout << "  :";
-		// 			goto minute_2;
-		// 		}
-		// 	second_2:
-		// 		gotoxy(76, 12);
-		// 		cin >> setw(2) >> right >> second;
-		// 		if (second >= 60)
-		// 		{
-		// 			gotoxy(76, 12);
-		// 			cout << "  :";
-		// 			goto second_2;
-		// 		}
-		// 	}		
-			bo_de(ds, nds, a, so_cau);
-			
+			bo_de(ds, nds, a, so_cau);	
 		}
 }
 
@@ -2166,48 +2105,5 @@ void bo_de(Questionnaire *ds[], int &nds, string a, int n)
 // 	}
 // }
 
-// ======================== DS DIEM THI ======================
-// lop *lay_node_sv(DS_LOP ds_l, string ma_sv)
-// {
-// 	for (int i = 0; i < ds_l.sl; i++)
-// 	{
-// 		//if (ds_l.ds[i]->ma_lop == ma_l)
-// 		//{
-// 			for (SINH_VIEN *k = ds_l.ds[i]->danh_sach_sv.p_head; k != NULL; k = k->p_next)
-// 			{
-// 				if (k->ma_sv == ma_sv)
-// 				{
-// 					return ds_l.ds[i];
-// 				}
-// 			}
-// 		//}	
-// 	}
-// 	return NULL;
-// }
-
-// void them_diem_thi(DS_LOP &ds_l, float &diem,string ma_sv, string ma_mh )
-// {
-// 	lop *tam = lay_node_sv(ds_l, ma_sv);
-// 	DIEM_THI *p = khoi_tao_node_diem();
-// 	p->ma_mh = ma_mh;
-// 	p->diem = diem;
-// 	them_1_diem_thi(tam->danh_sach_sv.p_head->danh_sach_diem.p_head, p);
-// 	tam->danh_sach_sv.p_head->danh_sach_diem.sl++;
-// }
-
-// void in_ds_diem_thi_lop(DS_LOP ds_l)
-// {
-// 	for (int i = 0; i < ds_l.sl; i++)
-// 	{
-// 		for (SINH_VIEN *k = ds_l.ds[i]->danh_sach_sv.p_head; k != NULL; k = k->p_next)
-// 		{
-// 			for (DIEM_THI * p = k->danh_sach_diem.p_head; p != NULL; p = p->p_next)
-// 			{
-// 				cout << p->ma_mh << ":" << p->diem << endl;
-// 			}
-// 		}
-// 	}
-// 	system("pause");
-// }
 
 #endif
