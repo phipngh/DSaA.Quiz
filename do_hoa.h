@@ -402,13 +402,13 @@ void menu_tong(ClassList &ds_l, StudentList &ds_sv, QuestionnaireList &ds_cau, S
 		}
 		case 19:
 		{			
-//			QuestionnaireList_TransferTreeToArray(ds_cau.questionList, binaryTreeToArrayQuestionnaire, nds);
-//			menu_thi_thu(ds_mon, binaryTreeToArrayQuestionnaire, nds);
-//			QuestionnaireList_FreeAllocateArray(binaryTreeToArrayQuestionnaire, nds);
-//			gotoxy(60, 35);
-//			system("pause");
-//			//giai phong 
-//			break;
+			QuestionnaireList_TransferTreeToArray(ds_cau.questionList, binaryTreeToArrayQuestionnaire, nds);
+			menu_thi_thu(ds_mon, binaryTreeToArrayQuestionnaire, nds);
+			QuestionnaireList_FreeAllocateArray(binaryTreeToArrayQuestionnaire, nds);
+			gotoxy(60, 35);
+			system("pause");
+			//giai phong 
+			break;
 		}
 		case 20:
 		{
