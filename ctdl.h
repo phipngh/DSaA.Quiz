@@ -1,15 +1,6 @@
 #ifndef CTDL_H
 #define	CTDL_H
 
-#include <iostream>
-#include <string>
-#include <conio.h>
-#include <fstream>
-#include <ctime>
-#include <cstdlib>
-#include <windows.h>
-//#include <thread>
-#include <dos.h>
 #include "mylib.h"
 
 using namespace std;
@@ -34,7 +25,7 @@ struct SubjectList
 //============Score============
 struct Score
 {
-	string subjectID; //key
+	string subjectID;
 	float score;
 	bool status;
 	Score *pNext;
@@ -49,7 +40,7 @@ struct ScoreList
 //============Student============
 struct Student
 {
-	string studentID;//key
+	string studentID;
 	string studentLastName;
 	string studentFirstName;
 	string gender;
@@ -84,20 +75,21 @@ struct Questionnaire
 	int questionnaireID;
 	string subjectID;
 	string content;
+	int height = 1;
 	string A;
 	string B;
 	string C;
 	string D;
 	char correct;
 	string answerCorrect;
-	Questionnaire *pLeft;
-	Questionnaire *pRight;
+	Questionnaire *pLeft = NULL;
+	Questionnaire *pRight = NULL;
 };
 typedef struct Questionnaire *tree;
 
 struct QuestionnaireList
 {
-	tree TREE = NULL;
+	tree questionList = NULL;
 	int index = 0;
 };
 
