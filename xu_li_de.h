@@ -1387,6 +1387,17 @@ void QuestionnaireList_Print_ID_List(QuestionnaireList questionListToCheck, Ques
 	}
 }
 
+int dem_sl_cau(string a, Questionnaire *ds[], int &nds)
+{
+	int sl_cau = 0;
+	for (int i = 0; i < nds; i++)
+	{
+		if(ds[i]->subjectID == a)
+			sl_cau++;		
+	}
+	return sl_cau;
+}
+
 // ====== hoán đổi câu hỏi =============
 void shuffle_array(Questionnaire *ds[], int nds)
 {
@@ -1403,7 +1414,7 @@ void shuffle_array(Questionnaire *ds[], int nds)
 	}
 }
 
-/*
+
 void menu_thi_thu(SubjectList &ds_mon, Questionnaire *ds[], int &nds)
 {
 check_mon:
@@ -1615,6 +1626,7 @@ void bo_de(Questionnaire *ds[], int &nds, string a, int n)
 //	delete [] monthi;
 }
 
+
 // void thi(string ma_sv,DS_LOP ds_l, DS_MON_HOC &ds_mon, cau_hoi_thi *ds[], int &nds)
 // {
 // 	bool kt = true;
@@ -1718,7 +1730,7 @@ void bo_de(Questionnaire *ds[], int &nds, string a, int n)
 // 		bo_de_sv(ds_l, ma_sv, ds, nds, a, so_cau, hour, minute, second);
 // 	}
 // }
-*/
+
 // void bo_de_sv(DS_LOP &ds_l,string ma_sv,cau_hoi_thi *ds[], int &nds, string ma_mh, int n, int hour, int minute, int second)
 // {
 
