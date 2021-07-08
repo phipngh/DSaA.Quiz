@@ -1,13 +1,13 @@
-#ifndef CTDL_H
-#define	CTDL_H
+#ifndef STRUCT_H
+#define	STRUCT_H
 
 #include "mylib.h"
 
 using namespace std;
 
 const int MAX_SUBJECT_ID_LENGTH = 15;
-const int MAX_SUBJECT = 300;
-const int MAX_CLASS = 500;
+const int MAX_SUBJECT 			= 300;
+const int MAX_CLASS 			= 500;
 
 //============Subject============
 struct Subject
@@ -34,7 +34,7 @@ struct Score
 struct ScoreList
 {
 	Score *pHead = NULL;
-	int index = 0;
+	int index    = 0;
 };
 
 //============Student============
@@ -52,7 +52,7 @@ struct Student
 struct StudentList
 {
 	Student *pHead = NULL;
-	int index = 0;
+	int index 	   = 0;
 };
 
 //============Class============
@@ -75,14 +75,14 @@ struct Questionnaire
 	int questionnaireID;
 	string subjectID;
 	string content;
-	int height = 1;
+	int height 			  = 1;
 	string A;
 	string B;
 	string C;
 	string D;
 	char correct;
 	string answerCorrect;
-	Questionnaire *pLeft = NULL;
+	Questionnaire *pLeft  = NULL;
 	Questionnaire *pRight = NULL;
 };
 typedef struct Questionnaire *tree;
@@ -90,7 +90,7 @@ typedef struct Questionnaire *tree;
 struct QuestionnaireList
 {
 	tree questionList = NULL;
-	int index = 0;
+	int index 		  = 0;
 };
 
 #endif
