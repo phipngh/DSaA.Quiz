@@ -1,7 +1,8 @@
 #ifndef DOC_GHI_FILE_H
-#define	DOC_GHI_FILE_H
+#define DOC_GHI_FILE_H
 
 #include "xu_li.h"
+
 //===================== doc file danh sach lop =======================
 void doc_file_ds_lop(ClassList &ds_l)
 {
@@ -17,6 +18,7 @@ void doc_file_ds_lop(ClassList &ds_l)
 	filein.close();
 }
 
+//===================== doc file danh sach mon =======================
 void doc_file_ds_mon(SubjectList &ds_mon)
 {
 	ifstream filein;
@@ -30,13 +32,16 @@ void doc_file_ds_mon(SubjectList &ds_mon)
 	filein.close();
 }
 
-void doc_file_ds_cau(QuestionnaireList &ds_cau)
+//===================== doc file danh sach cau hoi =======================
+void QuestionnaireList_ReadFile(QuestionnaireList &ds_cau)
 {
 	ifstream filein;
-	filein.open("cauhoi.txt", ios_base::in);
+	filein.open("questionnaireTest.txt", ios_base::in);
+	stringstream ss;
+	string currentLine = "";
 	while (filein.eof() != true)
 	{
-		Questionnaire *x = khoi_tao_node_cau_hoi();
+		Questionnaire *x = Questionnaire_CreateNodeWithoutID();
 		filein >> x->questionnaireID;
 		filein.ignore();
 		getline(filein, x->subjectID);
@@ -45,7 +50,9 @@ void doc_file_ds_cau(QuestionnaireList &ds_cau)
 		getline(filein, x->B);
 		getline(filein, x->C);
 		getline(filein, x->D);
-		filein >> x->correct;
+		getline(filein, currentLine, '.');
+		x->correct = currentLine[0];
+		getline(filein, x->answerCorrect);
 		chuan_hoa_chu(x->subjectID);
 		chuan_hoa_chu(x->content);
 		chuan_hoa_chu(x->A);
@@ -53,14 +60,13 @@ void doc_file_ds_cau(QuestionnaireList &ds_cau)
 		chuan_hoa_chu(x->C);
 		chuan_hoa_chu(x->D);
 		up_case_char(x->correct);
-		xu_li_dap_an(x);
-		them_1_cau_hoi(ds_cau.TREE, x);
-		filein.ignore();
-		ds_cau.index++;
+		Questionnaire_AcceptAnswer(x);
+		ds_cau.questionList = QuestionnaireList_Add(ds_cau.questionList, x);
 	}
 	filein.close();
 }
 
+//===================== doc file danh sach sv =======================
 void doc_file_ds_sv(ClassList &ds_l)
 {
 	ifstream filein;
@@ -91,6 +97,7 @@ void doc_file_ds_sv(ClassList &ds_l)
 
 // =============== GHI FILE =======================
 
+//===================== doc file danh sach lop =======================
 void ghi_file_lop(ClassList &ds_l)
 {
 	ofstream fileout;
@@ -108,6 +115,7 @@ void ghi_file_lop(ClassList &ds_l)
 	fileout.close();
 }
 
+//===================== doc file danh sach mon =======================
 void ghi_file_mon(SubjectList &ds_mon)
 {
 	ofstream fileout;
@@ -124,6 +132,7 @@ void ghi_file_mon(SubjectList &ds_mon)
 	fileout.close();
 }
 
+//===================== doc file danh sach sv =======================
 void ghi_file_sv(ClassList &ds_l)
 {
 	ofstream fileout;
@@ -152,25 +161,53 @@ void ghi_file_sv(ClassList &ds_l)
 	fileout.close();
 }
 
-void ghi_file_cau(Questionnaire *ds[],int &nds)
+//===================== doc file danh sach cau hoi =======================
+void QuestionnaireList_WriteCurrentQuestion(Questionnaire *questionListToText, ofstream &fileout)
 {
-	ofstream fileout;
-	fileout.open("cauhoi.txt", ios_base::out);
-	for (int i = 0; i < nds; i++)
+	fileout << questionListToText->questionnaireID << endl;
+	fileout << questionListToText->subjectID << endl;
+	fileout << questionListToText->content << endl;
+	fileout << questionListToText->A << endl;
+	fileout << questionListToText->B << endl;
+	fileout << questionListToText->C << endl;
+	fileout << questionListToText->D << endl;
+	fileout << questionListToText->correct << "." << questionListToText->answerCorrect << endl;
+}
+
+void QuestionnaireList_WriteFile(Questionnaire *&questionListToText, ofstream &fileout)
+{
+	if (questionListToText == NULL)
 	{
-		fileout << ds[i]->questionnaireID<< endl;
-		fileout << ds[i]->subjectID << endl;
-		fileout << ds[i]->content << endl;
-		fileout << ds[i]->A << endl;
-		fileout << ds[i]->B << endl;
-		fileout << ds[i]->C << endl;
-		fileout << ds[i]->D << endl;
-		fileout << ds[i]->correct;
-		if (i != nds)
-		{
-			fileout << "\n";
-		}
+		return;
 	}
+	QuestionnaireList_WriteCurrentQuestion(questionListToText, fileout);
+	QuestionnaireList_WriteFile(questionListToText->pLeft, fileout);
+	QuestionnaireList_WriteFile(questionListToText->pRight, fileout);
+}
+
+void QuestionnaireList_CopyOneFileToAnother()
+{
+	string line = "";
+	ifstream filein;
+	ofstream fileout;
+	filein.open("questionnaireTest2.txt", ios_base::in);
+	fileout.open("questionnaireTest.txt", ios_base::out);
+	if (filein && fileout)
+	{
+		while (getline(filein, line))
+		{
+			fileout << line << "\n";
+		}
+		gotoxy(60, 35);
+		system("pause");
+	}
+	else
+	{
+		cout << "\nCannot read file";
+		system("pause");
+	}
+	fileout.flush();
+	filein.close();
 	fileout.close();
 }
 

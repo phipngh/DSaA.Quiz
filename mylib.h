@@ -1,13 +1,21 @@
-
 #include <conio.h>
-
 #include <stdio.h>
 #include <stdlib.h>
-#include <dos.h>
 #include <string.h>
 #include <windows.h>
+#include <iostream>
+#include <fstream>
+#include <ctime>
+#include <dos.h>
+#include <direct.h>
+#include <sstream>
 
 #define Enter 13
+#define RIGHT 77
+#define LEFT 75
+#define UP  72
+#define DOWN  80
+#define ESC  27
 //const int WHITE=15;
 #define PASSWORD "abcdef"
 //const int WHITE=15;

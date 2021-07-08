@@ -1,27 +1,9 @@
-#ifndef XU_LI_DE_h
-#define	XU_LI_DE_h
+#ifndef XU_LI_DE_H
+#define XU_LI_DE_H
 
 #include "doc_ghi_file.h"
 
-//============ Login ==========================
-//void login();
-/*if (user la : ma_sv; pass true)
-{
-	duoc thi;
-	xem ket qua thi;
-}
-else if (user la GV, pass la GV)
-{
-	1. nhap lop (them, xoa. hieu chinh)
-	2. Nhap sinh vien cua lop: nhap ma lop truoc, nhap sinh vien vao lop sau
-	3. Nhap mon hoc: them, xoa, hieu chinh
-	4. nhap cau hoi ( tu tao ra ID ngau nhien)
-	5. Thi: mon thi -> so cau hoi -> time (phut) -> lay ngau nhien cau hoi
-	6. In chi tiet cau hoi thi cua 1 sinh: nhap ma SV -> in ra cau hoi thi, diem
-	7. In bang diem thi cua 1 lop: nhap ma lop -> in ra ds sinh vien da~ thi va chua thi
-}*/
-
-// ------------------------ LỚP -------------------------------------------
+// ------------------------ LOP -------------------------------------------
 void them_lop(ClassList &ds_l);
 int ktra_trung_lop(string a, ClassList ds_l);
 int check_lop(ClassList ds_l,string a);
@@ -30,7 +12,7 @@ void in_ds_lop(ClassList ds_l);
 void hieu_chinh_lop(ClassList &ds_l);
 void giai_phong_bo_nho_lop(ClassList &ds_l);
 
-//---------------------------------- SINH VIÊN ------------------------------------
+//---------------------------------- SV ------------------------------------
 bool ktra_trung_ma_sv(Student *pHead, string ma);
 Class *kt_ma_lop(ClassList ds_l, string ma);
 Student* khoi_tao_node_sv();
@@ -41,32 +23,32 @@ void giai_phong_ds_sv(StudentList &ds_sv);
 void in_ds_sv(StudentList ds_sv, ClassList ds_l);
 int check_ma_sv(ClassList ds_l, string ma);
 
-// ----------------------------- MÔN ----------------------------------------------
+// -----------------------------MON ----------------------------------------------
 void them_mon(SubjectList &ds_mon);
 void sap_xep_chen(SubjectList ds_mon);
+int SubjectList_CheckExistID(string a, SubjectList ds_mon);
 int ktra_trung_mon(string a, SubjectList ds_mon);
 void xoa_mon(SubjectList &ds_mon);
 void hieu_chinh_mon(SubjectList &ds_mon);
 void xuat_mon(SubjectList ds_mon);
 void giai_phong_bo_nho_mon(SubjectList &ds_mon);
 
-//---------------------------- CÂU HỎI THI ------------------------------
+//---------------------------- CAU HOI THI ------------------------------
+void ghi_file_mon(SubjectList &ds_mon);
 void nhap_cau_hoi(QuestionnaireList &ds_cau, SubjectList &ds_mon);
 Questionnaire *khoi_tao_node_cau_hoi();
-void xu_li_dap_an(Questionnaire *p);
+//void xu_li_dap_an(Questionnaire *p);
 bool ktra_trung_id(tree t, int id_cau);
 int tao_id_cau_hoi(tree t);
-void them_1_cau_hoi(tree &t, Questionnaire *p);
-void chuyen_cay_sang_mang(tree t, Questionnaire *ds[], int &nds);
-void in_ds_cau_hoi( Questionnaire *ds[], int &nds);
+void QuestionnaireList_TransferTreeToArray(tree t, Questionnaire *ds[], int &nds);
+//void QuestionnaireList_Add(tree &t, Questionnaire *p);
+void in_ds_cau_hoi(Questionnaire *ds[], int &nds);
 void giai_phong_ds_cau(Questionnaire *ds[], int &nds);
 void hoan_vi_2_cau(Questionnaire *a, Questionnaire *b);
 void xoa_cau(QuestionnaireList &ds_cau);
 void xoa_1_cau(tree &t, int id_cau);
 void node_the_mang(tree &t, Questionnaire *x);
-void hieu_chinh_1_cau(tree t, int id_cau, SubjectList &ds_mon);
-void hieu_chinh_cau(QuestionnaireList &ds_cau, SubjectList &ds_mon);
-int dem_sl_cau(string a, Questionnaire *ds[], int &nds);
+//int dem_sl_cau(string a, Questionnaire *ds[], int &nds);
 void shuffle_array(Questionnaire *ds[], int nds);
 
 // ------------------------ THI ----------------------------
@@ -75,404 +57,6 @@ void shuffle_array(Questionnaire *ds[], int nds);
 void bo_de(Questionnaire *ds[], int &nds, string a, int n);
 // void bo_de_sv(DS_LOP &ds_l, string ma_sv, cau_hoi_thi *ds[], int &nds, string ma_mh, int n, int hour, int minute, int second);
 // void thi(string ma_sv, DS_LOP ds_l, DS_MON_HOC &ds_mon, cau_hoi_thi *ds[], int &nds);
-
-// --------------------- DIEM THI --------------------------------
-// void them_diem_thi(DS_LOP &ds_l, float &diem, string ma_sv, string ma_mh);
-// lop *lay_node_sv(DS_LOP ds_l, string ma_sv);
-
-// ==================== MENU TINH ===============================
-//=================================== Menu chinh =========================
-//void menu_lop(DS_LOP &ds_l);
-//void menu_sinh_vien(DS_LOP &ds_l, DS_SINH_VIEN &ds_sv);
-//void menu_mon_hoc(DS_MON_HOC &ds_mon);
-//void menu_de_thi(DS_CAU_HOI_THI &ds_cau, DS_MON_HOC &ds_mon);
-//void menu_thi(DS_MON_HOC &ds_mon, cau_hoi_thi *ds[], int &nds);
-//void menu_thi(cau_hoi_thi *ds[], int &nds, string a, int n);
-//void menu_sv();
-//void menu_gv();
-//=================== Login ======================
-//void menu_sv()
-//{
-//	// =============== khai bao bien =================
-//	DS_SINH_VIEN ds_sv;
-//	DS_CAU_HOI_THI ds_cau;
-//	DS_MON_HOC ds_mon;
-//	DS_LOP ds_l;
-//	bool kt = true;
-//	// ============ load file ==================
-//	doc_file_ds_cau(ds_cau);	
-//	//===============Login=========================
-//	// ============= xu li menu =====================
-//	while (kt = true)
-//	{
-//		int lua_chon;
-//		system("cls");
-//		cout << "1. Thi thu" << endl;
-//		cout << "2. Ket qua thi thu" << endl;
-//		cout << "3. In chi tiet bai lam cua 1 sinh vien." << endl;
-//		cout << "0. Thoat." << endl;
-//
-//		cout << "Nhap lua chon: ";
-//		cin >> lua_chon;
-//
-//		switch (lua_chon)
-//		{
-//		case 1:
-//		{
-//			system("cls");
-//			menu_lop();
-//			break;
-//		}
-//		case 2:
-//		{
-//			system("cls");
-//			/*nhap_sinh_vien(ds_l, ds_sv);*/
-//			system("pause");
-//			break;
-//		}
-//		case 3:
-//		{
-//			system("cls");
-//			menu_mon_hoc();
-//		}
-//		case 4:
-//		{
-//			system("cls");
-//			menu_de_thi();
-//			break;
-//		}
-//		case 0:
-//		{
-//			giai_phong_bo_nho_lop(ds_l);
-//			giai_phong_bo_nho_mon(ds_mon);
-//			kt = false;
-//			break;
-//		}
-//		}
-//	}
-//}
-
-// ===================== MENU ========================
-//void menu_gv()
-//{
-//	// =============== khai bao bien =================
-//	DS_SINH_VIEN ds_sv;
-//	DS_CAU_HOI_THI ds_cau;
-//	DS_MON_HOC ds_mon;
-//	DS_LOP ds_l;
-//	cau_hoi_thi *ds[200];
-//	int nds = 0;
-//	bool kt = true;
-//	// ============ load file ==================
-//	doc_file_ds_cau(ds_cau);
-//	doc_file_ds_lop(ds_l);
-//	doc_file_ds_mon(ds_mon);
-//	doc_file_ds_sv(ds_sv);
-//	//===============Login=========================
-//	// ============= xu li menu =====================
-//	while (kt = true)
-//	{
-//		int lua_chon;
-//		system("cls");
-//		cout << "1. Lop hoc cua truong " << endl;
-//		cout << "2. Sinh vien cua truong." << endl;
-//		cout << "3. Mon hoc." << endl;
-//		cout << "4. He thong cau hoi." << endl;
-//		cout << "5. Thi thu" << endl;
-//		cout << "6. Ket qua thi thu" << endl;
-//		cout << "7. In chi tiet bai lam cua 1 sinh vien." << endl;
-//		cout << "8. In bang diem cua lop." << endl;
-//		cout << "0. Thoat." << endl;	
-//		cout << "Nhap lua chon: ";
-//		cin >> lua_chon;		
-//		switch (lua_chon)
-//		{
-//			case 1:
-//			{
-//				system("cls");
-//				menu_lop(ds_l);
-//				break;
-//			}
-//			case 2:
-//			{
-//				system("cls");
-//				menu_sinh_vien(ds_l, ds_sv);
-//				/*system("pause");*/
-//				break;
-//			}
-//			case 3:
-//			{
-//				system("cls");
-//				menu_mon_hoc(ds_mon);
-//				break;
-//			}
-//			case 4:
-//			{
-//				system("cls");
-//				menu_de_thi(ds_cau, ds_mon);
-//				break;
-//			}
-//			case 5:
-//			{
-//				system("cls");
-//				chuyen_cay_sang_mang(ds_cau.TREE, ds, nds);
-//				menu_thi(ds_mon, ds, nds);
-//				system("pause");
-//				break;
-//			}
-//			case 0:
-//			{
-//				kt = false;
-//				
-//				break;
-//			}
-//		}
-//	}
-//}
-////=========================== Menu Lop ==============================
-//void menu_lop(DS_LOP &ds_l)
-//{	
-//	// ======================= khai bao bien ====================
-//	/*DS_LOP ds_l;
-//	DS_SINH_VIEN ds_sv;*/
-//	bool kt = true;
-//	// ======================= load file ===================
-//	/*doc_file_ds_lop(ds_l);*/
-//	// ======================= xu li file =========================
-//	while (kt == true)
-//	{
-//		int lua_chon;
-//		system("cls");
-//		cout << "1. Them lop." << endl;
-//		cout << "2. Xoa lop." << endl;
-//		cout << "3. Hieu chinh lop." << endl;
-//		cout << "4. In danh sach lop theo khoa." << endl;
-//		cout << "0. Thoat!" << endl;
-//		cout << "Nhap lua chon: ";
-//		cin >> lua_chon;
-//		switch (lua_chon)
-//		{
-//			case 1:
-//			{
-//				if (ds_l.sl >= 500)
-//				{
-//					cout << "Them khong thanh cong vi vuot qua so lop cho phep!" << endl;
-//					system("pause");
-//				}
-//				else
-//				{
-//					them_lop(ds_l);
-//					cout << "Them thanh cong!" << endl;
-//					system("pause");
-//				}					
-//				break;
-//				}
-//				case 2:
-//				{
-//					if (ds_l.sl == 0)
-//					{
-//						cout << "Chua co lop nao de xoa ca!" << endl;
-//						system("pause");
-//					}
-//					else
-//					{
-//						xoa_lop(ds_l);
-//					}
-//					break;
-//			}
-//			case 3:
-//			{
-//				if (ds_l.sl == 0)
-//				{
-//					cout << "Data rong~ !" << endl;
-//					system("pause");
-//				}
-//				else
-//				{
-//					hieu_chinh_lop(ds_l);
-//					system("pause");
-//				}
-//				break;
-//			}
-//			case 4:
-//			{
-//				if (ds_l.sl == 0)
-//				{
-//					cout << "Khong co lop nao de in ca!" << endl;
-//					system("pause");
-//				}
-//				else
-//				{
-//					in_ds_lop(ds_l);
-//					system("pause");
-//				}
-//				break;
-//			}
-//			
-//			case 0:
-//			{
-//				kt = false;
-//				break;
-//			}
-//		}
-//	}
-//}
-//void menu_sinh_vien(DS_LOP &ds_l, DS_SINH_VIEN &ds_sv)
-//{
-//	bool kt = true;
-//	while (kt == true)
-//	{
-//		int lua_chon;
-//		system("cls");
-//		cout << "1. Them 1 sinh vien." << endl;
-//		cout << "2. In danh sach sinh vien." << endl;
-//		cout << "0. Thoat." << endl;
-//		cout << "Nhap lua chon: ";
-//		cin >> lua_chon;
-//		switch (lua_chon)
-//		{
-//		case 1:
-//		{
-//			nhap_sinh_vien(ds_l, ds_sv);
-//			break;
-//		}
-//		case 2:
-//		{
-//			in_ds_sv(ds_sv);
-//			system("pause");
-//			break;
-//		}
-//		case 0:
-//		{
-//			kt = false;
-//			break;
-//		}
-//		}
-//	}
-//}
-//void menu_mon_hoc(DS_MON_HOC &ds_mon)
-//{
-//	bool kt = true;
-//	while (kt == true)
-//	{
-//		int lua_chon;
-//		system("cls");
-//		cout << "1. Them mon hoc. " << endl;
-//		cout << "2. Xoa mon hoc." << endl;
-//		cout << "3. Hieu chinh mon hoc." << endl;
-//		cout << "4. Xuat danh sach mon hoc." << endl;
-//		cout << "0. Thoat." << endl;
-//		cout << "Nhap lua chon: ";
-//		cin >> lua_chon;
-//		switch (lua_chon)
-//		{
-//		case 1:
-//		{
-//			if (ds_mon.sl >= 300)
-//			{
-//				cout << "So luong mon hoc vuot qua so luong cko phep (300), hay xoa bot truoc khi them vao!";
-//				system("pause");
-//			}
-//			else
-//			{
-//				system("cls");
-//				them_mon(ds_mon);
-//				sap_xep_chen(ds_mon); // sắp xếp mã môn học ngay sau khi nhập 
-//				system("pause");
-//			} 
-//			break;
-//		}
-//		case 2:
-//		{
-//			system("cls");
-//			xoa_mon(ds_mon);
-//			system("pause");
-//			break;
-//		}
-//		case 3:
-//		{
-//			system("cls");
-//			hieu_chinh_mon(ds_mon);
-//			system("pause");
-//			break;
-//		}
-//		case 4:
-//		{
-//			system("cls");
-//			xuat_mon(ds_mon);
-//			system("pause");
-//			break;
-//		}
-//		case 0:
-//		{
-//			kt = false;
-//			break;
-//		}
-//		}
-//	}
-//}
-//void menu_de_thi(DS_CAU_HOI_THI &ds_cau,DS_MON_HOC &ds_mon)
-//{
-//	cau_hoi_thi *ds[200];
-//	int nds = 0;
-//	
-//	tree *t = NULL;
-//	bool kt = true;
-//	// ======================= load file ===================
-//	//doc_file_ds_cau(ds_cau);
-//	while (kt == true)
-//	{
-//		system("cls");
-//		cout << "1. Them cau hoi thi" << endl;
-//		cout << "2. In ds cau hoi thi" << endl;
-//		cout << "3. Xoa cau hoi thi" << endl;
-//		cout << "4. Chinh sua cau hoi thi" << endl;
-//		cout << "0. Thoat!" << endl;
-//		cout << "Nhap lua chon: ";
-//		int luachon;
-//		cin >> luachon;
-//		switch (luachon)
-//		{
-//		case 1:
-//		{
-//			system("cls");
-//			nhap_cau_hoi(ds_cau);
-//			cout << "Them thanh cong!" << endl;
-//			system("pause");
-//			break;
-//		}
-//		case 2:
-//		{
-//			system("cls");	
-//			chuyen_cay_sang_mang(ds_cau.TREE, ds, nds);
-//			
-//			in_ds_cau_hoi(ds, nds);
-//			system("pause");
-//			break;
-//		}
-//		case 3:
-//		{
-//			system("cls");
-//			xoa_cau(ds_cau);
-//			system("pause");
-//			break;
-//		}
-//		case 4:
-//		{
-//			system("cls");
-//			hieu_chinh_cau(ds_cau);
-//			system("pause");
-//			break;
-//		}
-//		case 0:
-//		{
-//			kt = false;
-//			break;
-//		}
-//		}	
-//	}	
-//}
-// =============================================================
 
 //============================ Them lop =========================
 void them_lop(ClassList &ds_l)
@@ -1033,6 +617,59 @@ int ktra_trung_mon(string a, SubjectList ds_mon)
 	return -1;
 }
 
+int SubjectList_CheckExistID(string a, SubjectList ds_mon)
+{
+	for (int i = 0; i < ds_mon.index; i++)
+	{
+		if (ds_mon.subjectList[i].subjectID == a)
+		{
+			return i;
+		}
+	}
+	return -1;
+}
+
+string SubjectList_ReturnNameOfSubject(SubjectList listToCheck, string subject_ID_ToCheck)
+{
+	chuan_hoa_chu(subject_ID_ToCheck);
+	for (int i = 0; i <= listToCheck.index; i++)
+	{
+		if (subject_ID_ToCheck == listToCheck.subjectList[i].subjectID)
+		{
+			return listToCheck.subjectList[i].subjectName;
+		}
+	}
+	return "";
+}
+
+string SubjectList_ReturnExistedID(SubjectList ds_mon)
+{
+	string subjectID = "";
+	khung_cau_hoi();
+	HighLight();
+	gotoxy(70, 8);
+	cout << "====== NHAP CAU HOI ======";
+	gotoxy(50, 10);
+	gotoxy(80, 10);
+	cout << "MA MH: ";
+	getline(cin, subjectID);
+	chuan_hoa_chu(subjectID);
+	while (SubjectList_CheckExistID(subjectID, ds_mon) == -1)
+	{
+		gotoxy(68, 13);
+		cout << "                                   ";
+		gotoxy(68, 13);
+		cout << "MA MON KHONG TON TAI! ";
+
+		gotoxy(87, 10);
+		cout << "                              ";
+		gotoxy(87, 10);
+		getline(cin, subjectID);
+		chuan_hoa_chu(subjectID);
+	}
+	return subjectID;
+}
+
 //========================== Xoa mon hoc ==================
 void xoa_mon(SubjectList &ds_mon)
 {
@@ -1132,37 +769,61 @@ void xuat_mon(SubjectList ds_mon)
 //}
 
 // ================= nhập câu hỏi =====================
-
-void nhap_cau_hoi(QuestionnaireList &ds_cau, SubjectList &ds_mon)
+void QuestionnaireList_TransferTreeToArray(tree t, Questionnaire *arrayListOfQuestion[], int &currentIndex)
 {
-	Questionnaire *p = khoi_tao_node_cau_hoi();
-	p->questionnaireID = tao_id_cau_hoi(ds_cau.TREE);
-	string subjectID;
-	khung_cau_hoi();
-	HighLight();
-	gotoxy(70, 8);
-	cout << "====== NHAP CAU HOI ======";
-	gotoxy(50, 10);
-	cout << "ID: " << p->questionnaireID;
-	gotoxy(80, 10);
-	cout << "MA MH: "; getline(cin, subjectID);
-	chuan_hoa_chu(subjectID);
-	while (ktra_trung_mon(subjectID, ds_mon) < 0)
+	if (t != NULL)
 	{
-		gotoxy(68, 13);
-		cout << "                                   ";
-		gotoxy(68, 13);
-		cout << "MA MON KHONG TON TAI! ";
-		
-		gotoxy(87, 10);
-		cout << "                              ";
-		gotoxy(87, 10);
-		getline(cin, subjectID);
-		chuan_hoa_chu(subjectID);
+		arrayListOfQuestion[currentIndex] = new Questionnaire;
+		arrayListOfQuestion[currentIndex]->questionnaireID = t->questionnaireID;
+		arrayListOfQuestion[currentIndex]->subjectID = t->subjectID;
+		arrayListOfQuestion[currentIndex]->height = t->height;
+		arrayListOfQuestion[currentIndex]->content = t->content;
+		arrayListOfQuestion[currentIndex]->A = t->A;
+		arrayListOfQuestion[currentIndex]->B = t->B;
+		arrayListOfQuestion[currentIndex]->C = t->C;
+		arrayListOfQuestion[currentIndex]->D = t->D;
+		arrayListOfQuestion[currentIndex]->correct = t->correct;
+		arrayListOfQuestion[currentIndex]->answerCorrect = t->answerCorrect;
+		currentIndex++;
+		QuestionnaireList_TransferTreeToArray(t->pLeft, arrayListOfQuestion, currentIndex);
+		QuestionnaireList_TransferTreeToArray(t->pRight, arrayListOfQuestion, currentIndex);
 	}
-	p->subjectID = subjectID;
+}
+
+void QuestionnaireList_PrintArray(Questionnaire *arrayListOfQuestion[], int numberOfElements)
+{
+	for (int currentIndex = 0; currentIndex < numberOfElements; currentIndex++)
+	{
+		cout << "\nID: " << arrayListOfQuestion[currentIndex]->questionnaireID;
+		cout << "\n subjectID: " << arrayListOfQuestion[currentIndex]->subjectID;
+		cout << "\n height: " << arrayListOfQuestion[currentIndex]->height;
+		cout << "\n content: " << arrayListOfQuestion[currentIndex]->content;
+		cout << "\n A: " << arrayListOfQuestion[currentIndex]->A;
+		cout << "\n B: " << arrayListOfQuestion[currentIndex]->B;
+		cout << "\n C: " << arrayListOfQuestion[currentIndex]->C;
+		cout << "\n D: " << arrayListOfQuestion[currentIndex]->D;
+		cout << "\n correct: " << arrayListOfQuestion[currentIndex]->correct;
+		cout << "\n answerCorrect: " << arrayListOfQuestion[currentIndex]->answerCorrect;
+		cout << "\n==================================";
+	}
+}
+
+void QuestionnaireList_FreeAllocateArray(Questionnaire *ds[], int &nds)
+{
+	for (int i = 0; i < nds; i++)
+	{
+		delete ds[i];
+	}
+	nds = 0;
+}
+
+void Questionnaire_InputQuestion(QuestionnaireList &ds_cau, SubjectList &ds_mon)
+{
+	Questionnaire *p = Questionnaire_CreateNode(ds_cau.questionList);
+	p->subjectID = SubjectList_ReturnExistedID(ds_mon);
 	do
 	{
+
 		gotoxy(47, 13);
 		cout << "CAU HOI: ";
 		gotoxy(68, 13);
@@ -1188,7 +849,7 @@ void nhap_cau_hoi(QuestionnaireList &ds_cau, SubjectList &ds_mon)
 		gotoxy(56, 13);
 		getline(cin, p->content);
 		gotoxy(50, 18);
-		getline(cin, p->A);	
+		getline(cin, p->A);
 		gotoxy(88, 18);
 		getline(cin, p->B);
 		gotoxy(50, 22);
@@ -1210,148 +871,120 @@ void nhap_cau_hoi(QuestionnaireList &ds_cau, SubjectList &ds_mon)
 			if (p->correct != 'A' && p->correct != 'B' && p->correct != 'C' && p->correct != 'D')
 			{
 				gotoxy(65, 30);
-				cout << "NHAP DAP AN KHONG HOP LE, YEU CAU NHAP LAI!";
+				cout << "INCORRECT INPUT!, PLEASE TRY AGAIN!";
 			}
 			if (p->A == p->B || p->A == p->C || p->A == p->D || p->B == p->C || p->B == p->D || p->C == p->D)
 			{
 				gotoxy(65, 30);
 				cout << "                                           ";
 				gotoxy(65, 30);
-				cout << "CAC CAU DAP AN KHONG DUOC TRUNG NHAU";
+				cout << "DUPLICATE ANSWER!, PLEASE TRY AGAIN";
 			}
 		} while (p->correct != 'A' && p->correct != 'B' && p->correct != 'C' && p->correct != 'D');
-	} while (p->A == p->B || p->A == p->C || p->A == p->D || p->B == p->C || p->B == p->D || p->C == p->D );
-	
+	} while (p->A == p->B || p->A == p->C || p->A == p->D || p->B == p->C || p->B == p->D || p->C == p->D);
+
 	gotoxy(65, 30);
 	cout << "                                           ";
 	gotoxy(77, 30);
-	cout << "NHAP THANH CONG!";
-	xu_li_dap_an(p);
-	them_1_cau_hoi(ds_cau.TREE, p);
-	ds_cau.index++;
+	cout << "ADD COMPLETED!";
+	Questionnaire_AcceptAnswer(p);
+	ds_cau.questionList = QuestionnaireList_Add(ds_cau.questionList, p);
+	cin.ignore();
 }
 
-int tao_id_cau_hoi(tree t)
+void QuestionnaireList_BalanceTree(Questionnaire *&t, int ID_To_Delete)
 {
-	int id_cau;// 000->999;
-	do
+	t->height = returnMaxNumber(Questionnaire_GetHeight(t->pLeft), Questionnaire_GetHeight(t->pRight)) + 1;
+	int balance = Questionnaire_GetBalanceFactor(t);
+	if (balance > 1)
+	{ // left tree has more node
+		if (ID_To_Delete > t->pLeft->questionnaireID)
+		{
+
+			t = QuestionnaireList_LeftRotation(t->pLeft);
+		}
+		t = QuestionnaireList_RightRotation(t);
+	}
+	else if (balance < -1)
 	{
-		id_cau = rand() % (1000 - 1 + 1)  +1;
-	} while (ktra_trung_id(t, id_cau)==true);
-	return id_cau;
+		if (ID_To_Delete < t->pRight->questionnaireID)
+		{
+			t = QuestionnaireList_RightRotation(t->pRight);
+		}
+		t = QuestionnaireList_LeftRotation(t);
+	}
 }
 
-bool ktra_trung_id(tree t, int id_cau)
+void QuestionnaireList_FreeTree(Questionnaire *nodeToChange)
 {
-	if (t == NULL)
-	{
-		return false;
-	}
-	else
-	{
-		if (t->questionnaireID == id_cau)
-		{
-			return true;
-		}
-		else if (t->questionnaireID < id_cau)
-		{
-			ktra_trung_id(t->pRight, id_cau);
-		}
-		else
-		{
-			ktra_trung_id(t->pLeft, id_cau);
-		}
-	}
+	if (nodeToChange == NULL)
+		return;
+	QuestionnaireList_FreeTree(nodeToChange->pLeft);
+	QuestionnaireList_FreeTree(nodeToChange->pRight);
+	QuestionnaireList_FreeTree(nodeToChange);
 }
 
-//============== chuyển cây sang mảng =====================
-void chuyen_cay_sang_mang(tree t, Questionnaire *ds[], int &nds)
-{	
-	if (t != NULL)
-	{		
-		ds[nds] = new Questionnaire;
-		ds[nds]->questionnaireID = t->questionnaireID;
-		ds[nds]->subjectID = t->subjectID;
-		ds[nds]->content = t->content;
-		ds[nds]->A = t->A;
-		ds[nds]->B = t->B;
-		ds[nds]->C = t->C;
-		ds[nds]->D = t->D;
-		ds[nds]->correct = t->correct;
-		ds[nds]->answerCorrect = t->answerCorrect;
-		nds++;
-		chuyen_cay_sang_mang(t->pLeft, ds, nds);
-		chuyen_cay_sang_mang(t->pRight, ds, nds);
-	}
-	
-}
 
-//================= giai phong vung nho tree ===============
-void giai_phong_ds_cau(Questionnaire *ds[], int &nds)
-{
-	for (int i = 0; i < nds; i++)
-	{
-		delete ds[i];
-	}
-	nds = 0;
-}
+
+//bool ktra_trung_id(tree t, int id_cau)
+//{
+//	if (t == NULL)
+//	{
+//		return false;
+//	}
+//	else
+//	{
+//		if (t->questionnaireID == id_cau)
+//		{
+//			return true;
+//		}
+//		else if (t->questionnaireID < id_cau)
+//		{
+//			ktra_trung_id(t->pRight, id_cau);
+//		}
+//		else
+//		{
+//			ktra_trung_id(t->pLeft, id_cau);
+//		}
+//	}
+//}
 
 // =============== xoa cau hoi =======================
-void xoa_cau(QuestionnaireList &ds_cau)
+Questionnaire *QuestionnaireList_DeleteQuestion(Questionnaire *nodeToDelete, int question_ID_ToDelete)
 {
-	int a;
-	gotoxy(50, 9);
-	cout << "Nhap id cau hoi: ";
-	cin >> a;
-	bool kt = ktra_trung_id(ds_cau.TREE, a);
-	if (kt == true)
+	if (nodeToDelete == NULL)
+		return NULL;
+	if (question_ID_ToDelete == nodeToDelete->questionnaireID)
 	{
-		gotoxy(50, 11);
-		cout << "                         ";
-		xoa_1_cau(ds_cau.TREE, a);
-		ds_cau.index--;
-		gotoxy(50, 11);
-		cout << "Xoa thanh cong!" ;
+		if (nodeToDelete->pLeft == NULL)
+		{
+			return nodeToDelete->pRight;
+		}
+		Questionnaire *maxNode = nodeToDelete->pLeft;
+		Questionnaire *preNode = maxNode;
+		while (maxNode->pRight != NULL)
+		{
+			preNode = maxNode;
+			maxNode = maxNode->pRight;
+		}
+		maxNode->pRight = nodeToDelete->pRight;
+		if (maxNode != nodeToDelete->pLeft)
+		{
+			preNode->pRight = maxNode->pLeft;
+			maxNode->pLeft = nodeToDelete->pLeft;
+		}
+
+		return maxNode;
 	}
+	if (question_ID_ToDelete < nodeToDelete->questionnaireID)
+		nodeToDelete->pLeft = QuestionnaireList_DeleteQuestion(nodeToDelete->pLeft, question_ID_ToDelete);
 	else
-	{
-		gotoxy(50, 11);
-		cout << "Id cau hoi khong ton tai!";
-	}
+		nodeToDelete->pRight = QuestionnaireList_DeleteQuestion(nodeToDelete->pRight, question_ID_ToDelete);
+
+	QuestionnaireList_BalanceTree(nodeToDelete, question_ID_ToDelete);
+	return nodeToDelete;
 }
 
-void xoa_1_cau(tree &t, int id_cau)
-{
-	if (t != NULL)
-	{
-		if (t->questionnaireID == id_cau)
-		{
-			Questionnaire *x = t; // x se luu node can giai phong
-			if (t->pLeft == NULL)
-			{
-				t = t->pRight;
-			}
-			else if (t->pRight == NULL)
-			{
-				t = t->pLeft;
-			}
-			else if (t->pLeft != NULL && t->pRight != NULL)
-			{
-				// tim node the mang: trái cùng, cây con phải 
-				node_the_mang(t->pRight,x);
-			}
-			delete x;
-		}
-		else if (t->questionnaireID < id_cau)
-		{
-			xoa_1_cau(t->pRight, id_cau);
-		}
-		else if (t->questionnaireID > id_cau)
-		{
-			xoa_1_cau(t->pLeft, id_cau);
-		}
-	}
-}
 void hoan_vi_2_cau(Questionnaire *a, Questionnaire *b)
 {
 	Questionnaire *tam = new Questionnaire;
@@ -1384,75 +1017,24 @@ void hoan_vi_2_cau(Questionnaire *a, Questionnaire *b)
 	delete tam;
 }
 
-void node_the_mang(tree &t, Questionnaire *x)
-{
-	if (t->pLeft != NULL)
-	{
-		node_the_mang(t->pLeft,x);
-	}
-	else // trai cung
-	{
-		hoan_vi_2_cau(t, x);
-		x = t; // x luu vi tri node nay de giai phong
-		t = t->pRight;
-	}
-}
-
 //============= hieu chinh cau hoi ==========
-void hieu_chinh_cau(QuestionnaireList &ds_cau, SubjectList &ds_mon)
-{
-	int a;
-	gotoxy(50, 9);
-	cout << "Nhap ID cau hoi can hieu chinh: "; cin >> a;
-	bool kt = ktra_trung_id(ds_cau.TREE, a);
-	if (kt == true)
-	{
-		gotoxy(50, 11);
-		cout << "                 ";
-		cin.ignore();
-		hieu_chinh_1_cau(ds_cau.TREE, a,ds_mon);
-	}
-	else
-	{
-		gotoxy(50, 11);
-		cout << "ID KHONG TON TAI!" ;
-	}
-	
-}
-void hieu_chinh_1_cau(tree t, int id_cau, SubjectList &ds_mon)
+void Questionnaire_Update(tree t, int IDQuestionToCheck)
 {
 	if (t != NULL)
 	{
-		if (t->questionnaireID == id_cau)
+		if (t->questionnaireID == IDQuestionToCheck)
 		{
 			string subjectID;
 			khung_cau_hoi();
 			HighLight();
 			gotoxy(70, 8);
-			cout << "==== CHINH SUA CAU HOI ====";
+			cout << "==== FIX QUESTION ====";
 			gotoxy(50, 10);
-			cout << "ID DUOC CHINH: " << t->questionnaireID;
-			gotoxy(80, 10);
-			cout << "MA MH: "; getline(cin, subjectID);
-			chuan_hoa_chu(subjectID);
-			gotoxy(90, 10); cout << subjectID;
-			while (ktra_trung_mon(subjectID, ds_mon) < 0)
-			{
-				gotoxy(68, 13);
-				cout << "                                   ";
-				gotoxy(68, 13);
-				cout << "MA MON KHONG TON TAI! ";
-				gotoxy(87, 10);
-				cout << "                              ";
-				gotoxy(87, 10);
-				getline(cin, subjectID);
-				chuan_hoa_chu(subjectID);
-			}
-			t->subjectID = subjectID;
+			cout << "ID QUESTION: " << t->questionnaireID;
 			do
 			{
 				gotoxy(47, 13);
-				cout << "CAU HOI: ";
+				cout << "CONTENT: ";
 				gotoxy(68, 13);
 				cout << "                                   ";
 				gotoxy(50, 18);
@@ -1472,7 +1054,7 @@ void hieu_chinh_1_cau(tree t, int id_cau, SubjectList &ds_mon)
 				gotoxy(85, 22);
 				cout << "D.";
 				gotoxy(77, 27);
-				cout << "DAP AN: ";
+				cout << "ANSWER: ";
 				gotoxy(56, 13);
 				getline(cin, t->content);
 				gotoxy(50, 18);
@@ -1488,6 +1070,7 @@ void hieu_chinh_1_cau(tree t, int id_cau, SubjectList &ds_mon)
 				chuan_hoa_chu(t->B);
 				chuan_hoa_chu(t->C);
 				chuan_hoa_chu(t->D);
+
 				do
 				{
 					gotoxy(85, 27);
@@ -1498,125 +1081,310 @@ void hieu_chinh_1_cau(tree t, int id_cau, SubjectList &ds_mon)
 					if (t->correct != 'A' && t->correct != 'B' && t->correct != 'C' && t->correct != 'D')
 					{
 						gotoxy(65, 30);
-						cout << "NHAP DAP AN KHONG HOP LE, YEU CAU NHAP LAI!";
+						cout << "INCORRECT INPUT!, PLEASE TRY AGAIN!";
 					}
 					if (t->A == t->B || t->A == t->C || t->A == t->D || t->B == t->C || t->B == t->D || t->C == t->D)
 					{
 						gotoxy(65, 30);
 						cout << "                                           ";
 						gotoxy(65, 30);
-						cout << "CAC CAU DAP AN KHONG DUOC TRUNG NHAU";
+						cout << "DUPLICATE ANSWER!, PLEASE TRY AGAIN";
 					}
 				} while (t->correct != 'A' && t->correct != 'B' && t->correct != 'C' && t->correct != 'D');
-			} while (t->A == t->B || t->A == t->C || t->A == t->D || t->B == t->C || t->B == t->D || t->C == t->D);			
+			} while (t->A == t->B || t->A == t->C || t->A == t->D || t->B == t->C || t->B == t->D || t->C == t->D);
 			gotoxy(65, 30);
 			cout << "                                           ";
-			gotoxy(77, 30);			
-			cout << "SUA? THANH CONG!";
-			xu_li_dap_an(t);
+			gotoxy(77, 30);
+			cout << "UPDATE COMPLETE!";
+			Questionnaire_AcceptAnswer(t);
 		}
-		else if (t->questionnaireID > id_cau)
+		else if (t->questionnaireID > IDQuestionToCheck)
 		{
-			hieu_chinh_1_cau(t->pLeft, id_cau,ds_mon);
+			Questionnaire_Update(t->pLeft, IDQuestionToCheck);
 		}
-		else if (t->questionnaireID < id_cau)
+		else if (t->questionnaireID < IDQuestionToCheck)
 		{
-			hieu_chinh_1_cau(t->pRight, id_cau,ds_mon);
+			Questionnaire_Update(t->pRight, IDQuestionToCheck);
 		}
 	}
 }
 
-void in_ds_cau_hoi( Questionnaire *ds[], int &nds)
+void QuestionnaireList_ExecuteFoundDeleteID(QuestionnaireList &ds_cau, bool &checkID, bool &keyFlag)
 {
-	int a = nds /3;	
-	int b;
-	if (nds % 3 == 0) b = a;
-	else b = a + 1;	
-	while (true)
+
+	int a = -1;
+	gotoxy(80, 9);
+	cout << "PRESS 0 TO CHECK THE LIST AGAIN";
+	gotoxy(50, 9);
+	cout << "INPUT ID: ";
+	cin >> a;
+	if (a == 0)
 	{
-		for (int j = 0; j < a;)
+		keyFlag = 0;
+		return;
+	}
+	else
+	{
+		bool kt = QuestionnaireList_CheckExistID(ds_cau.questionList, a);
+		if (kt == true)
 		{
-			xoa_nen();
-			char key;
-			
-			int m = 0;
-			if (m == 2) m = 0;
-			for (int i = 3 * j; i < 3 * j + 3; i++)
+			char confirm;
+
+			gotoxy(50, 11);
+			cout << "                 ";
+			cin.ignore();
+			gotoxy(50, 11);
+			cout << "DO YOU WISH TO DELETE QUESTION ID " << a << " ? Y/N";
+			cin >> confirm;
+			if (confirm == 'y' || confirm == 'Y')
 			{
-				gotoxy(105, 35);
-				cout << "Page " << j + 1 << "/" << b;
-				gotoxy(50, 7 + 9 * m);
-				cout << "======== Cau " << i + 1 << "==========";
-				gotoxy(50, 8 + 9 * m);
-				cout << "ID: " << ds[i]->questionnaireID;
-				gotoxy(50, 9 + 9 * m);
-				cout << "Ma: " << ds[i]->subjectID;
-				gotoxy(50, 10 + 9 * m);
-				cout << "Cau hoi: " << ds[i]->content;
-				gotoxy(50, 11 + 9 * m);
-				cout << "Cau A: " << ds[i]->A;
-				gotoxy(50, 12 + 9 * m);
-				cout << "Cau B: " << ds[i]->B;
-				gotoxy(50, 13 + 9 * m);
-				cout << "Cau C: " << ds[i]->C;
-				gotoxy(50, 14 + 9 * m);
-				cout << "Cau D: " << ds[i]->D;
-				gotoxy(50, 15 + 9 * m);
-				cout << "Dap an la: " << ds[i]->correct << ". " << ds[i]->answerCorrect;
-				m++;
-			}	
-			key = _getch();
-			if (key == 77)
-			{
-				if (j < a) j++;
-				else if (j == a) goto page_last;
+				xoa_nen();
+				ds_cau.questionList = QuestionnaireList_DeleteQuestion(ds_cau.questionList, a);
+				checkID = true;
 			}
-			if (key == 75 && j > 0) j--;
-			if (key == 27) break;
+			else
+			{
+				keyFlag = 0;
+			}
 		}
-		page_last:
-		xoa_nen();
-		int n = 0;
-		for (int i = 3 * a; i < 3 * a + (nds % 3); i++)
+		else
 		{
-			gotoxy(105, 35);
-			cout << "Page " << a + 1 << "/" << b;
-			gotoxy(50, 7 + 9 * n);
-			cout << "======== Cau " << i + 1 << "==========";
-			gotoxy(50, 8 + 9 * n);
-			cout << "ID: " << ds[i]->questionnaireID;
-			gotoxy(50, 9 + 9 * n);
-			cout << "Ma: " << ds[i]->subjectID;
-			gotoxy(50, 10 + 9 * n);
-			cout << "Cau hoi: " << ds[i]->content;
-			gotoxy(50, 11 + 9 * n);
-			cout << "Cau A: " << ds[i]->A;
-			gotoxy(50, 12 + 9 * n);
-			cout << "Cau B: " << ds[i]->B;
-			gotoxy(50, 13 + 9 * n);
-			cout << "Cau C: " << ds[i]->C;
-			gotoxy(50, 14 + 9 * n);
-			cout << "Cau D: " << ds[i]->D;
-			gotoxy(50, 15 + 9 * n);
-			cout << "Dap an la: " << ds[i]->correct << ". " << ds[i]->answerCorrect;
-			n++;
-		}		
-		break;
-		gotoxy(60, 35);
-		system("pause");
-
+			gotoxy(50, 11);
+			cout << "ID NOT FOUND!";
+			Sleep(1000);
+			clearInputID();
+		}
 	}
 }
 
-int dem_sl_cau(string a, Questionnaire *ds[], int &nds)
+void QuestionnaireList_ExecuteFoundUpdateID(QuestionnaireList &ds_cau, bool &checkID, bool &keyFlag)
 {
-	int sl_cau = 0;
-	for (int i = 0; i < nds; i++)
+
+	int a = -1;
+	gotoxy(80, 9);
+	cout << "PRESS 0 TO CHECK THE LIST AGAIN";
+	gotoxy(50, 9);
+	cout << "INPUT ID: ";
+	cin >> a;
+	if (a == 0)
 	{
-		if(ds[i]->subjectID == a)
-			sl_cau++;		
+		keyFlag = 0;
+		return;
 	}
-	return sl_cau;
+	else
+	{
+		bool kt = QuestionnaireList_CheckExistID(ds_cau.questionList, a);
+		if (kt == true)
+		{
+			checkID = true;
+			gotoxy(50, 11);
+			cout << "                 ";
+			cin.ignore();
+			xoa_nen();
+			Questionnaire_Update(ds_cau.questionList, a);
+		}
+		else
+		{
+			gotoxy(50, 11);
+			cout << "ID NOT FOUND!";
+			Sleep(1000);
+			clearInputID();
+		}
+	}
+}
+
+int QuestionnaireList_GetNumberOfQuestions(Questionnaire *listToCheck)
+{
+	int numberOfQuestions = 1; //current node is one element
+	if (listToCheck == NULL)
+	{
+		return 0;
+	}
+	else
+	{
+		numberOfQuestions += QuestionnaireList_GetNumberOfQuestions(listToCheck->pLeft);
+		numberOfQuestions += QuestionnaireList_GetNumberOfQuestions(listToCheck->pRight);
+	}
+	return numberOfQuestions;
+}
+
+void QuestionnaireList_PrintListOfQuestions(QuestionnaireList questionListToCheck, Questionnaire *ds[], SubjectList subjectListToCheck)
+{
+	bool stopFlag = false;
+	int numberOfQuestions = QuestionnaireList_GetNumberOfQuestions(questionListToCheck.questionList);
+	int numberOfPageShow_3_Questions = numberOfQuestions / 3;
+	int totalPages = 0;
+	(numberOfQuestions % 3 == 0) ? (totalPages = numberOfPageShow_3_Questions) : (totalPages = numberOfPageShow_3_Questions + 1);
+	int currentPage = 1;
+	int startMultiply = 0;
+	while (stopFlag != true)
+	{
+		xoa_nen();
+		if (questionListToCheck.questionList == NULL)
+		{
+			gotoxy(80, 20);
+			cout << "EMPTY LIST !!!";
+			stopFlag = true;
+		}
+		char key;
+		int m = 0;
+		for (int indexCurrentQuestion = 3 * startMultiply; indexCurrentQuestion < 3 * startMultiply + 3; indexCurrentQuestion++)
+		{
+			if (indexCurrentQuestion == numberOfQuestions)
+				break;
+			gotoxy(105, 35);
+			cout << "Page " << currentPage << "/" << totalPages;
+			gotoxy(50, 6);
+			cout << "PRESS LEFT TO GO BACK, RIGHT TO GO FORWARD";
+			gotoxy(50, 7 + 9 * m);
+			cout << "======== Number #" << indexCurrentQuestion + 1 << "==========";
+			gotoxy(50, 8 + 9 * m);
+			cout << "QuestionID: " << ds[indexCurrentQuestion]->questionnaireID;
+			gotoxy(50, 9 + 9 * m);
+			cout << "Name Of Subject: " << SubjectList_ReturnNameOfSubject(subjectListToCheck, ds[indexCurrentQuestion]->subjectID);
+			gotoxy(50, 10 + 9 * m);
+			cout << "Question: " << ds[indexCurrentQuestion]->content;
+			gotoxy(50, 11 + 9 * m);
+			cout << "A Answer: " << ds[indexCurrentQuestion]->A;
+			gotoxy(50, 12 + 9 * m);
+			cout << "B Answer: " << ds[indexCurrentQuestion]->B;
+			gotoxy(50, 13 + 9 * m);
+			cout << "C Answer: " << ds[indexCurrentQuestion]->C;
+			gotoxy(50, 14 + 9 * m);
+			cout << "D Answer: " << ds[indexCurrentQuestion]->D;
+			gotoxy(50, 15 + 9 * m);
+			cout << "Correct Answer: " << ds[indexCurrentQuestion]->correct << ". " << ds[indexCurrentQuestion]->answerCorrect;
+			m++;
+		}
+		key = _getch();
+		if (key == RIGHT)
+		{
+			if ((3 * startMultiply + 3) > numberOfQuestions)
+			{
+				startMultiply = 0;
+			}
+			else
+				startMultiply++;
+			if (currentPage < totalPages)
+				currentPage++;
+			else
+				currentPage = 1;
+			continue; // back to top of while loop
+		}
+		if (key == LEFT)
+		{
+			currentPage--;
+			if (currentPage == 1 || currentPage == 0)
+			{
+				startMultiply = 0;
+				currentPage = 1;
+			}
+			else
+				startMultiply--;
+			continue;
+		}
+		if (key == 27)
+		{
+			stopFlag = true;
+		}
+	}
+}
+
+void QuestionnaireList_Print_ID_List(QuestionnaireList questionListToCheck, Questionnaire *arrayQuestions[], bool &keyFlag, int &currentTask)
+{
+	bool stopFlag = false;
+	int numberOfQuestions = QuestionnaireList_GetNumberOfQuestions(questionListToCheck.questionList);
+	int numberOfPageShow_6_Questions = numberOfQuestions / 6;
+	int totalPages = 0;
+	(numberOfQuestions % 6 == 0) ? (totalPages = numberOfPageShow_6_Questions) : (totalPages = numberOfPageShow_6_Questions + 1);
+	int currentPage = 1;
+	int startMultiply = 0;
+	xoa_nen();
+	if (questionListToCheck.questionList != NULL)
+	{
+		gotoxy(73, 12);
+		cout << "PRESS UP TO INPUT ID";
+	}
+	gotoxy(75, 14);
+	cout << "LIST OF QUESTIONS";
+	gotoxy(50, 16);
+	cout << "==================================================================";
+	gotoxy(50, 17);
+	cout << "| #  |   ID   | SUB ID |             CONTENT                     |";
+	gotoxy(50, 18);
+	cout << "==================================================================";
+	while (stopFlag != true)
+	{
+		clearPrint_ID_List();
+		if (questionListToCheck.questionList == NULL)
+		{
+			gotoxy(75, 23);
+			cout << "EMPTY LIST !!!";
+			stopFlag = true;
+		}
+		char key;
+		int i = 0;
+		for (int indexCurrentQuestion = 6 * startMultiply; indexCurrentQuestion < 6 * startMultiply + 6; indexCurrentQuestion++)
+		{
+			if (indexCurrentQuestion == numberOfQuestions)
+				break;
+			gotoxy(50, 19 + 2 * i);
+			cout << "|  " << i + 1;
+			gotoxy(56, 19 + 2 * i);
+			cout << "| " << arrayQuestions[indexCurrentQuestion]->questionnaireID;
+			gotoxy(63, 19 + 2 * i);
+			cout << "|  " << arrayQuestions[indexCurrentQuestion]->subjectID; // #TODO: catch error when reach more than 40 characters
+			gotoxy(72, 19 + 2 * i);
+			cout << "| " << arrayQuestions[indexCurrentQuestion]->content;
+			gotoxy(115, 19 + 2 * i);
+			cout << "|";
+			if (i > 5)
+				i = 0;
+			else
+				i++;
+			gotoxy(105, 33);
+			cout << "Page " << currentPage << "/" << totalPages;
+			gotoxy(50, 31);
+			cout << "PRESS LEFT TO GO BACK, RIGHT TO GO FORWARD";
+		}
+		key = _getch();
+		if (key == RIGHT)
+		{
+			if ((6 * startMultiply + 6) > numberOfQuestions - 1)
+			{
+				startMultiply = 0;
+			}
+			else
+				startMultiply++;
+			if (currentPage < totalPages)
+				currentPage++;
+			else
+				currentPage = 1;
+			continue; // back to top of while loop
+		}
+		if (key == LEFT)
+		{
+			currentPage--;
+			if (currentPage == 1 || currentPage == 0)
+			{
+				startMultiply = 0;
+				currentPage = 1;
+			}
+			else
+				startMultiply--;
+			continue;
+		}
+		if (key == UP && questionListToCheck.questionList != NULL)
+		{
+			stopFlag = true;
+			keyFlag = true;
+		}
+		if (key == ESC)
+		{
+			stopFlag = true;
+			currentTask = 0;
+		}
+	}
 }
 
 // ====== hoán đổi câu hỏi =============
@@ -1635,6 +1403,7 @@ void shuffle_array(Questionnaire *ds[], int nds)
 	}
 }
 
+/*
 void menu_thi_thu(SubjectList &ds_mon, Questionnaire *ds[], int &nds)
 {
 check_mon:
@@ -1949,7 +1718,7 @@ void bo_de(Questionnaire *ds[], int &nds, string a, int n)
 // 		bo_de_sv(ds_l, ma_sv, ds, nds, a, so_cau, hour, minute, second);
 // 	}
 // }
-
+*/
 // void bo_de_sv(DS_LOP &ds_l,string ma_sv,cau_hoi_thi *ds[], int &nds, string ma_mh, int n, int hour, int minute, int second)
 // {
 
