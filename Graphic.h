@@ -3,7 +3,7 @@
 
 #include "CommonTrait.h"
 
-void color_khung()
+void ColorFrame()
 {
 	SetBGColor(11);
 }
@@ -20,7 +20,7 @@ void HighLight()
 	SetBGColor(0);
 }
 
-void xoa_nen()
+void ClearBackground()
 {
 	int x = 42, y = 6;
 	while (y < 36)
@@ -32,7 +32,7 @@ void xoa_nen()
 	}
 }
 
-void clearInputID()
+void ClearInputID()
 {
 	int x = 50, y = 9;
 	while (y <= 11)
@@ -44,7 +44,7 @@ void clearInputID()
 	}
 }
 
-void clearPrint_ID_List()
+void ClearPrintIDList()
 {
 	int x = 50, y = 19;
 	while (y < 36)
@@ -57,7 +57,7 @@ void clearPrint_ID_List()
 }
 
 
-void khung_them_lop()
+void FrameClassAdd()
 {
 	HighLight();
 	// ke thanh ngang
@@ -91,7 +91,7 @@ void khung_them_lop()
 		x6++;
 	}
 	// ke thanh doc
-	color_khung();
+	ColorFrame();
 	int x4 = 60, y4 = 17;
 	while (y4 < 26)
 	{
@@ -108,7 +108,7 @@ void khung_them_lop()
 	}
 }
 
-void khung_them_sv()
+void FrameStudentAdd()
 {
 	HighLight();
 	int x7 = 60, y7 = 13;
@@ -154,7 +154,7 @@ void khung_them_sv()
 		x8++;
 	}
 	// ke thanh doc
-	color_khung();
+	ColorFrame();
 	int x4 = 60, y4 = 14;
 	while (y4 < 29)
 	{
@@ -171,7 +171,7 @@ void khung_them_sv()
 	}
 }
 
-void khung_them_mon()
+void FrameSubjectAdd()
 {
 	HighLight();
 	// ke thanh ngang
@@ -198,7 +198,7 @@ void khung_them_mon()
 		x3++;
 	}
 	// ke thanh doc
-	color_khung();
+	ColorFrame();
 	int x4 = 60, y4 = 17;
 	while (y4 < 23)
 	{
@@ -215,7 +215,7 @@ void khung_them_mon()
 	}
 }
 
-void khung_cau_hoi()
+void FrameQuestionnaire()
 {
 	HighLight();
 	//ke thanh ngang
@@ -255,7 +255,7 @@ void khung_cau_hoi()
 		x8++;
 	}
 	// ke thanh doc
-	color_khung();
+	ColorFrame();
 	int x5= 45, y5 = 12;
 	while (y5 < 25)
 	{
@@ -286,7 +286,7 @@ void khung_cau_hoi()
 	}
 }
 
-void ke_khung_doc_1()
+void VerticalLine1()
 {
 	int x = 2, y = 2;
 	while (y < 36)
@@ -296,7 +296,7 @@ void ke_khung_doc_1()
 		y++;
 	}
 }
-void ke_khung_doc_2()
+void VerticalLine2()
 {
 	int x = 40, y = 2;
 	while (y < 36)
@@ -306,7 +306,7 @@ void ke_khung_doc_2()
 		y++;
 	}
 }
-void ke_khung_doc_3()
+void VerticalLine3()
 {
 	int x = 123, y = 2;
 	while (y < 36)
@@ -316,7 +316,7 @@ void ke_khung_doc_3()
 		y++;
 	}
 }
-void ke_khung_ngang_1()
+void HorizontalLine1()
 {
 	int x = 2, y = 1;
 	while (x < 125)
@@ -326,7 +326,7 @@ void ke_khung_ngang_1()
 		x++;
 	}
 }
-void ke_khung_ngang_2()
+void HorizontalLine2()
 {
 	int x = 2, y = 36;
 	while (x < 125)
@@ -336,7 +336,7 @@ void ke_khung_ngang_2()
 		x++;
 	}
 }
-void ke_khung_ngang_3()
+void HorizontalLine3()
 {
 	int x = 3, y = 7;
 	while (x < 40)
@@ -346,7 +346,7 @@ void ke_khung_ngang_3()
 		x++;
 	}
 }
-void ke_khung_ngang_4()
+void HorizontalLine4()
 {
 	int x = 42, y = 5;
 	while (x < 125)
@@ -356,7 +356,7 @@ void ke_khung_ngang_4()
 		x++;
 	}
 }
-void khung_login_mini()
+void FrameLogin()
 {
 	int x = 43, y = 22;
 	while (x < 80)
@@ -380,7 +380,7 @@ void khung_login_mini()
 		cout << "-";
 		e++;
 	}
-	color_khung();
+	ColorFrame();
 	int c = 43, d = 23;
 	while (d < 28)
 	{
@@ -398,25 +398,25 @@ void khung_login_mini()
 		n++;
 	}
 }
-void khung_menu()
+void FrameMenu()
 {
-	color_khung();
-	ke_khung_doc_1();
-	ke_khung_doc_2();
-	ke_khung_doc_3();
-	ke_khung_ngang_1();
-	ke_khung_ngang_2();
-	ke_khung_ngang_3();
-	ke_khung_ngang_4();
+	ColorFrame();
+	VerticalLine1();
+	VerticalLine2();
+	VerticalLine3();
+	HorizontalLine1();
+	HorizontalLine2();
+	HorizontalLine3();
+	HorizontalLine4();
 }
-void khung_login()
+void ViewLogin()
 {
-	color_khung();
-	ke_khung_doc_1();
-	ke_khung_doc_3();
-	ke_khung_ngang_1();
-	ke_khung_ngang_2();
+	ColorFrame();
+	VerticalLine1();
+	VerticalLine3();
+	HorizontalLine1();
+	HorizontalLine2();
 	HighLight();
-	khung_login_mini();
+	FrameLogin();
 }
 #endif

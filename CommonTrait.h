@@ -3,7 +3,7 @@
 
 #include "Struct.h"
 
-void chuan_hoa_chu(string &a)
+void StringFormat(string &a)
 {
 	while (a[0] == ' ')
 	{
@@ -36,7 +36,7 @@ void chuan_hoa_chu(string &a)
 	}
 }
 
-void up_case_char(char &a)
+void ToUpper(char &a)
 {
 	if (a >= 97 && a <= 122)
 	{
@@ -44,7 +44,10 @@ void up_case_char(char &a)
 	}
 }
 
-Student* khoi_tao_node_sv()
+/*======================== For File W/R Only =========================*/
+
+/*=== Student ===*/
+Student* StudentNodeInitialize()
 {
 	Student *p = new Student;
 	if (p == NULL)
@@ -56,7 +59,7 @@ Student* khoi_tao_node_sv()
 	return p;
 }
 
-void them_1_sinh_vien(Student *&pHead, Student *p)
+void StudentAdd(Student *&pHead, Student *p)
 {
 	if (pHead == NULL)
 	{
@@ -75,7 +78,8 @@ void them_1_sinh_vien(Student *&pHead, Student *p)
 	}
 }
 
-Questionnaire *Questionnaire_CreateNodeWithoutID()
+/*=== Questionaire ===*/
+Questionnaire *QuestionnaireCreateNodeWithoutID()
 {
 	Questionnaire *questionnaireReturn = new Questionnaire;
 	questionnaireReturn->height = 1;
@@ -84,7 +88,7 @@ Questionnaire *Questionnaire_CreateNodeWithoutID()
 	return questionnaireReturn;
 }
 
-void Questionnaire_AcceptAnswer(Questionnaire *&p)
+void QuestionnaireAcceptAnswer(Questionnaire *&p)
 {
 	if (p->correct == 'A')
 	{
@@ -104,14 +108,14 @@ void Questionnaire_AcceptAnswer(Questionnaire *&p)
 	}
 }
 
-int Questionnaire_GetHeight(tree currentNode)
+int QuestionnaireGetHeight(tree currentNode)
 {
 	if (currentNode == NULL)
 		return 0;
 	return currentNode->height;
 }
 
-int returnMaxNumber(int a, int b)
+int QuestionnaireReturnMaxNumber(int a, int b)
 {
 	if (a > b)
 	{
@@ -120,26 +124,26 @@ int returnMaxNumber(int a, int b)
 	return b;
 }
 
-int Questionnaire_GetBalanceFactor(tree currentNode)
+int QuestionnaireGetBalanceFactor(tree currentNode)
 {
 	if (currentNode == NULL)
 		return 0;
-	return Questionnaire_GetHeight(currentNode->pLeft) - Questionnaire_GetHeight(currentNode->pRight);
+	return QuestionnaireGetHeight(currentNode->pLeft) - QuestionnaireGetHeight(currentNode->pRight);
 }
 
-Questionnaire *QuestionnaireList_LeftRotation(Questionnaire *&currentNode)
+Questionnaire *QuestionnaireLeftRotation(Questionnaire *&currentNode)
 {
 	if (currentNode == NULL)
 		return NULL;
 	Questionnaire *nodeToRotate = currentNode->pRight;
 	currentNode->pRight = nodeToRotate->pLeft;
 	nodeToRotate->pLeft = currentNode;
-	currentNode->height = returnMaxNumber(Questionnaire_GetHeight(currentNode->pLeft), Questionnaire_GetHeight(currentNode->pRight)) + 1;
-	nodeToRotate->height = returnMaxNumber(Questionnaire_GetHeight(nodeToRotate->pLeft), Questionnaire_GetHeight(nodeToRotate->pRight)) + 1;
+	currentNode->height = QuestionnaireReturnMaxNumber(QuestionnaireGetHeight(currentNode->pLeft), QuestionnaireGetHeight(currentNode->pRight)) + 1;
+	nodeToRotate->height = QuestionnaireReturnMaxNumber(QuestionnaireGetHeight(nodeToRotate->pLeft), QuestionnaireGetHeight(nodeToRotate->pRight)) + 1;
 	return nodeToRotate;
 }
 
-Questionnaire *QuestionnaireList_RightRotation(Questionnaire *&currentNode)
+Questionnaire *QuestionnaireRightRotation(Questionnaire *&currentNode)
 {
 	if (currentNode == NULL)
 		return NULL;
@@ -147,12 +151,12 @@ Questionnaire *QuestionnaireList_RightRotation(Questionnaire *&currentNode)
 	currentNode->pLeft = nodeToRotate->pRight;
 	nodeToRotate->pRight = currentNode;
 
-	currentNode->height = returnMaxNumber(Questionnaire_GetHeight(currentNode->pLeft), Questionnaire_GetHeight(currentNode->pRight)) + 1;
-	nodeToRotate->height = returnMaxNumber(Questionnaire_GetHeight(nodeToRotate->pLeft), Questionnaire_GetHeight(nodeToRotate->pRight)) + 1;
+	currentNode->height = QuestionnaireReturnMaxNumber(QuestionnaireGetHeight(currentNode->pLeft), QuestionnaireGetHeight(currentNode->pRight)) + 1;
+	nodeToRotate->height = QuestionnaireReturnMaxNumber(QuestionnaireGetHeight(nodeToRotate->pLeft), QuestionnaireGetHeight(nodeToRotate->pRight)) + 1;
 	return nodeToRotate;
 }
 
-Questionnaire *QuestionnaireList_Add(tree &t, Questionnaire *p)
+Questionnaire *QuestionnaireAdd(tree &t, Questionnaire *p)
 {
 	if (p->content != "")
 	{
@@ -164,36 +168,34 @@ Questionnaire *QuestionnaireList_Add(tree &t, Questionnaire *p)
 		{
 			if (p->questionnaireID > t->questionnaireID)
 			{
-				t->pRight = QuestionnaireList_Add(t->pRight, p);
+				t->pRight = QuestionnaireAdd(t->pRight, p);
 			}
 			else if (p->questionnaireID < t->questionnaireID)
 			{
-				t->pLeft = QuestionnaireList_Add(t->pLeft, p);
+				t->pLeft = QuestionnaireAdd(t->pLeft, p);
 			}
-			t->height = returnMaxNumber(Questionnaire_GetHeight(t->pLeft), Questionnaire_GetHeight(t->pRight)) + 1;
-			int balance = Questionnaire_GetBalanceFactor(t);
+			t->height = QuestionnaireReturnMaxNumber(QuestionnaireGetHeight(t->pLeft), QuestionnaireGetHeight(t->pRight)) + 1;
+			int balance = QuestionnaireGetBalanceFactor(t);
 			if (balance > 1)
 			{ // left tree has more node
 				if (p->questionnaireID > t->pLeft->questionnaireID)
 				{
 
-					t->pLeft = QuestionnaireList_LeftRotation(t->pLeft);
+					t->pLeft = QuestionnaireLeftRotation(t->pLeft);
 				}
-				return QuestionnaireList_RightRotation(t);
+				return QuestionnaireRightRotation(t);
 			}
 			else if (balance < -1)
 			{
 				if (p->questionnaireID < t->pRight->questionnaireID)
 				{
-					t->pRight = QuestionnaireList_RightRotation(t->pRight);
+					t->pRight = QuestionnaireRightRotation(t->pRight);
 				}
-				return QuestionnaireList_LeftRotation(t);
+				return QuestionnaireLeftRotation(t);
 			}
 		}
 	}
 	return t;
 }
-
-
 
 #endif
