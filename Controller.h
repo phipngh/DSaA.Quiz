@@ -4,76 +4,76 @@
 #include "FileIO.h"
 
 // ------------------------ LOP -------------------------------------------
-void them_lop(ClassList &ds_l);
-int ktra_trung_lop(string a, ClassList ds_l);
-void xoa_lop(ClassList &ds_l);
-int check_lop(ClassList ds_l,string a);
-void hieu_chinh_lop(ClassList &ds_l);
-void in_ds_lop(ClassList ds_l);
-void giai_phong_bo_nho_lop(ClassList &ds_l);
-Class *kt_ma_lop(ClassList ds_l, string ma);
+void ClassAdd(ClassList &ds_l);
+int ClassIsExist(string a, ClassList ds_l);
+void ClassDelete(ClassList &ds_l);
+int ClassIsClassHasStudent(ClassList ds_l,string a);
+void ClassUpdate(ClassList &ds_l);
+void ClassPrintList(ClassList ds_l);
+void ClassFree(ClassList &ds_l);
+Class *ClassReturnClass(ClassList ds_l, string ma);
 //---------------------------------- SV ------------------------------------
-bool ktra_trung_ma_sv(Student *pHead, string ma);
-Class *kt_ma_lop(ClassList ds_l, string ma);
-Student* khoi_tao_node_sv();
-void them_1_sinh_vien(Student *&p_head, Student *p);
-void nhap_sinh_vien(ClassList &ds_l,StudentList &ds_sv);
-void xoa_sv(ClassList &ds_l);
-void giai_phong_ds_sv(StudentList &ds_sv);
-void in_ds_sv(StudentList ds_sv, ClassList ds_l);
-int check_ma_sv(ClassList ds_l, string ma);
+bool StudentIsIDExist(Student *pHead, string ma);
+Class *ClassReturnClass(ClassList ds_l, string ma);
+Student* StudentNodeInitialize();
+void StudentAdd(Student *&p_head, Student *p);
+void StudentFillInfo(ClassList &ds_l,StudentList &ds_sv);
+void StudentDelete(ClassList &ds_l);
+void StudentFree(StudentList &ds_sv);
+void StudentPrintList(StudentList ds_sv, ClassList ds_l);
+int StudentIsExist(ClassList ds_l, string ma);
 
 // -----------------------------MON ----------------------------------------------
-void them_mon(SubjectList &ds_mon);
-void sap_xep_chen(SubjectList ds_mon);
-int ktra_trung_mon(string a, SubjectList ds_mon);
+void SubjectAdd(SubjectList &ds_mon);
+void SubjectSort(SubjectList ds_mon);
+int SubjectIsExist(string a, SubjectList ds_mon);
 int SubjectList_CheckExistID(string a, SubjectList ds_mon);
 string SubjectList_ReturnNameOfSubject(SubjectList listToCheck, string subject_ID_ToCheck);
 string SubjectList_ReturnExistedID(SubjectList ds_mon);
-void xoa_mon(SubjectList &ds_mon);
-void hieu_chinh_mon(SubjectList &ds_mon);
-void xuat_mon(SubjectList ds_mon);
-void giai_phong_bo_nho_mon(SubjectList &ds_mon);
+void SubjectDelete(SubjectList &ds_mon);
+void SubjectUpdate(SubjectList &ds_mon);
+void SubjectPrintList(SubjectList ds_mon);
+void SubjectFree(SubjectList &ds_mon);
 
 //---------------------------- CAU HOI THI ------------------------------
-void ghi_file_mon(SubjectList &ds_mon);
-void QuestionnaireList_TransferTreeToArray(tree t, Questionnaire *arrayListOfQuestion[], int &currentIndex);
-void QuestionnaireList_PrintArray(Questionnaire *arrayListOfQuestion[], int numberOfElements);
-void QuestionnaireList_FreeAllocateArray(Questionnaire *ds[], int &nds);
-void Questionnaire_InputQuestion(QuestionnaireList &ds_cau, SubjectList &ds_mon);
-void QuestionnaireList_BalanceTree(Questionnaire *&t, int ID_To_Delete);
-void QuestionnaireList_FreeTree(Questionnaire *nodeToChange);
-Questionnaire *QuestionnaireList_DeleteQuestion(Questionnaire *nodeToDelete, int question_ID_ToDelete);
-void hoan_vi_2_cau(Questionnaire *a, Questionnaire *b);
-void Questionnaire_Update(tree t, int IDQuestionToCheck);
-void QuestionnaireList_ExecuteFoundDeleteID(QuestionnaireList &ds_cau, bool &checkID, bool &keyFlag);
-void QuestionnaireList_ExecuteFoundUpdateID(QuestionnaireList &ds_cau, bool &checkID, bool &keyFlag);
-int QuestionnaireList_GetNumberOfQuestions(Questionnaire *listToCheck);
-void QuestionnaireList_PrintListOfQuestions(QuestionnaireList questionListToCheck, Questionnaire *ds[], SubjectList subjectListToCheck);
-void QuestionnaireList_Print_ID_List(QuestionnaireList questionListToCheck, Questionnaire *arrayQuestions[], bool &keyFlag, int &currentTask);
-int dem_sl_cau(string a, Questionnaire *ds[], int &nds);
-void shuffle_array(Questionnaire *ds[], int nds);
-bool QuestionnaireList_CheckExistID(Questionnaire *currentQuestion, int questionnaireID);
-int Questionnaire_CreateRandomID(Questionnaire *t);
-Questionnaire *Questionnaire_CreateNodeWithoutID();
-Questionnaire *Questionnaire_CreateNode(tree treeCheckingExist);
-int Questionnaire_GetHeight(tree currentNode);
-int Questionnaire_GetBalanceFactor(tree currentNode);
-int returnMaxNumber(int a, int b);
-Questionnaire *QuestionnaireList_LeftRotation(Questionnaire *&currentNode);
-Questionnaire *QuestionnaireList_RightRotation(Questionnaire *&currentNode);
-Questionnaire *QuestionnaireList_Add(tree &t, Questionnaire *p);
-void Questionnaire_AcceptAnswer(Questionnaire *&p);
+void SubjectFileOutput(SubjectList &ds_mon);
+void QuestionnaireTransferTreeToArray(tree t, Questionnaire *arrayListOfQuestion[], int &currentIndex);
+void QuestionnairePrintArray(Questionnaire *arrayListOfQuestion[], int numberOfElements);
+void QuestionnaireFreeArray(Questionnaire *ds[], int &nds);
+void QuestionnaireFillInfo(QuestionnaireList &ds_cau, SubjectList &ds_mon);
+void QuestionnaireBalanceTree(Questionnaire *&t, int ID_To_Delete);
+void QuestionnaireFree(Questionnaire *nodeToChange);
+Questionnaire *QuestionnaireDelete(Questionnaire *nodeToDelete, int question_ID_ToDelete);
+void QuestionnaireSwap(Questionnaire *a, Questionnaire *b);
+void QuestionnaireUpdate(tree t, int IDQuestionToCheck);
+void QuestionnaireExecuteFoundDelete(QuestionnaireList &ds_cau, bool &checkID, bool &keyFlag);
+void QuestionnaireExecuteFoundUpdate(QuestionnaireList &ds_cau, bool &checkID, bool &keyFlag);
+int QuestionnaireGetTotalQuestions(Questionnaire *listToCheck);
+void QuestionnairePrintList(QuestionnaireList questionListToCheck, Questionnaire *ds[], SubjectList subjectListToCheck);
+void QuestionnairePrintIDList(QuestionnaireList questionListToCheck, Questionnaire *arrayQuestions[], bool &keyFlag, int &currentTask);
+int QuestionnaireTotalOfOneSubject(string a, Questionnaire *ds[], int &nds);
+void QuestionnaireArrayShuffer(Questionnaire *ds[], int nds);
+bool QuestionnaireIsIDExist(Questionnaire *currentQuestion, int questionnaireID);
+int QuestionnaireRandomID(Questionnaire *t);
+Questionnaire *QuestionnaireCreateNodeWithoutID();
+Questionnaire *QuestionnaireCreateNode(tree treeCheckingExist);
+int QuestionnaireGetHeight(tree currentNode);
+int QuestionnaireGetBalanceFactor(tree currentNode);
+int QuestionnaireReturnMaxNumber(int a, int b);
+Questionnaire *QuestionnaireLeftRotation(Questionnaire *&currentNode);
+Questionnaire *QuestionnaireRightRotation(Questionnaire *&currentNode);
+Questionnaire *QuestionnaireAdd(tree &t, Questionnaire *p);
+void QuestionnaireAcceptAnswer(Questionnaire *&p);
 
 // ------------------------ THI ----------------------------
-// void shuffle_array(cau_hoi_thi *ds[], int nds); // xao tron bo cau hoi truoc khi phat de
+// void QuestionnaireArrayShuffer(cau_hoi_thi *ds[], int nds); // xao tron bo cau hoi truoc khi phat de
 // void menu_thi_thu(ds_mon_hoc &ds_mon, cau_hoi_thi *ds[], int &nds);
 void bo_de(Questionnaire *ds[], int &nds, string a, int n);
 // void bo_de_sv(DS_LOP &ds_l, string ma_sv, cau_hoi_thi *ds[], int &nds, string ma_mh, int n, int hour, int minute, int second);
 // void thi(string ma_sv, DS_LOP ds_l, DS_MON_HOC &ds_mon, cau_hoi_thi *ds[], int &nds);
 
 //============================ Them lop =========================
-void them_lop(ClassList &ds_l)
+void ClassAdd(ClassList &ds_l)
 {
 	Class *p = new Class;
 	
@@ -81,7 +81,7 @@ void them_lop(ClassList &ds_l)
 	HighLight();
 	cout << "NHAP THONG TIN LOP VAO BANG";
 	HighLight();
-	khung_them_lop();
+	FrameClassAdd();
 	Normal();
 	gotoxy(62, 18);
 	cout << "MA LOP     :";
@@ -89,8 +89,8 @@ void them_lop(ClassList &ds_l)
 	cout << "TEN LOP    :";
 	gotoxy(80, 18);
 	getline(cin, p->classID);
-	chuan_hoa_chu(p->classID);
-	while (ktra_trung_lop(p->classID, ds_l) >= 0)
+	StringFormat(p->classID);
+	while (ClassIsExist(p->classID, ds_l) >= 0)
 	{
 		gotoxy(70, 27);
 		cout << "MA BI TRUNG, NHAP LAI MA MOI!";
@@ -98,22 +98,22 @@ void them_lop(ClassList &ds_l)
 		cout << "                         ";	
 		gotoxy(80, 18);
 		getline(cin, p->classID);
-		chuan_hoa_chu(p->classID);
+		StringFormat(p->classID);
 		gotoxy(70, 27);
 		cout << "                                       ";
 	}	
 	gotoxy(80, 21);
 	getline(cin, p->className);
-	chuan_hoa_chu(p->className);
+	StringFormat(p->className);
 	gotoxy(75, 27);
 	cout << "THEM THANH CONG!";
 	ds_l.classList[ds_l.index] = p;
 	ds_l.index++;	
-	ghi_file_lop(ds_l);
+	ClassFileOutput(ds_l);
 }
 
 //====== ktra co trung lop hay chua =========================
-int ktra_trung_lop(string a, ClassList ds_l)
+int ClassIsExist(string a, ClassList ds_l)
 {
 	for (int i = 0; i < ds_l.index; i++)
 	{
@@ -126,16 +126,16 @@ int ktra_trung_lop(string a, ClassList ds_l)
 }
 
 //============= xoa lop =====================================
-void xoa_lop(ClassList &ds_l)
+void ClassDelete(ClassList &ds_l)
 {
 	string a;
 	Normal();
 	gotoxy(50, 8);
 	cout << "NHAP MA LOP BAN MUON XOA: ";
 	getline(cin, a);
-	chuan_hoa_chu(a);
+	StringFormat(a);
 	//================= ktra lop da co ton tai hay chua ============
-	int ktra_a = ktra_trung_lop(a, ds_l);
+	int ktra_a = ClassIsExist(a, ds_l);
 	if (ktra_a < 0)
 	{
 		HighLight();
@@ -144,7 +144,7 @@ void xoa_lop(ClassList &ds_l)
 	}
 	else
 	{
-		if (check_lop(ds_l, a) < 0)
+		if (ClassIsClassHasStudent(ds_l, a) < 0)
 		{
 			HighLight();
 			gotoxy(60, 10);
@@ -169,7 +169,7 @@ void xoa_lop(ClassList &ds_l)
 	}
 }
 
-int check_lop(ClassList ds_l,string a)
+int ClassIsClassHasStudent(ClassList ds_l,string a)
 {
 	for (int i = 0; i < ds_l.index; i++)
 	{
@@ -182,15 +182,15 @@ int check_lop(ClassList ds_l,string a)
 }
 
 //================ hieu chinh lop =====================
-void hieu_chinh_lop(ClassList &ds_l)
+void ClassUpdate(ClassList &ds_l)
 {
 	string a;
 	Normal();
 	gotoxy(50, 8);
 	cout << "NHAP MA LOP BAN CAN HIEU CHINH: ";
 	getline(cin, a);
-	chuan_hoa_chu(a);
-	int ktra = ktra_trung_lop(a, ds_l);
+	StringFormat(a);
+	int ktra = ClassIsExist(a, ds_l);
 	if (ktra < 0)
 	{
 		HighLight();
@@ -208,14 +208,14 @@ void hieu_chinh_lop(ClassList &ds_l)
 		HighLight();
 		gotoxy(80, 10);
 		getline(cin, ds_l.classList[ktra]->className);
-		chuan_hoa_chu(ds_l.classList[ktra]->className);
+		StringFormat(ds_l.classList[ktra]->className);
 		gotoxy(65, 13);
 		cout << "DA~ THAY DOI THONG TIN LOP!";
 	}
 }
 
 //============== In danh sach lop theo nien khoa ==========================
-void in_ds_lop(ClassList ds_l)
+void ClassPrintList(ClassList ds_l)
 {
 		HighLight();
 		gotoxy(51, 10);
@@ -236,7 +236,7 @@ void in_ds_lop(ClassList ds_l)
 			cout << "---------------------------------------";
 		}
 }
-void giai_phong_bo_nho_lop(ClassList &ds_l)
+void ClassFree(ClassList &ds_l)
 {
 	for (int i = 0; i < ds_l.index; i++)
 	{
@@ -245,7 +245,7 @@ void giai_phong_bo_nho_lop(ClassList &ds_l)
 }
 
 //=============== lập ds sinh viên =====================
-Class *kt_ma_lop(ClassList ds_l, string ma)
+Class *ClassReturnClass(ClassList ds_l, string ma)
 {
 	for (int i = 0; i < ds_l.index; i++)
 	{
@@ -257,7 +257,7 @@ Class *kt_ma_lop(ClassList ds_l, string ma)
 	return NULL;
 }
 
-void nhap_sinh_vien(ClassList &ds_l,StudentList &ds_sv)
+void StudentFillInfo(ClassList &ds_l,StudentList &ds_sv)
 {
 	string a;
 	gotoxy(55, 11);
@@ -277,8 +277,8 @@ void nhap_sinh_vien(ClassList &ds_l,StudentList &ds_sv)
 	gotoxy(50, 8);
 	cout << "NHAP MA LOP BAN MUON THEM SINH VIEN: ";	
 	getline(cin, a);
-	chuan_hoa_chu(a);
-	Class *tam = kt_ma_lop(ds_l, a);
+	StringFormat(a);
+	Class *tam = ClassReturnClass(ds_l, a);
 	if (tam == NULL)
 	{
 		gotoxy(50, 10);
@@ -289,7 +289,7 @@ void nhap_sinh_vien(ClassList &ds_l,StudentList &ds_sv)
 		while (ktra)
 		{
 			int chon;
-			xoa_nen();
+			ClearBackground();
 			gotoxy(55, 11);
 			cout << "1. NHAP LAI MA LOP." ;
 			gotoxy(55, 12);
@@ -307,14 +307,14 @@ void nhap_sinh_vien(ClassList &ds_l,StudentList &ds_sv)
 			case 1:
 			{
 				cin.ignore();
-				nhap_sinh_vien(ds_l, ds_sv);
+				StudentFillInfo(ds_l, ds_sv);
 				break;
 			}
 			case 2:
 			{
-				xoa_nen();
+				ClearBackground();
 				cin.ignore();
-				them_lop(ds_l);
+				ClassAdd(ds_l);
 				break;
 			}
 			case 0:
@@ -340,9 +340,9 @@ void nhap_sinh_vien(ClassList &ds_l,StudentList &ds_sv)
 			cout << "                  ";
 			gotoxy(55, 14);
 			cout << "                  ";
-			Student *p = khoi_tao_node_sv();
+			Student *p = StudentNodeInitialize();
 			// =============== them sinh vien vao ds sinh vien ====================
-			khung_them_sv();
+			FrameStudentAdd();
 			HighLight();
 			gotoxy(50, 10);
 			cout << "***Luu y: Ma sinh vien la duy nhat va cung la id de dang nhap.";
@@ -376,8 +376,8 @@ void nhap_sinh_vien(ClassList &ds_l,StudentList &ds_sv)
 				kt = false;
 				break;
 			}
-			chuan_hoa_chu(ma_sv);
-			while (ktra_trung_ma_sv(ds_sv.pHead, ma_sv) == true)
+			StringFormat(ma_sv);
+			while (StudentIsIDExist(ds_sv.pHead, ma_sv) == true)
 			{
 				HighLight();
 				gotoxy(70, 30);
@@ -415,11 +415,11 @@ void nhap_sinh_vien(ClassList &ds_l,StudentList &ds_sv)
 				kt = false;
 				break;
 			}
-			chuan_hoa_chu(p->studentLastName);
-			chuan_hoa_chu(p->studentFirstName);
-			chuan_hoa_chu(p->gender);
-			//chuan_hoa_chu(p->password);
-			them_1_sinh_vien(tam->studentList.pHead, p);
+			StringFormat(p->studentLastName);
+			StringFormat(p->studentFirstName);
+			StringFormat(p->gender);
+			//StringFormat(p->password);
+			StudentAdd(tam->studentList.pHead, p);
 			tam->studentList.index++;
 			ds_sv.index++;
 			gotoxy(70, 30);
@@ -428,13 +428,13 @@ void nhap_sinh_vien(ClassList &ds_l,StudentList &ds_sv)
 			cout << "THEM SINH VIEN THANH CONG!";
 			gotoxy(60, 35);
 			system("pause");
-			ghi_file_sv(ds_l);
+			StudentFileOutput(ds_l);
 			
 		}
 		}		
 }
 
-int check_ma_sv(ClassList ds_l, string ma)
+int StudentIsExist(ClassList ds_l, string ma)
 {
 	for (int i = 0; i < ds_l.index; i++)
 	{
@@ -453,12 +453,12 @@ int check_ma_sv(ClassList ds_l, string ma)
 	return -1;
 }
 
-void xoa_sv(ClassList &ds_l) // HAM XOA SV
+void StudentDelete(ClassList &ds_l) // HAM XOA SV
 {
 	string ma_sv;
 	cout << "NHAP MA SV CAN XOA: ";
 	getline(cin, ma_sv);
-	if (check_ma_sv(ds_l, ma_sv) < 0)
+	if (StudentIsExist(ds_l, ma_sv) < 0)
 	{
 		cout << "MA SV KHONG TON TAI!";
 	}
@@ -481,7 +481,7 @@ void xoa_sv(ClassList &ds_l) // HAM XOA SV
 	}
 }
 
-void in_ds_sv(StudentList ds_sv, ClassList ds_l)
+void StudentPrintList(StudentList ds_sv, ClassList ds_l)
 {
 	gotoxy(60, 8);
 	cout << "============ DANH SACH SINH VIEN =============";
@@ -510,7 +510,7 @@ void in_ds_sv(StudentList ds_sv, ClassList ds_l)
 	gotoxy(60, 7); cout << "SL: " << j;
 }
 
-void giai_phong_ds_sv(StudentList &ds_sv)
+void StudentFree(StudentList &ds_sv)
 {
 	for (Student *k = ds_sv.pHead; k != NULL; k = k->pNext)
 	{
@@ -518,7 +518,7 @@ void giai_phong_ds_sv(StudentList &ds_sv)
 	}
 }
 
-bool ktra_trung_ma_sv(Student *pHead, string ma)
+bool StudentIsIDExist(Student *pHead, string ma)
 {
 	for (Student *k = pHead; k != NULL; k = k->pNext)
 	{
@@ -531,12 +531,12 @@ bool ktra_trung_ma_sv(Student *pHead, string ma)
 }
 
 //============================ Them mon =========================
-void them_mon(SubjectList &ds_mon)
+void SubjectAdd(SubjectList &ds_mon)
 {
 	Subject p;
 	gotoxy(45, 8);
 	cout << "** NOTE: MA MH TOI DA 15 KTU, TEN MH TOI DA 50 KTU";
-	khung_them_mon();
+	FrameSubjectAdd();
 	gotoxy(73, 14);	
 	HighLight();
 	cout << "NHAP THONG TIN MON HOC";
@@ -549,7 +549,7 @@ void them_mon(SubjectList &ds_mon)
 	{
 		gotoxy(80, 18);
 		getline(cin, p.subjectID);
-		chuan_hoa_chu(p.subjectID);
+		StringFormat(p.subjectID);
 		gotoxy(68, 24);
 		cout << "                                   ";
 		if (p.subjectID.length() > 15)
@@ -560,7 +560,7 @@ void them_mon(SubjectList &ds_mon)
 			gotoxy(80, 18);
 			cout << "                              ";
 		}
-		while (ktra_trung_mon(p.subjectID, ds_mon) >= 0)
+		while (SubjectIsExist(p.subjectID, ds_mon) >= 0)
 		{
 			gotoxy(68, 24);
 			cout << "                                   ";
@@ -577,7 +577,7 @@ void them_mon(SubjectList &ds_mon)
 	{	
 		gotoxy(80, 21);
 		getline(cin, p.subjectName);
-		chuan_hoa_chu(p.subjectName);
+		StringFormat(p.subjectName);
 		if (p.subjectName.length() > 50)
 		{
 			gotoxy(68, 24);
@@ -598,7 +598,7 @@ void them_mon(SubjectList &ds_mon)
 }
 
 //============= săp xếp chèn môn học ===================
-void sap_xep_chen(SubjectList ds_mon) // insertionSort();
+void SubjectSort(SubjectList ds_mon) // insertionSort();
 {
 	int index;
 	string value_ma, value_ten;
@@ -619,7 +619,7 @@ void sap_xep_chen(SubjectList ds_mon) // insertionSort();
 }
 
 //========================= ktra mon da duoc lap hay chua ===============
-int ktra_trung_mon(string a, SubjectList ds_mon)
+int SubjectIsExist(string a, SubjectList ds_mon)
 {
 	for (int i = 0; i < ds_mon.index; i++)
 	{
@@ -645,7 +645,7 @@ int SubjectList_CheckExistID(string a, SubjectList ds_mon)
 
 string SubjectList_ReturnNameOfSubject(SubjectList listToCheck, string subject_ID_ToCheck)
 {
-	chuan_hoa_chu(subject_ID_ToCheck);
+	StringFormat(subject_ID_ToCheck);
 	for (int i = 0; i <= listToCheck.index; i++)
 	{
 		if (subject_ID_ToCheck == listToCheck.subjectList[i].subjectID)
@@ -659,7 +659,7 @@ string SubjectList_ReturnNameOfSubject(SubjectList listToCheck, string subject_I
 string SubjectList_ReturnExistedID(SubjectList ds_mon)
 {
 	string subjectID = "";
-	khung_cau_hoi();
+	FrameQuestionnaire();
 	HighLight();
 	gotoxy(70, 8);
 	cout << "====== NHAP CAU HOI ======";
@@ -667,7 +667,7 @@ string SubjectList_ReturnExistedID(SubjectList ds_mon)
 	gotoxy(80, 10);
 	cout << "MA MH: ";
 	getline(cin, subjectID);
-	chuan_hoa_chu(subjectID);
+	StringFormat(subjectID);
 	while (SubjectList_CheckExistID(subjectID, ds_mon) == -1)
 	{
 		gotoxy(68, 13);
@@ -679,22 +679,22 @@ string SubjectList_ReturnExistedID(SubjectList ds_mon)
 		cout << "                              ";
 		gotoxy(87, 10);
 		getline(cin, subjectID);
-		chuan_hoa_chu(subjectID);
+		StringFormat(subjectID);
 	}
 	return subjectID;
 }
 
 //========================== Xoa mon hoc ==================
-void xoa_mon(SubjectList &ds_mon)
+void SubjectDelete(SubjectList &ds_mon)
 {
 	string a;
 	Normal();
 	gotoxy(50, 8);
 	cout << "NHAP MA MON HOC BAN MUON XOA: ";
 	getline(cin, a);
-	chuan_hoa_chu(a);
+	StringFormat(a);
 	//===========ktra mon hoc da ton tai hay chua ================
-	int ktra_a = ktra_trung_mon(a, ds_mon);
+	int ktra_a = SubjectIsExist(a, ds_mon);
 	if (ktra_a < 0)
 	{
 		HighLight();
@@ -713,21 +713,21 @@ void xoa_mon(SubjectList &ds_mon)
 //		Subject tam = ds_mon.subjectList[ds_mon.index - 1];
 		ds_mon.index--;
 //		delete tam;
-		ghi_file_mon(ds_mon);
+		SubjectFileOutput(ds_mon);
 		gotoxy(60, 10);
 		cout << "XOA THANH CONG!";
 	}
 }
 //========================= Hieu chinh mon hoc ===================
-void hieu_chinh_mon(SubjectList &ds_mon)
+void SubjectUpdate(SubjectList &ds_mon)
 {
 	string a;
 	Normal();
 	gotoxy(50, 8);
 	cout << "NHAP MA MON BAN CAN HIEU CHINH: ";
 	getline(cin, a);
-	chuan_hoa_chu(a);
-	int ktra = ktra_trung_mon(a, ds_mon);
+	StringFormat(a);
+	int ktra = SubjectIsExist(a, ds_mon);
 	if (ktra < 0)
 	{
 		HighLight();
@@ -742,16 +742,16 @@ void hieu_chinh_mon(SubjectList &ds_mon)
 		cout << "NHAP TEN MON: "; 
 		gotoxy(80, 10);
 		getline(cin, ds_mon.subjectList[ktra].subjectName);
-		chuan_hoa_chu(ds_mon.subjectList[ktra].subjectID);
-		chuan_hoa_chu(ds_mon.subjectList[ktra].subjectName);
+		StringFormat(ds_mon.subjectList[ktra].subjectID);
+		StringFormat(ds_mon.subjectList[ktra].subjectName);
 		gotoxy(65, 13); HighLight();
 		cout << "DA~ THAY DOI THONG TIN MON HOC.";
-		sap_xep_chen(ds_mon);
-		ghi_file_mon(ds_mon);
+		SubjectSort(ds_mon);
+		SubjectFileOutput(ds_mon);
 	}
 }
 //========================== xuat ds lop =========================
-void xuat_mon(SubjectList ds_mon)
+void SubjectPrintList(SubjectList ds_mon)
 {
 	HighLight();
 	gotoxy(60, 10);
@@ -774,7 +774,7 @@ void xuat_mon(SubjectList ds_mon)
 }
 
 //========================= giai phong bo nho mon ================
-//void giai_phong_bo_nho_mon(SubjectList &ds_mon)
+//void SubjectFree(SubjectList &ds_mon)
 //{
 //	for (int i = 0; i < ds_mon.index; i++)
 //	{
@@ -783,7 +783,7 @@ void xuat_mon(SubjectList ds_mon)
 //}
 
 // ================= nhập câu hỏi =====================
-void QuestionnaireList_TransferTreeToArray(tree t, Questionnaire *arrayListOfQuestion[], int &currentIndex)
+void QuestionnaireTransferTreeToArray(tree t, Questionnaire *arrayListOfQuestion[], int &currentIndex)
 {
 	if (t != NULL)
 	{
@@ -799,12 +799,12 @@ void QuestionnaireList_TransferTreeToArray(tree t, Questionnaire *arrayListOfQue
 		arrayListOfQuestion[currentIndex]->correct = t->correct;
 		arrayListOfQuestion[currentIndex]->answerCorrect = t->answerCorrect;
 		currentIndex++;
-		QuestionnaireList_TransferTreeToArray(t->pLeft, arrayListOfQuestion, currentIndex);
-		QuestionnaireList_TransferTreeToArray(t->pRight, arrayListOfQuestion, currentIndex);
+		QuestionnaireTransferTreeToArray(t->pLeft, arrayListOfQuestion, currentIndex);
+		QuestionnaireTransferTreeToArray(t->pRight, arrayListOfQuestion, currentIndex);
 	}
 }
 
-void QuestionnaireList_PrintArray(Questionnaire *arrayListOfQuestion[], int numberOfElements)
+void QuestionnairePrintArray(Questionnaire *arrayListOfQuestion[], int numberOfElements)
 {
 	for (int currentIndex = 0; currentIndex < numberOfElements; currentIndex++)
 	{
@@ -822,7 +822,7 @@ void QuestionnaireList_PrintArray(Questionnaire *arrayListOfQuestion[], int numb
 	}
 }
 
-void QuestionnaireList_FreeAllocateArray(Questionnaire *ds[], int &nds)
+void QuestionnaireFreeArray(Questionnaire *ds[], int &nds)
 {
 	for (int i = 0; i < nds; i++)
 	{
@@ -831,9 +831,9 @@ void QuestionnaireList_FreeAllocateArray(Questionnaire *ds[], int &nds)
 	nds = 0;
 }
 
-void Questionnaire_InputQuestion(QuestionnaireList &ds_cau, SubjectList &ds_mon)
+void QuestionnaireFillInfo(QuestionnaireList &ds_cau, SubjectList &ds_mon)
 {
-	Questionnaire *p = Questionnaire_CreateNode(ds_cau.questionList);
+	Questionnaire *p = QuestionnaireCreateNode(ds_cau.questionList);
 	p->subjectID = SubjectList_ReturnExistedID(ds_mon);
 	do
 	{
@@ -870,18 +870,18 @@ void Questionnaire_InputQuestion(QuestionnaireList &ds_cau, SubjectList &ds_mon)
 		getline(cin, p->C);
 		gotoxy(88, 22);
 		getline(cin, p->D);
-		chuan_hoa_chu(p->content);
-		chuan_hoa_chu(p->A);
-		chuan_hoa_chu(p->B);
-		chuan_hoa_chu(p->C);
-		chuan_hoa_chu(p->D);
+		StringFormat(p->content);
+		StringFormat(p->A);
+		StringFormat(p->B);
+		StringFormat(p->C);
+		StringFormat(p->D);
 		do
 		{
 			gotoxy(85, 27);
 			cout << "    ";
 			gotoxy(85, 27);
 			cin >> p->correct;
-			up_case_char(p->correct);
+			ToUpper(p->correct);
 			if (p->correct != 'A' && p->correct != 'B' && p->correct != 'C' && p->correct != 'D')
 			{
 				gotoxy(65, 30);
@@ -901,70 +901,45 @@ void Questionnaire_InputQuestion(QuestionnaireList &ds_cau, SubjectList &ds_mon)
 	cout << "                                           ";
 	gotoxy(77, 30);
 	cout << "ADD COMPLETED!";
-	Questionnaire_AcceptAnswer(p);
-	ds_cau.questionList = QuestionnaireList_Add(ds_cau.questionList, p);
+	QuestionnaireAcceptAnswer(p);
+	ds_cau.questionList = QuestionnaireAdd(ds_cau.questionList, p);
 	cin.ignore();
 }
 
-void QuestionnaireList_BalanceTree(Questionnaire *&t, int ID_To_Delete)
+void QuestionnaireBalanceTree(Questionnaire *&t, int ID_To_Delete)
 {
-	t->height = returnMaxNumber(Questionnaire_GetHeight(t->pLeft), Questionnaire_GetHeight(t->pRight)) + 1;
-	int balance = Questionnaire_GetBalanceFactor(t);
+	t->height = QuestionnaireReturnMaxNumber(QuestionnaireGetHeight(t->pLeft), QuestionnaireGetHeight(t->pRight)) + 1;
+	int balance = QuestionnaireGetBalanceFactor(t);
 	if (balance > 1)
 	{ // left tree has more node
 		if (ID_To_Delete > t->pLeft->questionnaireID)
 		{
 
-			t = QuestionnaireList_LeftRotation(t->pLeft);
+			t = QuestionnaireLeftRotation(t->pLeft);
 		}
-		t = QuestionnaireList_RightRotation(t);
+		t = QuestionnaireRightRotation(t);
 	}
 	else if (balance < -1)
 	{
 		if (ID_To_Delete < t->pRight->questionnaireID)
 		{
-			t = QuestionnaireList_RightRotation(t->pRight);
+			t = QuestionnaireRightRotation(t->pRight);
 		}
-		t = QuestionnaireList_LeftRotation(t);
+		t = QuestionnaireLeftRotation(t);
 	}
 }
 
-void QuestionnaireList_FreeTree(Questionnaire *nodeToChange)
+void QuestionnaireFree(Questionnaire *nodeToChange)
 {
 	if (nodeToChange == NULL)
 		return;
-	QuestionnaireList_FreeTree(nodeToChange->pLeft);
-	QuestionnaireList_FreeTree(nodeToChange->pRight);
-	QuestionnaireList_FreeTree(nodeToChange);
+	QuestionnaireFree(nodeToChange->pLeft);
+	QuestionnaireFree(nodeToChange->pRight);
+	QuestionnaireFree(nodeToChange);
 }
 
-
-
-//bool ktra_trung_id(tree t, int id_cau)
-//{
-//	if (t == NULL)
-//	{
-//		return false;
-//	}
-//	else
-//	{
-//		if (t->questionnaireID == id_cau)
-//		{
-//			return true;
-//		}
-//		else if (t->questionnaireID < id_cau)
-//		{
-//			ktra_trung_id(t->pRight, id_cau);
-//		}
-//		else
-//		{
-//			ktra_trung_id(t->pLeft, id_cau);
-//		}
-//	}
-//}
-
 // =============== xoa cau hoi =======================
-Questionnaire *QuestionnaireList_DeleteQuestion(Questionnaire *nodeToDelete, int question_ID_ToDelete)
+Questionnaire *QuestionnaireDelete(Questionnaire *nodeToDelete, int question_ID_ToDelete)
 {
 	if (nodeToDelete == NULL)
 		return NULL;
@@ -991,15 +966,15 @@ Questionnaire *QuestionnaireList_DeleteQuestion(Questionnaire *nodeToDelete, int
 		return maxNode;
 	}
 	if (question_ID_ToDelete < nodeToDelete->questionnaireID)
-		nodeToDelete->pLeft = QuestionnaireList_DeleteQuestion(nodeToDelete->pLeft, question_ID_ToDelete);
+		nodeToDelete->pLeft = QuestionnaireDelete(nodeToDelete->pLeft, question_ID_ToDelete);
 	else
-		nodeToDelete->pRight = QuestionnaireList_DeleteQuestion(nodeToDelete->pRight, question_ID_ToDelete);
+		nodeToDelete->pRight = QuestionnaireDelete(nodeToDelete->pRight, question_ID_ToDelete);
 
-	QuestionnaireList_BalanceTree(nodeToDelete, question_ID_ToDelete);
+	QuestionnaireBalanceTree(nodeToDelete, question_ID_ToDelete);
 	return nodeToDelete;
 }
 
-void hoan_vi_2_cau(Questionnaire *a, Questionnaire *b)
+void QuestionnaireSwap(Questionnaire *a, Questionnaire *b)
 {
 	Questionnaire *tam = new Questionnaire;
 	tam->questionnaireID = a->questionnaireID;
@@ -1032,14 +1007,14 @@ void hoan_vi_2_cau(Questionnaire *a, Questionnaire *b)
 }
 
 //============= hieu chinh cau hoi ==========
-void Questionnaire_Update(tree t, int IDQuestionToCheck)
+void QuestionnaireUpdate(tree t, int IDQuestionToCheck)
 {
 	if (t != NULL)
 	{
 		if (t->questionnaireID == IDQuestionToCheck)
 		{
 			string subjectID;
-			khung_cau_hoi();
+			FrameQuestionnaire();
 			HighLight();
 			gotoxy(70, 8);
 			cout << "==== FIX QUESTION ====";
@@ -1079,11 +1054,11 @@ void Questionnaire_Update(tree t, int IDQuestionToCheck)
 				getline(cin, t->C);
 				gotoxy(88, 22);
 				getline(cin, t->D);
-				chuan_hoa_chu(t->content);
-				chuan_hoa_chu(t->A);
-				chuan_hoa_chu(t->B);
-				chuan_hoa_chu(t->C);
-				chuan_hoa_chu(t->D);
+				StringFormat(t->content);
+				StringFormat(t->A);
+				StringFormat(t->B);
+				StringFormat(t->C);
+				StringFormat(t->D);
 
 				do
 				{
@@ -1091,7 +1066,7 @@ void Questionnaire_Update(tree t, int IDQuestionToCheck)
 					cout << "    ";
 					gotoxy(85, 27);
 					cin >> t->correct;
-					up_case_char(t->correct);
+					ToUpper(t->correct);
 					if (t->correct != 'A' && t->correct != 'B' && t->correct != 'C' && t->correct != 'D')
 					{
 						gotoxy(65, 30);
@@ -1110,20 +1085,20 @@ void Questionnaire_Update(tree t, int IDQuestionToCheck)
 			cout << "                                           ";
 			gotoxy(77, 30);
 			cout << "UPDATE COMPLETE!";
-			Questionnaire_AcceptAnswer(t);
+			QuestionnaireAcceptAnswer(t);
 		}
 		else if (t->questionnaireID > IDQuestionToCheck)
 		{
-			Questionnaire_Update(t->pLeft, IDQuestionToCheck);
+			QuestionnaireUpdate(t->pLeft, IDQuestionToCheck);
 		}
 		else if (t->questionnaireID < IDQuestionToCheck)
 		{
-			Questionnaire_Update(t->pRight, IDQuestionToCheck);
+			QuestionnaireUpdate(t->pRight, IDQuestionToCheck);
 		}
 	}
 }
 
-void QuestionnaireList_ExecuteFoundDeleteID(QuestionnaireList &ds_cau, bool &checkID, bool &keyFlag)
+void QuestionnaireExecuteFoundDelete(QuestionnaireList &ds_cau, bool &checkID, bool &keyFlag)
 {
 
 	int a = -1;
@@ -1139,7 +1114,7 @@ void QuestionnaireList_ExecuteFoundDeleteID(QuestionnaireList &ds_cau, bool &che
 	}
 	else
 	{
-		bool kt = QuestionnaireList_CheckExistID(ds_cau.questionList, a);
+		bool kt = QuestionnaireIsIDExist(ds_cau.questionList, a);
 		if (kt == true)
 		{
 			char confirm;
@@ -1152,8 +1127,8 @@ void QuestionnaireList_ExecuteFoundDeleteID(QuestionnaireList &ds_cau, bool &che
 			cin >> confirm;
 			if (confirm == 'y' || confirm == 'Y')
 			{
-				xoa_nen();
-				ds_cau.questionList = QuestionnaireList_DeleteQuestion(ds_cau.questionList, a);
+				ClearBackground();
+				ds_cau.questionList = QuestionnaireDelete(ds_cau.questionList, a);
 				checkID = true;
 			}
 			else
@@ -1166,12 +1141,12 @@ void QuestionnaireList_ExecuteFoundDeleteID(QuestionnaireList &ds_cau, bool &che
 			gotoxy(50, 11);
 			cout << "ID NOT FOUND!";
 			Sleep(1000);
-			clearInputID();
+			ClearInputID();
 		}
 	}
 }
 
-void QuestionnaireList_ExecuteFoundUpdateID(QuestionnaireList &ds_cau, bool &checkID, bool &keyFlag)
+void QuestionnaireExecuteFoundUpdate(QuestionnaireList &ds_cau, bool &checkID, bool &keyFlag)
 {
 
 	int a = -1;
@@ -1187,27 +1162,27 @@ void QuestionnaireList_ExecuteFoundUpdateID(QuestionnaireList &ds_cau, bool &che
 	}
 	else
 	{
-		bool kt = QuestionnaireList_CheckExistID(ds_cau.questionList, a);
+		bool kt = QuestionnaireIsIDExist(ds_cau.questionList, a);
 		if (kt == true)
 		{
 			checkID = true;
 			gotoxy(50, 11);
 			cout << "                 ";
 			cin.ignore();
-			xoa_nen();
-			Questionnaire_Update(ds_cau.questionList, a);
+			ClearBackground();
+			QuestionnaireUpdate(ds_cau.questionList, a);
 		}
 		else
 		{
 			gotoxy(50, 11);
 			cout << "ID NOT FOUND!";
 			Sleep(1000);
-			clearInputID();
+			ClearInputID();
 		}
 	}
 }
 
-int QuestionnaireList_GetNumberOfQuestions(Questionnaire *listToCheck)
+int QuestionnaireGetTotalQuestions(Questionnaire *listToCheck)
 {
 	int numberOfQuestions = 1; //current node is one element
 	if (listToCheck == NULL)
@@ -1216,16 +1191,16 @@ int QuestionnaireList_GetNumberOfQuestions(Questionnaire *listToCheck)
 	}
 	else
 	{
-		numberOfQuestions += QuestionnaireList_GetNumberOfQuestions(listToCheck->pLeft);
-		numberOfQuestions += QuestionnaireList_GetNumberOfQuestions(listToCheck->pRight);
+		numberOfQuestions += QuestionnaireGetTotalQuestions(listToCheck->pLeft);
+		numberOfQuestions += QuestionnaireGetTotalQuestions(listToCheck->pRight);
 	}
 	return numberOfQuestions;
 }
 
-void QuestionnaireList_PrintListOfQuestions(QuestionnaireList questionListToCheck, Questionnaire *ds[], SubjectList subjectListToCheck)
+void QuestionnairePrintList(QuestionnaireList questionListToCheck, Questionnaire *ds[], SubjectList subjectListToCheck)
 {
 	bool stopFlag = false;
-	int numberOfQuestions = QuestionnaireList_GetNumberOfQuestions(questionListToCheck.questionList);
+	int numberOfQuestions = QuestionnaireGetTotalQuestions(questionListToCheck.questionList);
 	int numberOfPageShow_3_Questions = numberOfQuestions / 3;
 	int totalPages = 0;
 	(numberOfQuestions % 3 == 0) ? (totalPages = numberOfPageShow_3_Questions) : (totalPages = numberOfPageShow_3_Questions + 1);
@@ -1233,7 +1208,7 @@ void QuestionnaireList_PrintListOfQuestions(QuestionnaireList questionListToChec
 	int startMultiply = 0;
 	while (stopFlag != true)
 	{
-		xoa_nen();
+		ClearBackground();
 		if (questionListToCheck.questionList == NULL)
 		{
 			gotoxy(80, 20);
@@ -1304,16 +1279,16 @@ void QuestionnaireList_PrintListOfQuestions(QuestionnaireList questionListToChec
 	}
 }
 
-void QuestionnaireList_Print_ID_List(QuestionnaireList questionListToCheck, Questionnaire *arrayQuestions[], bool &keyFlag, int &currentTask)
+void QuestionnairePrintIDList(QuestionnaireList questionListToCheck, Questionnaire *arrayQuestions[], bool &keyFlag, int &currentTask)
 {
 	bool stopFlag = false;
-	int numberOfQuestions = QuestionnaireList_GetNumberOfQuestions(questionListToCheck.questionList);
+	int numberOfQuestions = QuestionnaireGetTotalQuestions(questionListToCheck.questionList);
 	int numberOfPageShow_6_Questions = numberOfQuestions / 6;
 	int totalPages = 0;
 	(numberOfQuestions % 6 == 0) ? (totalPages = numberOfPageShow_6_Questions) : (totalPages = numberOfPageShow_6_Questions + 1);
 	int currentPage = 1;
 	int startMultiply = 0;
-	xoa_nen();
+	ClearBackground();
 	if (questionListToCheck.questionList != NULL)
 	{
 		gotoxy(73, 12);
@@ -1329,7 +1304,7 @@ void QuestionnaireList_Print_ID_List(QuestionnaireList questionListToCheck, Ques
 	cout << "==================================================================";
 	while (stopFlag != true)
 	{
-		clearPrint_ID_List();
+		ClearPrintIDList();
 		if (questionListToCheck.questionList == NULL)
 		{
 			gotoxy(75, 23);
@@ -1401,7 +1376,7 @@ void QuestionnaireList_Print_ID_List(QuestionnaireList questionListToCheck, Ques
 	}
 }
 
-int dem_sl_cau(string a, Questionnaire *ds[], int &nds)
+int QuestionnaireTotalOfOneSubject(string a, Questionnaire *ds[], int &nds)
 {
 	int sl_cau = 0;
 	for (int i = 0; i < nds; i++)
@@ -1413,7 +1388,7 @@ int dem_sl_cau(string a, Questionnaire *ds[], int &nds)
 }
 
 // ====== hoán đổi câu hỏi =============
-void shuffle_array(Questionnaire *ds[], int nds)
+void QuestionnaireArrayShuffer(Questionnaire *ds[], int nds)
 {
 	int min_position;
 	int max_position = nds - 1;
@@ -1423,13 +1398,13 @@ void shuffle_array(Questionnaire *ds[], int nds)
 	{
 		min_position = i + 1;
 		swap_position = rand() % (max_position - min_position + 1) + min_position;
-		hoan_vi_2_cau(ds[i], ds[swap_position]);
+		QuestionnaireSwap(ds[i], ds[swap_position]);
 		i++;
 	}
 }
 
 
-bool QuestionnaireList_CheckExistID(Questionnaire *currentQuestion, int questionnaireID)
+bool QuestionnaireIsIDExist(Questionnaire *currentQuestion, int questionnaireID)
 {
 	if (currentQuestion == NULL)
 	{
@@ -1443,30 +1418,30 @@ bool QuestionnaireList_CheckExistID(Questionnaire *currentQuestion, int question
 		}
 		else if (currentQuestion->questionnaireID < questionnaireID)
 		{
-			QuestionnaireList_CheckExistID(currentQuestion->pRight, questionnaireID);
+			QuestionnaireIsIDExist(currentQuestion->pRight, questionnaireID);
 		}
 		else
 		{
-			QuestionnaireList_CheckExistID(currentQuestion->pLeft, questionnaireID);
+			QuestionnaireIsIDExist(currentQuestion->pLeft, questionnaireID);
 		}
 	}
 }
 
-int Questionnaire_CreateRandomID(Questionnaire *t)
+int QuestionnaireRandomID(Questionnaire *t)
 {
 	int cauHoiID; // 000->999;
 	srand(time(NULL));
 	do
 	{
 		cauHoiID = rand() % (1000 - 1 + 1) + 1;
-	} while (QuestionnaireList_CheckExistID(t, cauHoiID));
+	} while (QuestionnaireIsIDExist(t, cauHoiID));
 	return cauHoiID;
 }
 
-Questionnaire *Questionnaire_CreateNode(tree treeCheckingExist)
+Questionnaire *QuestionnaireCreateNode(tree treeCheckingExist)
 {
 	Questionnaire *p = new Questionnaire;
-	p->questionnaireID = Questionnaire_CreateRandomID(treeCheckingExist);
+	p->questionnaireID = QuestionnaireRandomID(treeCheckingExist);
 	p->height = 1;
 	p->pLeft = NULL;
 	p->pRight = NULL;
@@ -1486,8 +1461,8 @@ check_mon:
 	gotoxy(50, 8);
 	cout << "NHAP MA MON BAN MUON THI: ";
 	getline(cin, a);
-	chuan_hoa_chu(a);
-	if (ktra_trung_mon(a, ds_mon) < 0)
+	StringFormat(a);
+	if (SubjectIsExist(a, ds_mon) < 0)
 	{
 		gotoxy(50, 10);
 		cout << "MON HOC KHONG TON TAI!";
@@ -1496,7 +1471,7 @@ check_mon:
 		goto check_mon;
 	}
 	int chon;	
-	int sl_cau = dem_sl_cau(a, ds, nds);
+	int sl_cau = QuestionnaireTotalOfOneSubject(a, ds, nds);
 	bool kt = true;
 	//while (kt == true)
 	//{
@@ -1525,8 +1500,8 @@ check_mon:
 
 void bo_de(Questionnaire *ds[], int &nds, string a, int n)
 {
-	xoa_nen();
-	khung_cau_hoi();
+	ClearBackground();
+	FrameQuestionnaire();
 	cin.ignore();
 	Questionnaire *ds_luu[1000];
 	char tl[1000];
@@ -1542,9 +1517,9 @@ void bo_de(Questionnaire *ds[], int &nds, string a, int n)
 				break;
 			}
 	}
-	//shuffle_array(ds, nds);
-	shuffle_array(monthi, n);
-	khung_cau_hoi();
+	//QuestionnaireArrayShuffer(ds, nds);
+	QuestionnaireArrayShuffer(monthi, n);
+	FrameQuestionnaire();
 	HighLight();
 	gotoxy(70, 8);
 	//create a array of question for the chosen subject
@@ -1584,7 +1559,7 @@ void bo_de(Questionnaire *ds[], int &nds, string a, int n)
 			cout << "    ";
 			gotoxy(85, 27);
 			cin >> tl[i];
-			up_case_char(tl[i]);
+			ToUpper(tl[i]);
 			string cau_tl;
 			if (tl[i] == 'A')
 			{
@@ -1624,12 +1599,12 @@ void bo_de(Questionnaire *ds[], int &nds, string a, int n)
 //		}
 	}
 //	stop = 0;
-	xoa_nen();
+	ClearBackground();
 	
 	bool kt = true;
 	while (kt == true)
 	{
-		xoa_nen();
+		ClearBackground();
 		gotoxy(50, 9);
 		cout << "SO DIEM BAN DAT DUOC LA: "<< point << "/" << n << ".";
 		gotoxy(50, 10);
@@ -1646,7 +1621,7 @@ void bo_de(Questionnaire *ds[], int &nds, string a, int n)
 		{
 		case 1:
 		{
-			xoa_nen();
+			ClearBackground();
 			gotoxy(50, 8);
 			cout << "==================================================================";
 			gotoxy(50, 9);
@@ -1701,8 +1676,8 @@ void bo_de(Questionnaire *ds[], int &nds, string a, int n)
 // 	gotoxy(50, 8);
 // 	cout << "NHAP MA MON BAN MUON THI: ";
 // 	getline(cin, a);
-// 	chuan_hoa_chu(a);
-// 	if (ktra_trung_mon(a, ds_mon) < 0)
+// 	StringFormat(a);
+// 	if (SubjectIsExist(a, ds_mon) < 0)
 // 	{
 // 		gotoxy(50, 10);
 // 		cout << "MON HOC KHONG TON TAI!";
@@ -1718,7 +1693,7 @@ void bo_de(Questionnaire *ds[], int &nds, string a, int n)
 // 	cout << "NHAP SO LUONG CAU HOI : ";
 // 	gotoxy(76, 9);
 // 	cin >> so_cau;
-// 	int sl_cau = dem_sl_cau(a, ds, nds);
+// 	int sl_cau = QuestionnaireTotalOfOneSubject(a, ds, nds);
 // 	if (sl_cau < so_cau)
 // 	{
 // 		gotoxy(55, 17);
@@ -1794,18 +1769,18 @@ void bo_de(Questionnaire *ds[], int &nds, string a, int n)
 // void bo_de_sv(DS_LOP &ds_l,string ma_sv,cau_hoi_thi *ds[], int &nds, string ma_mh, int n, int hour, int minute, int second)
 // {
 
-// 	xoa_nen();
-// 	khung_cau_hoi();
+// 	ClearBackground();
+// 	FrameQuestionnaire();
 // 	cin.ignore();
 // 	cau_hoi_thi *ds_luu[1000];
 // 	char tl[1000];
 // 	int point = 0;
 // 	thread clock;
-// 	shuffle_array(ds, nds);
+// 	QuestionnaireArrayShuffer(ds, nds);
 // 	clock = thread(printClock, hour, minute, second);
 // 	while (!_kbhit() && stop)
 // 	{
-// 		khung_cau_hoi();
+// 		FrameQuestionnaire();
 // 		HighLight();		
 // 		gotoxy(70, 8);
 // 		cout << "====== DE THI ======";
@@ -1845,7 +1820,7 @@ void bo_de(Questionnaire *ds[], int &nds, string a, int n)
 // 				cout << "    ";
 // 				gotoxy(85, 27);
 // 				cin >> tl[i];
-// 				up_case_char(tl[i]);
+// 				ToUpper(tl[i]);
 // 				string cau_tl;
 // 				if (tl[i] == 'A')
 // 				{
@@ -1888,14 +1863,14 @@ void bo_de(Questionnaire *ds[], int &nds, string a, int n)
 // 	stop = 0;
 // 	clock.join();
 
-// 	xoa_nen();
+// 	ClearBackground();
 // 	float diem = (float(point) / float(n)) * 10;
 // 	them_diem_thi(ds_l, diem, ma_sv, ma_mh);
 // 	ghi_file_diem(ds_l);
 // 	bool kt = true;
 // 	while (kt == true)
 // 	{
-// 		xoa_nen();
+// 		ClearBackground();
 // 		gotoxy(50, 9);
 // 		cout << "SO DIEM BAN DAT DUOC LA: " << diem << "(" << point << "/" << n << ").";
 // 		gotoxy(50, 10);
@@ -1912,7 +1887,7 @@ void bo_de(Questionnaire *ds[], int &nds, string a, int n)
 // 		{
 // 		case 1:
 // 		{
-// 			xoa_nen();
+// 			ClearBackground();
 // 			gotoxy(50, 8);
 // 			cout << "==================================================================";
 // 			gotoxy(50, 9);

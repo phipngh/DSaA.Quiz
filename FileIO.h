@@ -4,7 +4,7 @@
 #include "Graphic.h"
 
 //===================== doc file danh sach lop =======================
-void doc_file_ds_lop(ClassList &ds_l)
+void ClassFileInput(ClassList &ds_l)
 {
 	ifstream filein;
 	filein.open("lop.txt", ios_base ::in);
@@ -19,7 +19,7 @@ void doc_file_ds_lop(ClassList &ds_l)
 }
 
 //===================== doc file danh sach mon =======================
-void doc_file_ds_mon(SubjectList &ds_mon)
+void SubjectFileInput(SubjectList &ds_mon)
 {
 	ifstream filein;
 	filein.open("mon.txt", ios_base::in);
@@ -33,7 +33,7 @@ void doc_file_ds_mon(SubjectList &ds_mon)
 }
 
 //===================== doc file danh sach sv =======================
-void doc_file_ds_sv(ClassList &ds_l)
+void StudentFileInput(ClassList &ds_l)
 {
 	ifstream filein;
 	filein.open("sinhvien.txt", ios_base::in);
@@ -43,25 +43,25 @@ void doc_file_ds_sv(ClassList &ds_l)
 		filein.ignore();
 		for (int j=0;j< ds_l.classList[i]->studentList.index; j++)
 		{
-			Student *p = khoi_tao_node_sv();
+			Student *p = StudentNodeInitialize();
 			getline(filein, p->studentID, ',');
 			getline(filein, p->studentLastName, ',');
 			getline(filein, p->studentFirstName, ',');
 			getline(filein, p->gender, ',');
 			getline(filein, p->password);
-			chuan_hoa_chu(p->studentID);
-			chuan_hoa_chu(p->studentLastName);
-			chuan_hoa_chu(p->studentFirstName);
-			chuan_hoa_chu(p->gender);
-			//chuan_hoa_chu(p->password);
-			them_1_sinh_vien(ds_l.classList[i]->studentList.pHead, p);
+			StringFormat(p->studentID);
+			StringFormat(p->studentLastName);
+			StringFormat(p->studentFirstName);
+			StringFormat(p->gender);
+			//StringFormat(p->password);
+			StudentAdd(ds_l.classList[i]->studentList.pHead, p);
 		}
 	}
 	filein.close();
 }
 
 //===================== doc file danh sach cau hoi =======================
-void QuestionnaireList_ReadFile(QuestionnaireList &ds_cau)
+void QuestionnaireFileInput(QuestionnaireList &ds_cau)
 {
 	ifstream filein;
 	filein.open("questionnaireTest.txt", ios_base::in);
@@ -69,7 +69,7 @@ void QuestionnaireList_ReadFile(QuestionnaireList &ds_cau)
 	string currentLine = "";
 	while (filein.eof() != true)
 	{
-		Questionnaire *x = Questionnaire_CreateNodeWithoutID();
+		Questionnaire *x = QuestionnaireCreateNodeWithoutID();
 		filein >> x->questionnaireID;
 		filein.ignore();
 		getline(filein, x->subjectID);
@@ -81,22 +81,22 @@ void QuestionnaireList_ReadFile(QuestionnaireList &ds_cau)
 		getline(filein, currentLine, '.');
 		x->correct = currentLine[0];
 		getline(filein, x->answerCorrect);
-		chuan_hoa_chu(x->subjectID);
-		chuan_hoa_chu(x->content);
-		chuan_hoa_chu(x->A);
-		chuan_hoa_chu(x->B);
-		chuan_hoa_chu(x->C);
-		chuan_hoa_chu(x->D);
-		up_case_char(x->correct);
-		Questionnaire_AcceptAnswer(x);
-		ds_cau.questionList = QuestionnaireList_Add(ds_cau.questionList, x);
+		StringFormat(x->subjectID);
+		StringFormat(x->content);
+		StringFormat(x->A);
+		StringFormat(x->B);
+		StringFormat(x->C);
+		StringFormat(x->D);
+		ToUpper(x->correct);
+		QuestionnaireAcceptAnswer(x);
+		ds_cau.questionList = QuestionnaireAdd(ds_cau.questionList, x);
 	}
 	filein.close();
 }
 
 
 //===================== doc file danh sach lop =======================
-void ghi_file_lop(ClassList &ds_l)
+void ClassFileOutput(ClassList &ds_l)
 {
 	ofstream fileout;
 	//fileout.open("lop.txt", ios_base::out);
@@ -114,7 +114,7 @@ void ghi_file_lop(ClassList &ds_l)
 }
 
 //===================== doc file danh sach mon =======================
-void ghi_file_mon(SubjectList &ds_mon)
+void SubjectFileOutput(SubjectList &ds_mon)
 {
 	ofstream fileout;
 	fileout.open("mon.txt", ios_base::trunc);
@@ -131,7 +131,7 @@ void ghi_file_mon(SubjectList &ds_mon)
 }
 
 //===================== doc file danh sach sv =======================
-void ghi_file_sv(ClassList &ds_l)
+void StudentFileOutput(ClassList &ds_l)
 {
 	ofstream fileout;
 	fileout.open("sinhvien.txt", ios_base::out);
@@ -160,7 +160,7 @@ void ghi_file_sv(ClassList &ds_l)
 }
 
 //===================== doc file danh sach cau hoi =======================
-void QuestionnaireList_WriteCurrentQuestion(Questionnaire *questionListToText, ofstream &fileout)
+void QuestionnaireWriteCurrentQuestion(Questionnaire *questionListToText, ofstream &fileout)
 {
 	fileout << questionListToText->questionnaireID << endl;
 	fileout << questionListToText->subjectID << endl;
@@ -172,18 +172,18 @@ void QuestionnaireList_WriteCurrentQuestion(Questionnaire *questionListToText, o
 	fileout << questionListToText->correct << "." << questionListToText->answerCorrect << endl;
 }
 
-void QuestionnaireList_WriteFile(Questionnaire *&questionListToText, ofstream &fileout)
+void QuestionnaireFileOutput(Questionnaire *&questionListToText, ofstream &fileout)
 {
 	if (questionListToText == NULL)
 	{
 		return;
 	}
-	QuestionnaireList_WriteCurrentQuestion(questionListToText, fileout);
-	QuestionnaireList_WriteFile(questionListToText->pLeft, fileout);
-	QuestionnaireList_WriteFile(questionListToText->pRight, fileout);
+	QuestionnaireWriteCurrentQuestion(questionListToText, fileout);
+	QuestionnaireFileOutput(questionListToText->pLeft, fileout);
+	QuestionnaireFileOutput(questionListToText->pRight, fileout);
 }
 
-void QuestionnaireList_CopyOneFileToAnother()
+void QuestionnaireCopyOneFileToAnother()
 {
 	string line = "";
 	ifstream filein;
