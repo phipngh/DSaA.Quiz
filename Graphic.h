@@ -430,4 +430,14 @@ void ViewLogin()
 	HighLight();
 	FrameLogin();
 }
+
+void ClearInstructionLine(){
+	int x = 60, y = 16 ;
+	while (x < 100)
+	{
+		gotoxy(x, y);
+			cout << " ";
+		x++;
+	}
+}	
 #endif
