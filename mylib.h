@@ -10,6 +10,10 @@
 #include <direct.h>
 #include <sstream>
 
+#include<bits/stdc++.h>
+#include <stdlib.h>
+#include <time.h>
+
 #define Enter 13
 #define RIGHT 77
 #define LEFT 75

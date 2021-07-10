@@ -56,6 +56,17 @@ void ClearPrintIDList()
 	}
 }
 
+void ClearQuestionInputNumber()
+{
+	int x = 50, y = 9;
+	while(y < 13)
+	{
+		gotoxy(x,y);
+		for (int i = 0; i < 60; i++)
+			cout<<" ";
+		y++;
+	}
+}
 
 void FrameClassAdd()
 {

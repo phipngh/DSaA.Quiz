@@ -1146,7 +1146,7 @@ void QuestionnaireExecuteFoundDelete(QuestionnaireList &ds_cau, bool &checkID, b
 
 void QuestionnaireExecuteFoundUpdate(QuestionnaireList &ds_cau, bool &checkID, bool &keyFlag)
 {
-
+input:
 	int a = -1;
 	gotoxy(80, 9);
 	cout << "PRESS 0 TO CHECK THE LIST AGAIN";
@@ -1176,6 +1176,7 @@ void QuestionnaireExecuteFoundUpdate(QuestionnaireList &ds_cau, bool &checkID, b
 			cout << "ID NOT FOUND!";
 			Sleep(1000);
 			ClearInputID();
+			goto input;
 		}
 	}
 }
@@ -1273,6 +1274,102 @@ void QuestionnairePrintList(QuestionnaireList questionListToCheck, Questionnaire
 		if (key == 27)
 		{
 			stopFlag = true;
+		}
+	}
+}
+void QuestionnairePrintSubjectIDList(SubjectList ds_mon, bool &keyFlag, int &currentTask)
+{
+	bool stopFlag = false;
+	int numberOfQuestions = ds_mon.index;
+	int numberOfPageShow_6_Questions = numberOfQuestions / 6;
+	int totalPages = 0;
+	(numberOfQuestions % 6 == 0) ? (totalPages = numberOfPageShow_6_Questions) : (totalPages = numberOfPageShow_6_Questions + 1);
+	int currentPage = 1;
+	int startMultiply = 0;
+	ClearBackground();
+	if (ds_mon.index > 0)
+	{
+		gotoxy(73, 14);
+		cout << "PRESS UP TO INPUT ID";
+	}
+	gotoxy(75, 15);
+	cout << "LIST OF SUBJECT";
+	gotoxy(60, 16);
+	cout << "============================================";
+	gotoxy(60, 17);
+	cout << "| #  |   ID   | SUBJECT NAME               |";
+	gotoxy(60, 18);
+	cout << "============================================";
+	while (stopFlag != true)
+	{
+		ClearPrintIDList();
+		if (ds_mon.index == 0)
+		{
+			gotoxy(75, 23);
+			cout << "EMPTY LIST !!!";
+			stopFlag = true;
+		}
+		char key;
+		int i = 0;
+		for (int indexCurrentQuestion = 6 * startMultiply; indexCurrentQuestion < 6 * startMultiply + 6; indexCurrentQuestion++)
+		{
+			if (indexCurrentQuestion == numberOfQuestions)
+				break;
+			gotoxy(60, 19 + 2 * i);
+			cout << "|  " << i + 1;
+			gotoxy(66, 19 + 2 * i);
+			cout << "| " << ds_mon.subjectList[indexCurrentQuestion].subjectID;
+			gotoxy(73, 19 + 2 * i);
+			cout << "|  " << ds_mon.subjectList[indexCurrentQuestion].subjectName; // #TODO: catch error when reach more than 40 characters
+			gotoxy(103, 19 + 2 * i);
+			cout << "|";
+
+			if (i > 5)
+				i = 0;
+			else
+				i++;
+			gotoxy(105, 33);
+			cout << "Page " << currentPage << "/" << totalPages;
+			gotoxy(50, 31);
+			cout << "PRESS LEFT TO GO BACK, RIGHT TO GO FORWARD";
+		}
+		
+		key = _getch();
+		if (key == RIGHT)
+		{
+			if ((6 * startMultiply + 6) > numberOfQuestions - 1)
+			{
+				startMultiply = 0;
+			}
+			else
+				startMultiply++;
+			if (currentPage < totalPages)
+				currentPage++;
+			else
+				currentPage = 1;
+			continue; // back to top of while loop
+		}
+		if (key == LEFT)
+		{
+			currentPage--;
+			if (currentPage == 1 || currentPage == 0)
+			{
+				startMultiply = 0;
+				currentPage = 1;
+			}
+			else
+				startMultiply--;
+			continue;
+		}
+		if (key == UP && ds_mon.index > 0)
+		{
+			stopFlag = true;
+			keyFlag = true;
+		}
+		if (key == ESC)
+		{
+			stopFlag = true;
+			currentTask = 0;
 		}
 	}
 }
@@ -1404,6 +1501,16 @@ void QuestionnaireArrayShuffer(Questionnaire *ds[], int nds)
 	}
 }
 
+void QuestionnaireArrayShuffer2 (Questionnaire *ds[], int n)
+{
+    srand (time(NULL));
+    for (int i = n - 1; i > 0; i--)
+    {
+        int j = rand() % (i + 1);
+        // swap(&arr[i], &arr[j]);
+		QuestionnaireSwap(ds[i], ds[j]);
+    }
+}
 
 bool QuestionnaireIsIDExist(Questionnaire *currentQuestion, int questionnaireID)
 {
@@ -1462,7 +1569,14 @@ check_mon:
 	gotoxy(50, 8);
 	cout << "NHAP MA MON BAN MUON THI: ";
 	getline(cin, a);
+
+	if (a.compare("0") == 0)
+	{
+		return;
+	}
+
 	StringFormat(a);
+	
 	if (SubjectIsExist(a, ds_mon) < 0)
 	{
 		gotoxy(50, 10);
@@ -1471,27 +1585,31 @@ check_mon:
 		system("pause");
 		goto check_mon;
 	}
+
 	int chon;	
 	int sl_cau = QuestionnaireTotalOfOneSubject(a, ds, nds);
 	bool kt = true;
 	//while (kt == true)
 	//{
+slcauhoi:	
+		ClearQuestionInputNumber();
 		int so_cau;
-		// int hour = 00, minute = 00, second = 00;
-		gotoxy(55, 17);
-		cout << "                                          ";
-		gotoxy(57, 15);
-		cout << "    ";
 		gotoxy(50, 9);
 		cout << "NHAP SO LUONG CAU HOI : ";	
 		gotoxy(76, 9);
 		cin >> so_cau;
+		if (so_cau == 0)
+		{
+			return;
+		}
+
 		if (sl_cau < so_cau)
 		{
-			gotoxy(55, 17);
+			gotoxy(55, 12);
 			cout << "KHONG DU SO LUONG CAU CUA MON " << a << " DE THI, THIEU: " << so_cau-sl_cau;
 			gotoxy(60, 35);
 			system("pause");
+			goto slcauhoi;
 		}	
 		else
 		{
@@ -1519,7 +1637,7 @@ void bo_de(Questionnaire *ds[], int &nds, string a, int n)
 			}
 	}
 	//QuestionnaireArrayShuffer(ds, nds);
-	QuestionnaireArrayShuffer(monthi, n);
+	QuestionnaireArrayShuffer2(monthi, n);
 	FrameQuestionnaire();
 	HighLight();
 	gotoxy(70, 8);
@@ -1643,9 +1761,8 @@ void bo_de(Questionnaire *ds[], int &nds, string a, int n)
 			gotoxy(50, 11 + i);
 			cout << "------------------------------------------------------------------";
 			cin.ignore();
-			gotoxy(60, 35);
-			system("pause");
-			break;		
+			kt = false;
+			break;	
 		}
 		case 0:
 		{
