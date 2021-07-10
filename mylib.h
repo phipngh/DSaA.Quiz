@@ -1,7 +1,7 @@
 #include <conio.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
+#include <string>
 #include <windows.h>
 #include <iostream>
 #include <fstream>
@@ -9,25 +9,26 @@
 #include <dos.h>
 #include <direct.h>
 #include <sstream>
+#include <iomanip>
 
 #include<bits/stdc++.h>
 #include <stdlib.h>
 #include <time.h>
 
-#define Enter 13
+#define ENTER 13
 #define RIGHT 77
 #define LEFT 75
 #define UP  72
 #define DOWN  80
 #define ESC  27
 //const int WHITE=15;
-#define PASSWORD "abcdef"
+#define PASSWORD "123456"
 //const int WHITE=15;
 
 char* Pwd () {
      char *S = new char[40];
 	 int i=0;
-     while ((S[i]= getch()) != Enter ) 
+     while ((S[i]= getch()) != ENTER ) 
      { printf ("%c", '*') ; i++ ; 
      }
      S[i]='\0';

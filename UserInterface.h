@@ -8,7 +8,7 @@ using namespace std;
 #define width 1300
 #define height 800
 
-const int so_item 	 = 22;
+const int so_item 	 = 24;
 const int so_item_sv = 3;
 const int dong		 = 9;
 const int cot 		 = 5;
@@ -47,15 +47,31 @@ void menu_tong(ClassList &ds_l, StudentList &ds_sv, QuestionnaireList &ds_cau, S
 		{
 		case 2: // them lop
 		{
-			if (ds_l.index >= 500)
+			if (ds_l.index >= MAX_CLASS)
 			{
-				gotoxy(60, 8);
-				cout << "Them khong thanh cong vi vuot qua so lop cho phep!";
+				gotoxy(70, 20);
+				cout << "REACH MAX NUMBER OF CLASS!";
 			}
 			else
 			{
-				FrameClassAdd();
-				ClassAdd(ds_l);
+				ClassID classID;
+				string class_ID_Return = "";
+				ClearBackground();
+				//khung_them_lop();
+				do{
+					classID = ClassCreateStructClassID();
+					class_ID_Return = ClassReturnClassID(classID);
+					if(ClassCheckExistID(class_ID_Return, ds_l) != -1){
+						gotoxy(70, 30);
+						cout << "DUPLICATE ID, PLEASE TRY AGAIN!";
+						Sleep(1000);
+						cin.ignore();
+					}
+				}while(ClassCheckExistID(class_ID_Return, ds_l) != -1);
+				string className = ClassReturnClassName(classID);
+				cin.ignore();
+				
+				ClassAdd(ds_l, classID, className);
 				ClassFileOutput(ds_l);
 			}
 			gotoxy(60, 35);
@@ -66,29 +82,48 @@ void menu_tong(ClassList &ds_l, StudentList &ds_sv, QuestionnaireList &ds_cau, S
 		{
 			if (ds_l.index == 0)
 			{
-				gotoxy(50, 8);
-				cout << "Chua co lop nao de xoa ca!";
+				gotoxy(50, 30);
+				cout << "EMPTY LIST!";
 			}
-			else
-			{
-				ClassDelete(ds_l);
-				ClassFileOutput(ds_l);
+			else{
+				string testMajor = ClassReturnMajor_ID_Interface();
+				string classID_ToDelete = ClassReturnClass_ID_ByPrintAllClassesWithMajorID(ds_l, testMajor);
+				if(classID_ToDelete == ""){
+					gotoxy(75, 20);
+					cout << "EMPTY LIST!";
+				}
+				else{
+	
+					ClassID classID_Get = ClassGetClassID_StructFromString(classID_ToDelete);
+					ClassDelete(ds_l, classID_Get);
+					ClassFileOutput(ds_l);
+				}
 			}
 			gotoxy(60, 35);
 			system("pause");
+			cin.ignore();
 			break;
 		}
 		case 4:// chinh lop
 		{
-			if (ds_l.index == 0)
+		if (ds_l.index == 0)
 			{
-				gotoxy(50, 8);
-				cout << "DATA RONG~~";
+				gotoxy(50, 30);
+				cout << "EMPTY LIST!";
 			}
-			else
-			{
-				ClassUpdate(ds_l);
-				ClassFileOutput(ds_l);
+			else{
+				string testMajor = ClassReturnMajor_ID_Interface();
+				string classID_ToUpdate = ClassReturnClass_ID_ByPrintAllClassesWithMajorID(ds_l, testMajor);
+				cin.ignore();
+				if(classID_ToUpdate == ""){
+					gotoxy(75, 20);
+					cout << "EMPTY LIST!";
+				}
+				else{
+					ClassID classID_Get = ClassGetClassID_StructFromString(classID_ToUpdate);
+					ClassUpdate(ds_l, classID_ToUpdate);
+					ClassFileOutput(ds_l);
+				}
 			}
 			gotoxy(60, 35);
 			system("pause");
@@ -96,16 +131,16 @@ void menu_tong(ClassList &ds_l, StudentList &ds_sv, QuestionnaireList &ds_cau, S
 		}
 		case 5: // in ds lop theo nien khoa
 		{
-			if (ds_l.index == 0)
+		if (ds_l.index == 0)
 			{
 				gotoxy(50, 8);
-				cout << "KHONG CO LOP NAO DE IN CA";
+				cout << "SCHOOL HAS NO CLASS";
 				gotoxy(60, 35);
 				system("pause");
 			}
 			else
 			{
-				ClassPrintList(ds_l);
+				ClassPrint(ds_l);
 				gotoxy(60, 35);
 				system("pause");
 			}
@@ -114,18 +149,18 @@ void menu_tong(ClassList &ds_l, StudentList &ds_sv, QuestionnaireList &ds_cau, S
 		}
 		case 7:
 		{
-			StudentFillInfo(ds_l, ds_sv);
-			gotoxy(60, 35);
-			system("pause");
-			break;
+//			StudentFillInfo(ds_l, ds_sv);
+//			gotoxy(60, 35);
+//			system("pause");
+//			break;
 		}
 		case 8:
 		{
-			//StudentPrintList(ds_l, ds_sv);
-			StudentPrintList(ds_sv, ds_l);
-			gotoxy(60, 35);
-			system("pause");
-			break;
+//			//StudentPrintList(ds_l, ds_sv);
+//			StudentPrintList(ds_sv, ds_l);
+//			gotoxy(60, 35);
+//			system("pause");
+//			break;
 		}
 		case 10:
 		{
@@ -461,7 +496,7 @@ int menu_sv()
 int menu_gv()
 {
 	while (true)
-	{		
+	{
 		FrameMenu();
 		HighLight();
 		gotoxy(5, 3);
@@ -479,24 +514,26 @@ int menu_gv()
 
 		int chon = 0;
 		Normal();
-		char thucdon[so_item][50] = {" + CLASS                          ",
-									 "   - ADD                          ",
-									 "   - DELETE                       ",
-									 "   - UPDATE                       ",
-									 "   - PRINT                        ",
-									 " + STUDENT                        ",
-									 "   - ADD                          ",
-									 "   - PRINT                        ",
-									 " + SUBJECT                        ",
-									 "   - ADD                          ",
-									 "   - DELETE                       ",
-									 "   - UPDATE                       ",
-									 "   - PRINT                        ",
-									 " + QUESTIONNAIRE                  ",
-									 "   - ADD                          ",	  //15
-									 "   - DELETE                       ", //16
-									 "   - UPDATE                       ",
-									 "   - PRINT QUESTION               ", //17
+		char thucdon[so_item][50] = {" + CLASS                           ",
+									 "   - ADD                    ",
+									 "   - DELETE                      ",
+									 "   - UPDATE              ",
+									 "   - PRINT CLASS             ",
+									 " + STUDENT                      ",
+									 "   - ADD               ",
+									 "	- UPDATE			 ",
+									 "   - DELETE			 ",
+									 "   - PRINT STUDENT INFO       ",
+									 " + MON HOC                        ",
+									 "   - THEM MON HOC                 ",
+									 "   - XOA MON HOC                  ",
+									 "   - HIEU CHINH MON               ",
+									 "   - IN DANH SACH MON             ",
+									 " + QUESTIONNAIRE                    ",
+									 "   - ADD                 ",	  //15
+									 "   - DELETE                  ", //16
+									 "   - UPDATE           ",
+									 "   - PRINT QUESTION         ", //17
 									 " + THI THU                        ",
 									 " + IN BAI THI CUA SINH VIEN       ",
 									 " + IN KET QUA THI CUA 1 LOP       ",
@@ -525,10 +562,12 @@ int menu_gv()
 				if (chon > 0)
 				{
 					Normal();
-					gotoxy(cot, dong + chon); cout << thucdon[chon];
+					gotoxy(cot, dong + chon);
+					cout << thucdon[chon];
 					chon--;
 					HighLight();
-					gotoxy(cot, dong + chon); 	cout << thucdon[chon];
+					gotoxy(cot, dong + chon);
+					cout << thucdon[chon];
 				}
 				break;
 			}
@@ -537,10 +576,12 @@ int menu_gv()
 				if (chon + 1 < so_item)
 				{
 					Normal();
-					gotoxy(cot, dong + chon);	cout << thucdon[chon];
+					gotoxy(cot, dong + chon);
+					cout << thucdon[chon];
 					chon++;
 					HighLight();
-					gotoxy(cot, dong + chon); 	cout << thucdon[chon];
+					gotoxy(cot, dong + chon);
+					cout << thucdon[chon];
 				}
 				break;
 			}
@@ -554,8 +595,7 @@ int menu_gv()
 			}
 			}
 		} while (true);
-		
-	}	
+	}
 }
 
 void login()

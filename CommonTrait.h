@@ -45,14 +45,16 @@ void ToUpper(char &a)
 }
 
 /*======================== For File W/R Only =========================*/
+/*=== Class ===*/
+
 
 /*=== Student ===*/
-Student* StudentNodeInitialize()
+Student* StudentNodeInit()
 {
 	Student *p = new Student;
 	if (p == NULL)
 	{
-		cout << "Khong du bo nho de cap phat!";
+		cout << "NOT ENOUGH STORAGE";
 		return NULL;
 	}
 	p->pNext = NULL;
