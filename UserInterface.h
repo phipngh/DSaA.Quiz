@@ -225,15 +225,17 @@ void menu_tong(ClassList &ds_l, StudentList &ds_sv, QuestionnaireList &ds_cau, S
 					currentTask = 1;
 				else
 					currentTask = 2;
+
 				if (currentTask == 2)
 				{
 					QuestionnaireTransferTreeToArray(ds_cau.questionList, binaryTreeToArrayQuestionnaire, nds);
 					QuestionnairePrintIDList(ds_cau, binaryTreeToArrayQuestionnaire, keyFlag, currentTask);
-					if (ds_cau.questionList != NULL)
-					{
-						gotoxy(73, 12);
-						cout << "PRESS UP TO INPUT ID";
-					}
+					
+					// if (ds_cau.questionList != NULL)
+					// {
+					// 	gotoxy(73, 12);
+					// 	cout << "PRESS UP TO INPUT ID";
+					// }
 				}
 				else if (currentTask == 1 && ds_cau.questionList != NULL)
 				{
@@ -266,12 +268,40 @@ void menu_tong(ClassList &ds_l, StudentList &ds_sv, QuestionnaireList &ds_cau, S
 		}
 		case 19:
 		{			
-			QuestionnaireTransferTreeToArray(ds_cau.questionList, binaryTreeToArrayQuestionnaire, nds);
-			menu_thi_thu(ds_mon, binaryTreeToArrayQuestionnaire, nds);
-			QuestionnaireFreeArray(binaryTreeToArrayQuestionnaire, nds);
-			gotoxy(60, 35);
-			system("pause");
-			//giai phong 
+			// QuestionnaireTransferTreeToArray(ds_cau.questionList, binaryTreeToArrayQuestionnaire, nds);
+			// menu_thi_thu(ds_mon, binaryTreeToArrayQuestionnaire, nds);
+			// QuestionnaireFreeArray(binaryTreeToArrayQuestionnaire, nds);
+			// gotoxy(60, 35);
+			// system("pause");
+			// //giai phong 
+			// break;
+
+			int currentTask = 2;
+			bool keyFlag = false;
+			while (currentTask == 1 || currentTask == 2)
+			{
+				if (keyFlag)
+					currentTask = 1;
+				else
+					currentTask = 2;
+
+				if (currentTask == 2)
+				{
+					QuestionnairePrintSubjectIDList(ds_mon, keyFlag, currentTask);
+				}
+				else if (currentTask == 1 && ds_cau.questionList != NULL)
+				{
+					QuestionnaireTransferTreeToArray(ds_cau.questionList, binaryTreeToArrayQuestionnaire, nds);
+					menu_thi_thu(ds_mon, binaryTreeToArrayQuestionnaire, nds);
+					QuestionnaireFreeArray(binaryTreeToArrayQuestionnaire, nds);
+					gotoxy(60, 35);
+					system("pause");
+					//giai phong 
+					break;
+				}
+			}
+			// QuestionnaireFreeArray(binaryTreeToArrayQuestionnaire, nds);
+
 			break;
 		}
 		case 20:
