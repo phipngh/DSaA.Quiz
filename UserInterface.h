@@ -14,10 +14,10 @@ const int dong		 = 9;
 const int cot 		 = 5;
 
 const int superTest = 30;
-//int menu_tong(ClassList &ds_l, StudentList &ds_sv, QuestionnaireList &ds_cau, SubjectList &ds_mon);
-//int menu_tong_sv(DS_LOP &ds_l, DS_SINH_VIEN &ds_sv, DS_CAU_HOI_THI &ds_cau, DS_MON_HOC &ds_mon);
+void menu_tong(ClassList &ds_l, StudentList &ds_sv, QuestionnaireList &ds_cau, SubjectList &ds_mon);
+void menu_tong_sv(string ma_sv,string ho, string ten, ClassList &ds_l, StudentList &ds_sv, QuestionnaireList &ds_cau, SubjectList &ds_mon);
 int menu_gv();
-//int menu_sv();
+int menu_sv();
 void VerticalLine1();
 void VerticalLine2();
 void VerticalLine3();
@@ -308,126 +308,125 @@ void menu_tong(ClassList &ds_l, StudentList &ds_sv, QuestionnaireList &ds_cau, S
 	}
 }
 
-// int menu_tong_sv(string ma_sv,string ho, string ten, DS_LOP &ds_l, DS_SINH_VIEN &ds_sv, DS_CAU_HOI_THI &ds_cau, DS_MON_HOC &ds_mon)
-// {
-// 	system("cls");
-// 	gotoxy(43, 3);
-// 	cout << "                                                                                 ";
-// 	gotoxy(55, 3);
-// 	cout << "ID: " << ma_sv << "                NAME: " << ho << " " << ten;
-// 	cau_hoi_thi *ds[1000];
-// 	int nds = 0;
-// 	int chon;
-// 	while (true)
-// 	{
-// 		chon = menu_sv();
-// 		switch (chon)
-// 		{
-// 		case 1: 
-// 		{
-// 			chuyen_cay_sang_mang(ds_cau.TREE, ds, nds);
-// 			thi(ma_sv, ds_l, ds_mon, ds, nds);
-// 			giai_phong_ds_cau(ds, nds);
-// 			gotoxy(60, 35);
-// 			system("pause");
-// 			break;
-// 		}
-// 		case 2:	
-// 		{
-// 			break;
-// 		}
-// 		case so_item_sv:
-// 			HighLight();
-// 			gotoxy(60, 20);
-// 			cout << "DANG TAT CHUONG TRINH! ";
-// 			gotoxy(60, 21);
-// 			system("pause");
-// 			exit(0);
-// 			return 0;
-// 		case 27:
-// 			HighLight();
-// 			gotoxy(60, 20);
-// 			cout << "DANG TAT CHUONG TRINH! ";
-// 			gotoxy(60, 21);
-// 			system("pause");
-// 			return 0;
-// 		}
-// 	}
-// }
+void menu_tong_sv(string ma_sv,string ho, string ten, ClassList &ds_l, StudentList &ds_sv, QuestionnaireList &ds_cau, SubjectList &ds_mon)
+{
+	system("cls");
+	gotoxy(43, 3);
+	cout << "                                                                                 ";
+	gotoxy(55, 3);
+	cout << "ID: " << ma_sv << "                NAME: " << ho << " " << ten;
+	Questionnaire *binaryTreeToArrayQuestionnaire[1000];
+	int nds = 0;
+	int chon;
+	while (true)
+	{
+		chon = menu_sv();
+		switch (chon)
+		{
+		case 1: 
+		{
+			QuestionnaireTransferTreeToArray(ds_cau.questionList, binaryTreeToArrayQuestionnaire, nds);
+			thi(ma_sv, ds_l, ds_mon, binaryTreeToArrayQuestionnaire, nds);
+			QuestionnaireFreeArray(binaryTreeToArrayQuestionnaire, nds);
+			gotoxy(60, 35);
+			system("pause");
+			break;
+		}
+		case 2:	
+		{
+			break;
+		}
+		case so_item_sv:
+			HighLight();
+			gotoxy(60, 20);
+			cout << "DANG TAT CHUONG TRINH! ";
+			gotoxy(60, 21);
+			system("pause");
+			exit(0);
+		case 27:
+			HighLight();
+			gotoxy(60, 20);
+			cout << "DANG TAT CHUONG TRINH! ";
+			gotoxy(60, 21);
+			system("pause");
+			exit(0);
+		}
+	}
+}
 
-// int menu_sv()
-// {
-// 	while (true)
-// 	{
-// 		FrameMenu();
-// 		HighLight();
-// 		gotoxy(5, 3);
-// 		cout << "HUONG DAN:";
-// 		gotoxy(5, 4);
-// 		cout << "SU DUNG PHIM LEN XUONG DE MOVE";
-// 		gotoxy(5, 5);
-// 		cout << "ESC: THOAT";
-// 		gotoxy(25, 5);
-// 		cout << "ENTER: CHON";
-// 		int chon = 0;
+int menu_sv()
+{
+	while (true)
+	{
+		FrameMenu();
+		HighLight();
+		gotoxy(5, 3);
+		cout << "HUONG DAN:";
+		gotoxy(5, 4);
+		cout << "SU DUNG PHIM LEN XUONG DE MOVE";
+		gotoxy(5, 5);
+		cout << "ESC: THOAT";
+		gotoxy(25, 5);
+		cout << "ENTER: CHON";
+		int chon = 0;
 
-// 		Normal();
-// 		char thucdon_sv[so_item_sv][35] = {" + THI THU                        ",
-// 										" + XEM LAI BAI LAM                ",
-// 										" + EXIT                           " };
-// 		for (int i = 0; i < so_item_sv; i++)
-// 		{
-// 			gotoxy(cot, dong + i);
-// 			cout << thucdon_sv[i];
-// 		}
-// 		HighLight();
-// 		gotoxy(cot, dong + chon);
-// 		cout << thucdon_sv[chon];
-// 		char kytu;
-// 		ClearBackground();
-// 		do
-// 		{
-// 			kytu = _getch();
-// 			if (kytu == -32) kytu = _getch();
-// 			if (kytu == 8) kytu != _getch();
-// 			switch (kytu)
-// 			{
-// 			case Up:
-// 			{
-// 				if (chon > 0)
-// 				{
-// 					Normal();
-// 					gotoxy(cot, dong + chon); cout << thucdon_sv[chon];
-// 					chon--;
-// 					HighLight();
-// 					gotoxy(cot, dong + chon); 	cout << thucdon_sv[chon];
-// 				}
-// 				break;
-// 			}
-// 			case Down:
-// 			{
-// 				if (chon + 1 < so_item_sv)
-// 				{
-// 					Normal();
-// 					gotoxy(cot, dong + chon);	cout << thucdon_sv[chon];
-// 					chon++;
-// 					HighLight();
-// 					gotoxy(cot, dong + chon); 	cout << thucdon_sv[chon];
-// 				}
-// 				break;
-// 			}
-// 			case ESC:
-// 			{
-// 				return so_item_sv;
-// 			}
-// 			case 13:
-// 			{
-// 				return chon + 1;
-// 			}
-// 			}
-// 		} while (true);
-// 	}
-// }
+		Normal();
+		char thucdon_sv[so_item_sv][35] = {" + THI THU                        ",
+										" + XEM LAI BAI LAM                ",
+										" + EXIT                           " };
+		for (int i = 0; i < so_item_sv; i++)
+		{
+			gotoxy(cot, dong + i);
+			cout << thucdon_sv[i];
+		}
+		HighLight();
+		gotoxy(cot, dong + chon);
+		cout << thucdon_sv[chon];
+		char kytu;
+		ClearBackground();
+		do
+		{
+			kytu = _getch();
+			if (kytu == -32) kytu = _getch();
+			if (kytu == 8) kytu != _getch();
+			switch (kytu)
+			{
+			case UP:
+			{
+				if (chon > 0)
+				{
+					Normal();
+					gotoxy(cot, dong + chon); cout << thucdon_sv[chon];
+					chon--;
+					HighLight();
+					gotoxy(cot, dong + chon); 	cout << thucdon_sv[chon];
+				}
+				break;
+			}
+			case DOWN:
+			{
+				if (chon + 1 < so_item_sv)
+				{
+					Normal();
+					gotoxy(cot, dong + chon);	cout << thucdon_sv[chon];
+					chon++;
+					HighLight();
+					gotoxy(cot, dong + chon); 	cout << thucdon_sv[chon];
+				}
+				break;
+			}
+			case ESC:
+			{
+				return so_item_sv;
+			}
+			case 13:
+			{
+				return chon + 1;
+			}
+			}
+		} while (true);
+	}
+}
 
 int menu_gv()
 {
@@ -529,131 +528,130 @@ int menu_gv()
 	}	
 }
 
-// int login()
-// {
-// 	// =============== khai bao bien =================
-// 	DS_SINH_VIEN ds_sv;
-// 	DS_CAU_HOI_THI ds_cau;
-// 	DS_MON_HOC ds_mon;
-// 	DS_LOP ds_l;
-// 	cau_hoi_thi *ds[1000];
-// 	int nds = 0;
-// 	// ============ load file ==================
-// 	doc_file_ds_cau(ds_cau);
-// 	ClassFileInput(ds_l);
-// 	SubjectFileInput(ds_mon);
-// 	StudentFileInput(ds_l);
-// 	//doc_file_diem__thi(ds_l);
-// 	system("cls");
-// 	ViewLogin();
-// 	string id;
-// 	int count = 0, ch;
-// 	string pass = "";
-// 	HighLight();
-// 	gotoxy(42, 6);
-// 	cout << "  ___  _   _         _   _   _     ___     ";
-// 	gotoxy(42, 7);
-// 	cout << " / _ \\| | | |  /\\   | \\ | | | |   | o |   ";
-// 	gotoxy(42, 8);
-// 	cout << "| | | | | | | /  \\  |  \\| | | |    | |    ";
-// 	gotoxy(42, 9);
-// 	cout << "| | | | | | |/ /\\ \\ | . ' | | |    | |    ";
-// 	gotoxy(42, 10);
-// 	cout << "| |_| | |_| / ____ \\| |\\  | | |___ | |    ";
-// 	gotoxy(42, 11);
-// 	cout << " \\__\\_\\\\___/_/    \\_\\_| \\_| |_____|___|   ";
-// 	gotoxy(18, 13);
-// 	cout << "  _______ _   _ ___    _______ _____           ___     _   _  ___  _   _ ___ _____  __    __   ";
-// 	gotoxy(18, 14);
-// 	cout << " |__   __| | | | o |  |__   __/  _  |   /\\    / _ \\   | \\ | |/ __\\| | | | o |  ___||  \\  /  |  ";
-// 	gotoxy(18, 15);
-// 	cout << "    | |  | |_| || |      | |  | | | |  /  \\  | / \\_\\  |  \\| | / __| |_| || || |___ | . \\/ . |  ";
-// 	gotoxy(18, 16);
-// 	cout << "    | |  |  _  || |      | |  | |/ /  / /\\ \\ | |  __  | . ' | |[_ ]  _  || ||  ___|| |\\  /| |  ";
-// 	gotoxy(18, 17);
-// 	cout << "    | |  | | | || |      | |  | | \\ \\/ ____ \\| \\_/ /  | |\\  | \\_/ / | | || || |___ | | \\/ | |  ";
-// 	gotoxy(18, 18);
-// 	cout << "    |_|  |_| |_|___|     |_|  |_|  \\/_/    \\_\\\\___/   |_| \\_|\\___/|_| |_|___|_____|___|  |___| ";
-// wrong:
-// 	HighLight();
-// 	gotoxy(45, 24);
-// 	cout << "NHAP ID	:";
-// 	gotoxy(45, 26);
-// 	cout << "NHAP PASS	:";
-// 	gotoxy(60, 24);
-// 	getline(cin, id);
-// 	StringFormat(id);
-// 	gotoxy(60, 26);
-// 	while (ch = _getch())
-// 	{
-// 		bool kt_break = false;
-// 		if (ch == 80 || ch == 72 || ch == 77 || ch == 75) ch = _getch();
-// 		else if(ch == 27) break;
-// 		else
-// 		{
-// 			if (ch == 13)
-// 			{
-// 				if ((pass == "GV") && (id == "GV"))
-// 				{
-// 					gotoxy(52, 30);
-// 					cout << "LOGIN SUCCESSFUL!";
-// 					gotoxy(48, 35);
-// 					system("pause");
-// 					menu_tong(ds_l, ds_sv, ds_cau, ds_mon);
-// 					kt_break = true;
-// 					break;
-// 				}
-// 				for (int i = 0; i < ds_l.sl; i++)
-// 				{
-// 					for (SINH_VIEN *k = ds_l.ds[i]->danh_sach_sv.p_head; k != NULL; k = k->p_next)
-// 					{
-// 						if ((id == k->ma_sv) && (pass == k->password))
-// 						{
-// 							gotoxy(52, 30);
-// 							cout << "LOGIN  SUCCESSFUL!";
-// 							gotoxy(48, 35);
-// 							system("pause");
-// 							menu_tong_sv(k->ma_sv,k->ho,k->ten,ds_l, ds_sv, ds_cau, ds_mon);
-// 							kt_break = true;
-// 							break;
-// 						}
-// 					}
-// 				}								
-// 			gotoxy(55, 30);
-// 			cout << "LOGIN FALSE!";
-// 			pass = "";
-// 			count++;
-// 			if (count == 3)
-// 			{
-// 				cout << "YOU ENTER WRONG 3 TIMES, SYSTEM SUT DOWN AFTER 3 SECONDS!";
-// 				return 0;
-// 			}				
-// 			gotoxy(60, 24);
-// 			cout << "                    ";
-// 			gotoxy(60, 26);
-// 			cout << "                    ";
-// 			goto wrong;
-// 			}
-// 			else if (ch == 8)
-// 			{
-// 				if (pass.length() > 0)
-// 				{
-// 					cout << "\b \b";
-// 					pass.erase(pass.length() - 1);
-// 				}
-// 			}
-// 			else
-// 			{
-// 				cout << "*";
-// 				pass += ch;
-// 				StringFormat(pass);
-// 			}
-// 		}
-// 		if (kt_break == true)
-// 		{
-// 			break;
-// 		}
-// 	}
-// }
+void login()
+{
+	// =============== khai bao bien =================
+	StudentList ds_sv;
+	QuestionnaireList ds_cau;
+	SubjectList ds_mon;
+	ClassList ds_l;
+	Questionnaire *ds[1000];
+	int nds = 0;
+	// ============ load file ==================
+	QuestionnaireFileInput(ds_cau);
+	ClassFileInput(ds_l);
+	SubjectFileInput(ds_mon);
+	StudentFileInput(ds_l);
+	//doc_file_diem__thi(ds_l);
+	system("cls");
+	ViewLogin();
+	string id;
+	int count = 0, ch;
+	string pass = "";
+	HighLight();
+	gotoxy(42, 6);
+	cout << "  ___  _   _         _   _   _     ___     ";
+	gotoxy(42, 7);
+	cout << " / _ \\| | | |  /\\   | \\ | | | |   | o |   ";
+	gotoxy(42, 8);
+	cout << "| | | | | | | /  \\  |  \\| | | |    | |    ";
+	gotoxy(42, 9);
+	cout << "| | | | | | |/ /\\ \\ | . ' | | |    | |    ";
+	gotoxy(42, 10);
+	cout << "| |_| | |_| / ____ \\| |\\  | | |___ | |    ";
+	gotoxy(42, 11);
+	cout << " \\__\\_\\\\___/_/    \\_\\_| \\_| |_____|___|   ";
+	gotoxy(18, 13);
+	cout << "  _______ _   _ ___    _______ _____           ___     _   _  ___  _   _ ___ _____  __    __   ";
+	gotoxy(18, 14);
+	cout << " |__   __| | | | o |  |__   __/  _  |   /\\    / _ \\   | \\ | |/ __\\| | | | o |  ___||  \\  /  |  ";
+	gotoxy(18, 15);
+	cout << "    | |  | |_| || |      | |  | | | |  /  \\  | / \\_\\  |  \\| | / __| |_| || || |___ | . \\/ . |  ";
+	gotoxy(18, 16);
+	cout << "    | |  |  _  || |      | |  | |/ /  / /\\ \\ | |  __  | . ' | |[_ ]  _  || ||  ___|| |\\  /| |  ";
+	gotoxy(18, 17);
+	cout << "    | |  | | | || |      | |  | | \\ \\/ ____ \\| \\_/ /  | |\\  | \\_/ / | | || || |___ | | \\/ | |  ";
+	gotoxy(18, 18);
+	cout << "    |_|  |_| |_|___|     |_|  |_|  \\/_/    \\_\\\\___/   |_| \\_|\\___/|_| |_|___|_____|___|  |___| ";
+wrong:
+	HighLight();
+	gotoxy(45, 24);
+	cout << "NHAP ID	:";
+	gotoxy(45, 26);
+	cout << "NHAP PASS	:";
+	gotoxy(60, 24);
+	getline(cin, id);
+	StringFormat(id);
+	gotoxy(60, 26);
+	while (ch = _getch())
+	{
+		bool kt_break = false;
+		if (ch == 80 || ch == 72 || ch == 77 || ch == 75) ch = _getch();
+		else if(ch == 27) break;
+		else
+		{
+			if (ch == 13)
+			{
+				if ((pass == "GV") && (id == "GV"))
+				{
+					gotoxy(52, 30);
+					cout << "LOGIN SUCCESSFUL!";
+					gotoxy(48, 35);
+					system("pause");
+					menu_tong(ds_l, ds_sv, ds_cau, ds_mon);
+					kt_break = true;
+					break;
+				}
+				for (int i = 0; i < ds_l.index; i++)
+				{
+					for (Student *k = ds_l.classList[i]->studentList.pHead; k != NULL; k = k->pNext)
+					{
+						if ((id == k->studentID) && (pass == k->password))
+						{
+							gotoxy(52, 30);
+							cout << "LOGIN  SUCCESSFUL!";
+							gotoxy(48, 35);
+							system("pause");
+							menu_tong_sv(k->studentID,k->studentLastName,k->studentFirstName,ds_l, ds_sv, ds_cau, ds_mon);
+							kt_break = true;
+							break;
+						}
+					}
+				}								
+			gotoxy(55, 30);
+			cout << "LOGIN FALSE!";
+			pass = "";
+			count++;
+			if (count == 3)
+			{
+				cout << "YOU ENTER WRONG 3 TIMES, SYSTEM SUT DOWN AFTER 3 SECONDS!";
+			}				
+			gotoxy(60, 24);
+			cout << "                    ";
+			gotoxy(60, 26);
+			cout << "                    ";
+			goto wrong;
+			}
+			else if (ch == 8)
+			{
+				if (pass.length() > 0)
+				{
+					cout << "\b \b";
+					pass.erase(pass.length() - 1);
+				}
+			}
+			else
+			{
+				cout << "*";
+				pass += ch;
+				StringFormat(pass);
+			}
+		}
+		if (kt_break == true)
+		{
+			break;
+		}
+	}
+}
 
 #endif

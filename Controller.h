@@ -66,12 +66,10 @@ Questionnaire *QuestionnaireAdd(tree &t, Questionnaire *p);
 void QuestionnaireAcceptAnswer(Questionnaire *&p);
 
 // ------------------------ THI ----------------------------
-// void QuestionnaireArrayShuffer(cau_hoi_thi *ds[], int nds); // xao tron bo cau hoi truoc khi phat de
-// void menu_thi_thu(ds_mon_hoc &ds_mon, cau_hoi_thi *ds[], int &nds);
+void menu_thi_thu(SubjectList &ds_mon, Questionnaire *ds[], int &nds);
 void bo_de(Questionnaire *ds[], int &nds, string a, int n);
-// void bo_de_sv(DS_LOP &ds_l, string ma_sv, cau_hoi_thi *ds[], int &nds, string ma_mh, int n, int hour, int minute, int second);
-// void thi(string ma_sv, DS_LOP ds_l, DS_MON_HOC &ds_mon, cau_hoi_thi *ds[], int &nds);
-
+void thi(string ma_sv,ClassList ds_l, SubjectList &ds_mon, Questionnaire *ds[], int &nds);
+void bo_de_sv(ClassList &ds_l,string ma_sv,Questionnaire *ds[], int &nds, string ma_mh, int n);
 //============================ Them lop =========================
 void ClassAdd(ClassList &ds_l)
 {
@@ -1324,7 +1322,10 @@ void QuestionnairePrintIDList(QuestionnaireList questionListToCheck, Questionnai
 			gotoxy(63, 19 + 2 * i);
 			cout << "|  " << arrayQuestions[indexCurrentQuestion]->subjectID; // #TODO: catch error when reach more than 40 characters
 			gotoxy(72, 19 + 2 * i);
-			cout << "| " << arrayQuestions[indexCurrentQuestion]->content;
+			if (arrayQuestions[indexCurrentQuestion]->content.length() > 35)
+				cout << "| " << arrayQuestions[indexCurrentQuestion]->content.substr (0,35)<<"...";
+			else
+				cout << "|  " << arrayQuestions[indexCurrentQuestion]->content;
 			gotoxy(115, 19 + 2 * i);
 			cout << "|";
 			if (i > 5)
@@ -1662,264 +1663,206 @@ void bo_de(Questionnaire *ds[], int &nds, string a, int n)
 }
 
 
-// void thi(string ma_sv,DS_LOP ds_l, DS_MON_HOC &ds_mon, cau_hoi_thi *ds[], int &nds)
-// {
-// 	bool kt = true;
-// 	int so_cau;
-// 	int hour = 00, minute = 00, second = 00;
-// check_mon:
-// 	string a;
-// 	gotoxy(50, 10);
-// 	cout << "                      ";
-// 	gotoxy(76, 8);
-// 	cout << "                      ";
-// 	gotoxy(50, 8);
-// 	cout << "NHAP MA MON BAN MUON THI: ";
-// 	getline(cin, a);
-// 	StringFormat(a);
-// 	if (SubjectIsExist(a, ds_mon) < 0)
-// 	{
-// 		gotoxy(50, 10);
-// 		cout << "MON HOC KHONG TON TAI!";
-// 		gotoxy(60, 35);
-// 		system("pause");
-// 		goto check_mon;
-// 	}
-// 	gotoxy(55, 17);
-// 	cout << "                                          ";
-// 	gotoxy(57, 15);
-// 	cout << "    ";
-// 	gotoxy(50, 9);
-// 	cout << "NHAP SO LUONG CAU HOI : ";
-// 	gotoxy(76, 9);
-// 	cin >> so_cau;
-// 	int sl_cau = QuestionnaireTotalOfOneSubject(a, ds, nds);
-// 	if (sl_cau < so_cau)
-// 	{
-// 		gotoxy(55, 17);
-// 		cout << "KHONG DU SO LUONG CAU CUA MON " << a << " DE THI, THIEU: " << so_cau - sl_cau;
-// 		gotoxy(60, 35);
-// 		system("pause");
-// 	}
-// 	else
-// 	{
-// 		gotoxy(50, 10);
-// 		cout << "NHAP TGIAN DE THI. TIME DINH DANG THEO KIEU: hh:mm:ss.";
-// 		gotoxy(70, 12);
-// 		cout << "  :";
-// 		gotoxy(73, 12);
-// 		cout << "  :";
-// 		gotoxy(76, 12);
-// 		cout << "  ";
-// 	hour:
-// 		gotoxy(70, 12);
-// 		cin >> setw(2) >> right >> hour;
-// 		if (hour >= 10)
-// 		{
-// 			gotoxy(70, 12);
-// 			cout << "  :";
-// 			goto hour;
-// 		}
-// 		else if (hour == 0)
-// 		{
-// 		minute_1:
-// 			gotoxy(73, 12);
-// 			cin >> setw(2) >> right >> minute;
-// 			if (minute >= 100)
-// 			{
-// 				gotoxy(73, 12);
-// 				cout << "  :";
-// 				goto minute_1;
-// 			}
-// 		second_1:
-// 			gotoxy(76, 12);
-// 			cin >> setw(2) >> right >> second;
-// 			if (second >= 60)
-// 			{
-// 				gotoxy(76, 12);
-// 				cout << "  :";
-// 				goto second_1;
-// 			}
-// 		}
-// 		else
-// 		{
-// 		minute_2:
-// 			gotoxy(73, 12);
-// 			cin >> setw(2) >> right >> minute;
-// 			if (minute >= 60)
-// 			{
-// 				gotoxy(73, 12);
-// 				cout << "  :";
-// 				goto minute_2;
-// 			}
-// 		second_2:
-// 			gotoxy(76, 12);
-// 			cin >> setw(2) >> right >> second;
-// 			if (second >= 60)
-// 			{
-// 				gotoxy(76, 12);
-// 				cout << "  :";
-// 				goto second_2;
-// 			}
-// 		}
-// 		bo_de_sv(ds_l, ma_sv, ds, nds, a, so_cau, hour, minute, second);
-// 	}
-// }
+void thi(string ma_sv,ClassList ds_l, SubjectList &ds_mon, Questionnaire *ds[], int &nds)
+{
+	bool kt = true;
+	int so_cau;
+check_mon:
+	string a;
+	gotoxy(50, 10);
+	cout << "                      ";
+	gotoxy(76, 8);
+	cout << "                      ";
+	gotoxy(50, 8);
+	cout << "NHAP MA MON BAN MUON THI: ";
+	getline(cin, a);
+	StringFormat(a);
+	if (SubjectIsExist(a, ds_mon) < 0)
+	{
+		gotoxy(50, 10);
+		cout << "MON HOC KHONG TON TAI!";
+		gotoxy(60, 35);
+		system("pause");
+		goto check_mon;
+	}
+	gotoxy(55, 17);
+	cout << "                                          ";
+	gotoxy(57, 15);
+	cout << "    ";
+	gotoxy(50, 9);
+	cout << "NHAP SO LUONG CAU HOI : ";
+	gotoxy(76, 9);
+	cin >> so_cau;
+	int sl_cau = QuestionnaireTotalOfOneSubject(a, ds, nds);
+	if (sl_cau < so_cau)
+	{
+		gotoxy(55, 17);
+		cout << "KHONG DU SO LUONG CAU CUA MON " << a << " DE THI, THIEU: " << so_cau - sl_cau;
+		gotoxy(60, 35);
+		system("pause");
+	}
+	else
+	{
+		bo_de_sv(ds_l, ma_sv, ds, nds, a, so_cau);
+	}
+}
 
-// void bo_de_sv(DS_LOP &ds_l,string ma_sv,cau_hoi_thi *ds[], int &nds, string ma_mh, int n, int hour, int minute, int second)
-// {
+void bo_de_sv(ClassList &ds_l,string ma_sv,Questionnaire *ds[], int &nds, string ma_mh, int n)
+{
 
-// 	ClearBackground();
-// 	FrameQuestionnaire();
-// 	cin.ignore();
-// 	cau_hoi_thi *ds_luu[1000];
-// 	char tl[1000];
-// 	int point = 0;
-// 	thread clock;
-// 	QuestionnaireArrayShuffer(ds, nds);
-// 	clock = thread(printClock, hour, minute, second);
-// 	while (!_kbhit() && stop)
-// 	{
-// 		FrameQuestionnaire();
-// 		HighLight();		
-// 		gotoxy(70, 8);
-// 		cout << "====== DE THI ======";
-// 		int i = 0;
-// 		for (i = 0; i < n; i++)
-// 		{
-// 			if (ds[i]->ma_mh == ma_mh)
-// 			{
-// 				gotoxy(47, 13);
-// 				cout << "                                                                         ";
-// 				gotoxy(68, 13);
-// 				cout << "                                   ";
-// 				gotoxy(50, 18);
-// 				cout << "                                 ";
-// 				gotoxy(88, 18);
-// 				cout << "                                ";
-// 				gotoxy(50, 22);
-// 				cout << "                                 ";
-// 				gotoxy(88, 22);
-// 				cout << "                                ";
-// 				gotoxy(50, 10);
-// 				cout << "Cau so " << i + 1 << "/" << n;
-// 				gotoxy(47, 13);
-// 				cout << "Cau hoi: " << ds[i]->cau_hoi;
-// 				gotoxy(47, 18);
-// 				cout << "A. " << ds[i]->A;
-// 				gotoxy(85, 18);
-// 				cout << "B. " << ds[i]->B;
-// 				gotoxy(47, 22);
-// 				cout << "C. " << ds[i]->C;
-// 				gotoxy(85, 22);
-// 				cout << "D. " << ds[i]->D;
-// 			check_tl:
-// 				gotoxy(77, 27);
-// 				cout << "DAP AN: ";
-// 				gotoxy(85, 27);
-// 				cout << "    ";
-// 				gotoxy(85, 27);
-// 				cin >> tl[i];
-// 				ToUpper(tl[i]);
-// 				string cau_tl;
-// 				if (tl[i] == 'A')
-// 				{
-// 					cau_tl = ds[i]->A;
-// 				}
-// 				else if (tl[i] == 'B')
-// 				{
-// 					cau_tl = ds[i]->B;
-// 				}
-// 				else if (tl[i] == 'C')
-// 				{
-// 					cau_tl = ds[i]->C;
-// 				}
-// 				else if (tl[i] == 'D')
-// 				{
-// 					cau_tl = ds[i]->D;
-// 				}
-// 				else
-// 				{
-// 					gotoxy(65, 30);
-// 					cout << "NHAP DAP AN KHONG HOP LE, YEU CAU NHAP LAI!";
-// 					goto check_tl;
-// 				}
-// 				ds_luu[i] = new cau_hoi_thi;
-// 				ds_luu[i]->id = ds[i]->id;
-// 				ds_luu[i]->cau_hoi = ds[i]->cau_hoi;
-// 				ds_luu[i]->A = ds[i]->A;
-// 				ds_luu[i]->B = ds[i]->B;
-// 				ds_luu[i]->C = ds[i]->C;
-// 				ds_luu[i]->D = ds[i]->D;
-// 				ds_luu[i]->dap_an = ds[i]->dap_an;
-// 				ds_luu[i]->cau_dap_an = ds[i]->cau_dap_an;
-// 				if (cau_tl == ds[i]->cau_dap_an)
-// 				{
-// 					point++;
-// 				}
-// 			}
-// 		}
-// 	}
-// 	stop = 0;
-// 	clock.join();
+	ClearBackground();
+	FrameQuestionnaire();
+	cin.ignore();
+	Questionnaire *ds_luu[1000];
+	char tl[1000];
+	int point = 0;
+	Questionnaire *monthi[n];
+	int demmon = 0;
+	for(int i = 0 ; i<nds; i++){
+		if(ds[i]->subjectID == ma_mh){
+			monthi[demmon] = ds[i];
+			demmon++;
+		}
+		if(demmon == n){
+				break;
+			}
+	}
+	QuestionnaireArrayShuffer(monthi, n);
+	FrameQuestionnaire();
+	HighLight();		
+	gotoxy(70, 8);
+	cout << "====== DE THI ======";
+	int i = 0;
+	for (i = 0; i < n; i++)
+	{
+		gotoxy(47, 13);
+		cout << "                                                                         ";
+		gotoxy(68, 13);
+		cout << "                                   ";
+		gotoxy(50, 18);
+		cout << "                                 ";
+		gotoxy(88, 18);
+		cout << "                                ";
+		gotoxy(50, 22);
+		cout << "                                 ";
+		gotoxy(88, 22);
+		cout << "                                ";
+		gotoxy(50, 10);
+		cout << "Cau so " << i + 1 << "/" << n;
+		gotoxy(47, 13);
+		cout << "Cau hoi: " << ds[i]->content;
+		gotoxy(47, 18);
+		cout << "A. " << ds[i]->A;
+		gotoxy(85, 18);
+		cout << "B. " << ds[i]->B;
+		gotoxy(47, 22);
+		cout << "C. " << ds[i]->C;
+		gotoxy(85, 22);
+		cout << "D. " << ds[i]->D;
+	check_tl:
+		gotoxy(77, 27);
+		cout << "DAP AN: ";
+		gotoxy(85, 27);
+		cout << "    ";
+		gotoxy(85, 27);
+		cin >> tl[i];
+		ToUpper(tl[i]);
+		string cau_tl;
+		if (tl[i] == 'A')
+		{
+			cau_tl = ds[i]->A;
+		}
+		else if (tl[i] == 'B')
+		{
+			cau_tl = ds[i]->B;
+		}
+		else if (tl[i] == 'C')
+		{
+			cau_tl = ds[i]->C;
+		}
+		else if (tl[i] == 'D')
+		{
+			cau_tl = ds[i]->D;
+		}
+		else
+		{
+			gotoxy(65, 30);
+			cout << "NHAP DAP AN KHONG HOP LE, YEU CAU NHAP LAI!";
+			goto check_tl;
+		}
+		ds_luu[i] = new Questionnaire;
+		ds_luu[i]->questionnaireID = monthi[i]->questionnaireID;
+		ds_luu[i]->content = monthi[i]->content;
+		ds_luu[i]->A = monthi[i]->A;
+		ds_luu[i]->B = monthi[i]->B;
+		ds_luu[i]->C = monthi[i]->C;
+		ds_luu[i]->D = monthi[i]->D;
+		ds_luu[i]->correct = monthi[i]->correct;
+		ds_luu[i]->answerCorrect = monthi[i]->answerCorrect;
+		if (cau_tl == monthi[i]->answerCorrect)
+		{
+			point++;
+		}
+	
+	}
 
-// 	ClearBackground();
-// 	float diem = (float(point) / float(n)) * 10;
-// 	them_diem_thi(ds_l, diem, ma_sv, ma_mh);
-// 	ghi_file_diem(ds_l);
-// 	bool kt = true;
-// 	while (kt == true)
-// 	{
-// 		ClearBackground();
-// 		gotoxy(50, 9);
-// 		cout << "SO DIEM BAN DAT DUOC LA: " << diem << "(" << point << "/" << n << ").";
-// 		gotoxy(50, 10);
-// 		cout << "BAN CO MUON IN RA KET QUA KHONG?";
-// 		gotoxy(50, 11);
-// 		cout << "1. Co.";
-// 		gotoxy(50, 12);
-// 		cout << "0. Khong.";
-// 		gotoxy(50, 13);
-// 		cout << "Ban chon: ";
-// 		int xem_kq;
-// 		cin >> xem_kq;
-// 		switch (xem_kq)
-// 		{
-// 		case 1:
-// 		{
-// 			ClearBackground();
-// 			gotoxy(50, 8);
-// 			cout << "==================================================================";
-// 			gotoxy(50, 9);
-// 			cout << "|CAU| ID |         DAP AN DUNG                         |BAN CHON |";
-// 			gotoxy(50, 10);
-// 			cout << "==================================================================";
-// 			int i = 0;
-// 			for (i = 0; i < n; i++)
-// 			{
-// 				gotoxy(50, 11 + i); cout << "| " << i + 1;
-// 				gotoxy(54, 11 + i); cout << "| " << ds_luu[i]->id;
-// 				gotoxy(59, 11 + i); cout << "|";
-// 				gotoxy(61, 11 + i); cout << ds_luu[i]->dap_an << ". " << ds_luu[i]->cau_dap_an;
-// 				gotoxy(105, 11 + i); cout << "|";
-// 				gotoxy(110, 11 + i); cout << tl[i];
-// 				gotoxy(115, 11 + i); cout << "|";
-// 			}
-// 			gotoxy(50, 11 + i);
-// 			cout << "------------------------------------------------------------------";
-// 			cin.ignore();
-// 			gotoxy(60, 35);
-// 			system("pause");
-// 			break;
-// 		}
-// 		case 0:
-// 		{
-// 			kt = false;
-// 			break;
-// 		}
-// 		}
-// 	}
-// }
+
+
+	ClearBackground();
+	float diem = (float(point) / float(n)) * 10;
+	bool kt = true;
+	while (kt == true)
+	{
+		ClearBackground();
+		gotoxy(50, 9);
+		cout << "SO DIEM BAN DAT DUOC LA: " << diem << "(" << point << "/" << n << ").";
+		gotoxy(50, 10);
+		cout << "BAN CO MUON IN RA KET QUA KHONG?";
+		gotoxy(50, 11);
+		cout << "1. Co.";
+		gotoxy(50, 12);
+		cout << "0. Khong.";
+		gotoxy(50, 13);
+		cout << "Ban chon: ";
+		int xem_kq;
+		cin >> xem_kq;
+		switch (xem_kq)
+		{
+		case 1:
+		{
+			ClearBackground();
+			gotoxy(50, 8);
+			cout << "==================================================================";
+			gotoxy(50, 9);
+			cout << "|CAU| ID |         DAP AN DUNG                         |BAN CHON |";
+			gotoxy(50, 10);
+			cout << "==================================================================";
+			int i = 0;
+			for (i = 0; i < n; i++)
+			{
+				gotoxy(50, 11 + i); cout << "| " << i + 1;
+				gotoxy(54, 11 + i); cout << "| " << ds_luu[i]->questionnaireID;
+				gotoxy(59, 11 + i); cout << "|";
+				gotoxy(61, 11 + i); cout << ds_luu[i]->correct << ". " << ds_luu[i]->answerCorrect;
+				gotoxy(105, 11 + i); cout << "|";
+				gotoxy(110, 11 + i); cout << tl[i];
+				gotoxy(115, 11 + i); cout << "|";
+			}
+			gotoxy(50, 11 + i);
+			cout << "------------------------------------------------------------------";
+			cin.ignore();
+			gotoxy(60, 35);
+			system("pause");
+			break;
+		}
+		case 0:
+		{
+			kt = false;
+			break;
+		}
+		}
+	}
+}
 
 
 #endif

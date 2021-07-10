@@ -2,18 +2,19 @@
 
 int main()
 {
+//	login();
+
 
 	StudentList ds_sv;
 	QuestionnaireList ds_cau;
 	SubjectList ds_mon;
 	ClassList ds_l;
-	//Questionnaire *ds[1000];
-	//int nds = 0;
-
-	ClassFileInput(ds_l);				// work well
-	SubjectFileInput(ds_mon);			//work well
-	StudentFileInput(ds_l);				//work well
-	QuestionnaireFileInput(ds_cau); // work well
+	ClassFileInput(ds_l);			
+	SubjectFileInput(ds_mon);		
+	StudentFileInput(ds_l);			
+	QuestionnaireFileInput(ds_cau);
 	menu_tong(ds_l, ds_sv, ds_cau, ds_mon);
+
+
 	return 0;
 }
