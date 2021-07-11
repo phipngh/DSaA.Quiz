@@ -3,7 +3,7 @@
 
 #include "Struct.h"
 
-void StringFormat(string &a)
+void StringFormat(string& a)
 {
 	while (a[0] == ' ')
 	{
@@ -18,16 +18,16 @@ void StringFormat(string &a)
 		}
 	}
 
-	for (int i = 0; i < a.length(); i++)
+	for (unsigned int i = 0; i < a.length(); i++)
 	{
-		if (a[i] == ' '&& a[i + 1] == ' ')
+		if (a[i] == ' ' && a[i + 1] == ' ')
 		{
 			a.erase(a.begin() + i + 1);
 			i--;
 		}
 	}
 
-	for (int i = 0; i < a.length(); i++)
+	for (unsigned int i = 0; i < a.length(); i++)
 	{
 		if (a[i] >= 97 && a[i] <= 122)
 		{
@@ -36,7 +36,7 @@ void StringFormat(string &a)
 	}
 }
 
-void ToUpper(char &a)
+void ToUpper(char& a)
 {
 	if (a >= 97 && a <= 122)
 	{
@@ -47,19 +47,9 @@ void ToUpper(char &a)
 /*======================== For File W/R Only =========================*/
 
 /*=== Student ===*/
-Student* StudentNodeInitialize()
-{
-	Student *p = new Student;
-	if (p == NULL)
-	{
-		cout << "Khong du bo nho de cap phat!";
-		return NULL;
-	}
-	p->pNext = NULL;
-	return p;
-}
 
-void StudentAdd(Student *&pHead, Student *p)
+
+void StudentAdd(Student*& pHead, Student* p)
 {
 	if (pHead == NULL)
 	{
@@ -67,7 +57,7 @@ void StudentAdd(Student *&pHead, Student *p)
 	}
 	else
 	{
-		for (Student *k = pHead; k != NULL; k = k->pNext)
+		for (Student* k = pHead; k != NULL; k = k->pNext)
 		{
 			if (k->pNext == NULL)
 			{
@@ -79,16 +69,16 @@ void StudentAdd(Student *&pHead, Student *p)
 }
 
 /*=== Questionaire ===*/
-Questionnaire *QuestionnaireCreateNodeWithoutID()
+Questionnaire* QuestionnaireCreateNodeWithoutID()
 {
-	Questionnaire *questionnaireReturn = new Questionnaire;
+	Questionnaire* questionnaireReturn = new Questionnaire;
 	questionnaireReturn->height = 1;
 	questionnaireReturn->pLeft = NULL;
 	questionnaireReturn->pRight = NULL;
 	return questionnaireReturn;
 }
 
-void QuestionnaireAcceptAnswer(Questionnaire *&p)
+void QuestionnaireAcceptAnswer(Questionnaire*& p)
 {
 	if (p->correct == 'A')
 	{
@@ -131,11 +121,11 @@ int QuestionnaireGetBalanceFactor(tree currentNode)
 	return QuestionnaireGetHeight(currentNode->pLeft) - QuestionnaireGetHeight(currentNode->pRight);
 }
 
-Questionnaire *QuestionnaireLeftRotation(Questionnaire *&currentNode)
+Questionnaire* QuestionnaireLeftRotation(Questionnaire*& currentNode)
 {
 	if (currentNode == NULL)
 		return NULL;
-	Questionnaire *nodeToRotate = currentNode->pRight;
+	Questionnaire* nodeToRotate = currentNode->pRight;
 	currentNode->pRight = nodeToRotate->pLeft;
 	nodeToRotate->pLeft = currentNode;
 	currentNode->height = QuestionnaireReturnMaxNumber(QuestionnaireGetHeight(currentNode->pLeft), QuestionnaireGetHeight(currentNode->pRight)) + 1;
@@ -143,11 +133,11 @@ Questionnaire *QuestionnaireLeftRotation(Questionnaire *&currentNode)
 	return nodeToRotate;
 }
 
-Questionnaire *QuestionnaireRightRotation(Questionnaire *&currentNode)
+Questionnaire* QuestionnaireRightRotation(Questionnaire*& currentNode)
 {
 	if (currentNode == NULL)
 		return NULL;
-	Questionnaire *nodeToRotate = currentNode->pLeft;
+	Questionnaire* nodeToRotate = currentNode->pLeft;
 	currentNode->pLeft = nodeToRotate->pRight;
 	nodeToRotate->pRight = currentNode;
 
@@ -156,7 +146,7 @@ Questionnaire *QuestionnaireRightRotation(Questionnaire *&currentNode)
 	return nodeToRotate;
 }
 
-Questionnaire *QuestionnaireAdd(tree &t, Questionnaire *p)
+Questionnaire* QuestionnaireAdd(tree& t, Questionnaire* p)
 {
 	if (p->content != "")
 	{
@@ -180,7 +170,6 @@ Questionnaire *QuestionnaireAdd(tree &t, Questionnaire *p)
 			{ // left tree has more node
 				if (p->questionnaireID > t->pLeft->questionnaireID)
 				{
-
 					t->pLeft = QuestionnaireLeftRotation(t->pLeft);
 				}
 				return QuestionnaireRightRotation(t);

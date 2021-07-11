@@ -8,14 +8,14 @@ using namespace std;
 #define width 1300
 #define height 800
 
-const int so_item 	 = 22;
+const int so_item = 24;
 const int so_item_sv = 3;
-const int dong		 = 9;
-const int cot 		 = 5;
+const int dong = 9;
+const int cot = 5;
 
 const int superTest = 30;
-void menu_tong(ClassList &ds_l, StudentList &ds_sv, QuestionnaireList &ds_cau, SubjectList &ds_mon);
-void menu_tong_sv(string ma_sv,string ho, string ten, ClassList &ds_l, StudentList &ds_sv, QuestionnaireList &ds_cau, SubjectList &ds_mon);
+void menu_tong(ClassList& ds_l, StudentList& ds_sv, QuestionnaireList& ds_cau, SubjectList& ds_mon);
+void menu_tong_sv(string ma_sv, string ho, string ten, ClassList& ds_l, StudentList& ds_sv, QuestionnaireList& ds_cau, SubjectList& ds_mon);
 int menu_gv();
 int menu_sv();
 void VerticalLine1();
@@ -31,11 +31,10 @@ void HorizontalLine3();
 
 //int login();
 
-void menu_tong(ClassList &ds_l, StudentList &ds_sv, QuestionnaireList &ds_cau, SubjectList &ds_mon)
+void menu_tong(ClassList& ds_l, StudentList& ds_sv, QuestionnaireList& ds_cau, SubjectList& ds_mon)
 {
-
 	system("cls");
-	Questionnaire *binaryTreeToArrayQuestionnaire[1000];
+	Questionnaire* binaryTreeToArrayQuestionnaire[1000];
 	int nds = 0;
 	ofstream fileout;
 	int chon;
@@ -47,15 +46,31 @@ void menu_tong(ClassList &ds_l, StudentList &ds_sv, QuestionnaireList &ds_cau, S
 		{
 		case 2: // them lop
 		{
-			if (ds_l.index >= 500)
+			if (ds_l.index >= MAX_CLASS)
 			{
-				gotoxy(60, 8);
-				cout << "Them khong thanh cong vi vuot qua so lop cho phep!";
+				gotoxy(70, 20);
+				cout << "REACH MAX NUMBER OF CLASS!";
 			}
 			else
 			{
-				FrameClassAdd();
-				ClassAdd(ds_l);
+				ClassID classID;
+				string class_ID_Return = "";
+				ClearBackground();
+				//khung_them_lop();
+				do {
+					classID = ClassCreateStructClassID();
+					class_ID_Return = ClassReturnClassID(classID);
+					if (ClassCheckExistID(class_ID_Return, ds_l) != -1) {
+						gotoxy(70, 30);
+						cout << "DUPLICATE ID, PLEASE TRY AGAIN!";
+						Sleep(1000);
+						cin.ignore();
+					}
+				} while (ClassCheckExistID(class_ID_Return, ds_l) != -1);
+				string className = ClassReturnClassName(classID);
+				cin.ignore();
+
+				ClassAdd(ds_l, classID, className);
 				ClassFileOutput(ds_l);
 			}
 			gotoxy(60, 35);
@@ -66,29 +81,48 @@ void menu_tong(ClassList &ds_l, StudentList &ds_sv, QuestionnaireList &ds_cau, S
 		{
 			if (ds_l.index == 0)
 			{
-				gotoxy(50, 8);
-				cout << "Chua co lop nao de xoa ca!";
+				gotoxy(50, 30);
+				cout << "EMPTY LIST!";
 			}
-			else
-			{
-				ClassDelete(ds_l);
-				ClassFileOutput(ds_l);
+			else {
+				string testMajor = ClassReturnMajor_ID_Interface();
+				string classID_ToDelete = ClassReturnClass_ID_ByPrintAllClassesWithMajorID(ds_l, testMajor);
+				if (classID_ToDelete == "") {
+					gotoxy(75, 20);
+					cout << "EMPTY LIST!";
+				}
+				else {
+
+					ClassID classID_Get = ClassGetClassID_StructFromString(classID_ToDelete);
+					ClassDelete(ds_l, classID_Get);
+					ClassFileOutput(ds_l);
+				}
 			}
 			gotoxy(60, 35);
 			system("pause");
+			cin.ignore();
 			break;
 		}
 		case 4:// chinh lop
 		{
 			if (ds_l.index == 0)
 			{
-				gotoxy(50, 8);
-				cout << "DATA RONG~~";
+				gotoxy(50, 30);
+				cout << "EMPTY LIST!";
 			}
-			else
-			{
-				ClassUpdate(ds_l);
-				ClassFileOutput(ds_l);
+			else {
+				string testMajor = ClassReturnMajor_ID_Interface();
+				string classID_ToUpdate = ClassReturnClass_ID_ByPrintAllClassesWithMajorID(ds_l, testMajor);
+				cin.ignore();
+				if (classID_ToUpdate == "") {
+					gotoxy(75, 20);
+					cout << "EMPTY LIST!";
+				}
+				else {
+					ClassID classID_Get = ClassGetClassID_StructFromString(classID_ToUpdate);
+					ClassUpdate(ds_l, classID_ToUpdate);
+					ClassFileOutput(ds_l);
+				}
 			}
 			gotoxy(60, 35);
 			system("pause");
@@ -99,13 +133,13 @@ void menu_tong(ClassList &ds_l, StudentList &ds_sv, QuestionnaireList &ds_cau, S
 			if (ds_l.index == 0)
 			{
 				gotoxy(50, 8);
-				cout << "KHONG CO LOP NAO DE IN CA";
+				cout << "SCHOOL HAS NO CLASS";
 				gotoxy(60, 35);
 				system("pause");
 			}
 			else
 			{
-				ClassPrintList(ds_l);
+				ClassPrint(ds_l);
 				gotoxy(60, 35);
 				system("pause");
 			}
@@ -114,11 +148,27 @@ void menu_tong(ClassList &ds_l, StudentList &ds_sv, QuestionnaireList &ds_cau, S
 		}
 		case 7:
 		{
-			StudentFillInfo(ds_l, ds_sv);
-			gotoxy(60, 35);
+			string testMajor = ClassReturnMajor_ID_Interface();
+			string classID_ToFind = ClassReturnClass_ID_ByPrintAllClassesWithMajorID(ds_l, testMajor);
+			if (classID_ToFind == "") {
+				gotoxy(75, 20);
+				cout << "EMPTY LIST!";
+			}
+			else {
+				ClassID classID_Get = ClassGetClassID_StructFromString(classID_ToFind);
+				Class* classReturn = ClassGetClassFromClassID(classID_Get, ds_l);
+				StudentID studentID_StructReturn = StudentCreateStructStudentID(classReturn->classID);
+				string studentID = StudentReturnStudentID(studentID_StructReturn);
+				gotoxy(75, 23);
+				cout << studentID << " Created";
+				Sleep(1000);
+				StudentAdd(ds_l, classReturn, studentID_StructReturn);
+				StudentFileOutput(ds_l);
+			}
 			system("pause");
 			break;
 		}
+
 		case 8:
 		{
 			//StudentPrintList(ds_l, ds_sv);
@@ -137,13 +187,13 @@ void menu_tong(ClassList &ds_l, StudentList &ds_sv, QuestionnaireList &ds_cau, S
 				system("pause");
 			}
 			else
-			{				
+			{
 				SubjectAdd(ds_mon);
 				SubjectSort(ds_mon);
 				SubjectFileOutput(ds_mon);
 				gotoxy(60, 35);
 				system("pause");
-			} 
+			}
 			break;
 		}
 		case 11:
@@ -230,7 +280,7 @@ void menu_tong(ClassList &ds_l, StudentList &ds_sv, QuestionnaireList &ds_cau, S
 				{
 					QuestionnaireTransferTreeToArray(ds_cau.questionList, binaryTreeToArrayQuestionnaire, nds);
 					QuestionnairePrintIDList(ds_cau, binaryTreeToArrayQuestionnaire, keyFlag, currentTask);
-					
+
 					// if (ds_cau.questionList != NULL)
 					// {
 					// 	gotoxy(73, 12);
@@ -239,7 +289,6 @@ void menu_tong(ClassList &ds_l, StudentList &ds_sv, QuestionnaireList &ds_cau, S
 				}
 				else if (currentTask == 1 && ds_cau.questionList != NULL)
 				{
-
 					bool checkID = false;
 					QuestionnaireExecuteFoundUpdate(ds_cau, checkID, keyFlag);
 					if (checkID)
@@ -266,57 +315,56 @@ void menu_tong(ClassList &ds_l, StudentList &ds_sv, QuestionnaireList &ds_cau, S
 			QuestionnaireFreeArray(binaryTreeToArrayQuestionnaire, nds);
 			break;
 		}
-		case 19:
-		{			
-			// QuestionnaireTransferTreeToArray(ds_cau.questionList, binaryTreeToArrayQuestionnaire, nds);
-			// menu_thi_thu(ds_mon, binaryTreeToArrayQuestionnaire, nds);
-			// QuestionnaireFreeArray(binaryTreeToArrayQuestionnaire, nds);
-			// gotoxy(60, 35);
-			// system("pause");
-			// //giai phong 
-			// break;
-
-			int currentTask = 2;
-			bool keyFlag = false;
-			while (currentTask == 1 || currentTask == 2)
+		/*	case 19:
 			{
-				if (keyFlag)
-					currentTask = 1;
-				else
-					currentTask = 2;
+				// QuestionnaireTransferTreeToArray(ds_cau.questionList, binaryTreeToArrayQuestionnaire, nds);
+				// menu_thi_thu(ds_mon, binaryTreeToArrayQuestionnaire, nds);
+				// QuestionnaireFreeArray(binaryTreeToArrayQuestionnaire, nds);
+				// gotoxy(60, 35);
+				// system("pause");
+				// //giai phong
+				// break;
 
-				if (currentTask == 2)
+				int currentTask = 2;
+				bool keyFlag = false;
+				while (currentTask == 1 || currentTask == 2)
 				{
-					QuestionnairePrintSubjectIDList(ds_mon, keyFlag, currentTask);
+					if (keyFlag)
+						currentTask = 1;
+					else
+						currentTask = 2;
+
+					if (currentTask == 2)
+					{
+						QuestionnairePrintSubjectIDList(ds_mon, keyFlag, currentTask);
+					}
+					else if (currentTask == 1 && ds_cau.questionList != NULL)
+					{
+						QuestionnaireTransferTreeToArray(ds_cau.questionList, binaryTreeToArrayQuestionnaire, nds);
+						menu_thi_thu(ds_mon, binaryTreeToArrayQuestionnaire, nds);
+						QuestionnaireFreeArray(binaryTreeToArrayQuestionnaire, nds);
+						gotoxy(60, 35);
+						system("pause");
+						//giai phong
+						break;
+					}
 				}
-				else if (currentTask == 1 && ds_cau.questionList != NULL)
-				{
-					QuestionnaireTransferTreeToArray(ds_cau.questionList, binaryTreeToArrayQuestionnaire, nds);
-					menu_thi_thu(ds_mon, binaryTreeToArrayQuestionnaire, nds);
-					QuestionnaireFreeArray(binaryTreeToArrayQuestionnaire, nds);
-					gotoxy(60, 35);
-					system("pause");
-					//giai phong 
-					break;
-				}
+				// QuestionnaireFreeArray(binaryTreeToArrayQuestionnaire, nds);
+
+				break;
 			}
-			// QuestionnaireFreeArray(binaryTreeToArrayQuestionnaire, nds);
-
-			break;
-		}
-		case 20:
-		{
-			
-			break;
-		}
-		case 21:
-		{
-			// in_ds_diem_thi_lop(ds_l);
-			// break;
-		}
+			case 20:
+			{
+				break;
+			}
+			case 21:
+			{
+				// in_ds_diem_thi_lop(ds_l);
+				// break;
+			}*/
 		case so_item:
 		{
-			 HighLight();
+			HighLight();
 			gotoxy(60, 20);
 			cout << "DANG TAT CHUONG TRINH! ";
 			gotoxy(60, 21);
@@ -332,20 +380,18 @@ void menu_tong(ClassList &ds_l, StudentList &ds_sv, QuestionnaireList &ds_cau, S
 			// system("pause");
 			// return 0;
 		}
-			
 		}
-		
 	}
 }
 
-void menu_tong_sv(string ma_sv,string ho, string ten, ClassList &ds_l, StudentList &ds_sv, QuestionnaireList &ds_cau, SubjectList &ds_mon)
+void menu_tong_sv(string ma_sv, string ho, string ten, ClassList& ds_l, StudentList& ds_sv, QuestionnaireList& ds_cau, SubjectList& ds_mon)
 {
 	system("cls");
 	gotoxy(43, 3);
 	cout << "                                                                                 ";
 	gotoxy(55, 3);
 	cout << "ID: " << ma_sv << "                NAME: " << ho << " " << ten;
-	Questionnaire *binaryTreeToArrayQuestionnaire[1000];
+	Questionnaire* binaryTreeToArrayQuestionnaire[1000];
 	int nds = 0;
 	int chon;
 	while (true)
@@ -353,16 +399,16 @@ void menu_tong_sv(string ma_sv,string ho, string ten, ClassList &ds_l, StudentLi
 		chon = menu_sv();
 		switch (chon)
 		{
-		case 1: 
+		case 1:
 		{
 			QuestionnaireTransferTreeToArray(ds_cau.questionList, binaryTreeToArrayQuestionnaire, nds);
-			thi(ma_sv, ds_l, ds_mon, binaryTreeToArrayQuestionnaire, nds);
+			//thi(ma_sv, ds_l, ds_mon, binaryTreeToArrayQuestionnaire, nds);
 			QuestionnaireFreeArray(binaryTreeToArrayQuestionnaire, nds);
 			gotoxy(60, 35);
 			system("pause");
 			break;
 		}
-		case 2:	
+		case 2:
 		{
 			break;
 		}
@@ -401,7 +447,7 @@ int menu_sv()
 		int chon = 0;
 
 		Normal();
-		char thucdon_sv[so_item_sv][35] = {" + THI THU                        ",
+		char thucdon_sv[so_item_sv][35] = { " + THI THU                        ",
 										" + XEM LAI BAI LAM                ",
 										" + EXIT                           " };
 		for (int i = 0; i < so_item_sv; i++)
@@ -417,8 +463,6 @@ int menu_sv()
 		do
 		{
 			kytu = _getch();
-			if (kytu == -32) kytu = _getch();
-			if (kytu == 8) kytu != _getch();
 			switch (kytu)
 			{
 			case UP:
@@ -461,7 +505,7 @@ int menu_sv()
 int menu_gv()
 {
 	while (true)
-	{		
+	{
 		FrameMenu();
 		HighLight();
 		gotoxy(5, 3);
@@ -479,7 +523,7 @@ int menu_gv()
 
 		int chon = 0;
 		Normal();
-		char thucdon[so_item][50] = {" + CLASS                          ",
+		char thucdon[so_item][50] = { " + CLASS                          ",
 									 "   - ADD                          ",
 									 "   - DELETE                       ",
 									 "   - UPDATE                       ",
@@ -500,7 +544,7 @@ int menu_gv()
 									 " + THI THU                        ",
 									 " + IN BAI THI CUA SINH VIEN       ",
 									 " + IN KET QUA THI CUA 1 LOP       ",
-									 " + EXIT                           "};
+									 " + EXIT                           " };
 		for (int i = 0; i < so_item; i++)
 		{
 			gotoxy(cot, dong + i);
@@ -514,10 +558,6 @@ int menu_gv()
 		do
 		{
 			kytu = _getch();
-			if (kytu == -32)
-				kytu = _getch();
-			if (kytu == 8)
-				kytu != _getch();
 			switch (kytu)
 			{
 			case UP:
@@ -554,8 +594,7 @@ int menu_gv()
 			}
 			}
 		} while (true);
-		
-	}	
+	}
 }
 
 void login()
@@ -565,7 +604,7 @@ void login()
 	QuestionnaireList ds_cau;
 	SubjectList ds_mon;
 	ClassList ds_l;
-	Questionnaire *ds[1000];
+	Questionnaire* ds[1000];
 	int nds = 0;
 	// ============ load file ==================
 	QuestionnaireFileInput(ds_cau);
@@ -617,7 +656,7 @@ wrong:
 	{
 		bool kt_break = false;
 		if (ch == 80 || ch == 72 || ch == 77 || ch == 75) ch = _getch();
-		else if(ch == 27) break;
+		else if (ch == 27) break;
 		else
 		{
 			if (ch == 13)
@@ -634,33 +673,33 @@ wrong:
 				}
 				for (int i = 0; i < ds_l.index; i++)
 				{
-					for (Student *k = ds_l.classList[i]->studentList.pHead; k != NULL; k = k->pNext)
+					for (Student* k = ds_l.classList[i]->studentList.pHead; k != NULL; k = k->pNext)
 					{
-						if ((id == k->studentID) && (pass == k->password))
+						if ((id == StudentReturnStudentID(k->studentID)) && (pass == k->password))
 						{
 							gotoxy(52, 30);
 							cout << "LOGIN  SUCCESSFUL!";
 							gotoxy(48, 35);
 							system("pause");
-							menu_tong_sv(k->studentID,k->studentLastName,k->studentFirstName,ds_l, ds_sv, ds_cau, ds_mon);
+							menu_tong_sv(StudentReturnStudentID(k->studentID), k->studentLastName, k->studentFirstName, ds_l, ds_sv, ds_cau, ds_mon);
 							kt_break = true;
 							break;
 						}
 					}
-				}								
-			gotoxy(55, 30);
-			cout << "LOGIN FALSE!";
-			pass = "";
-			count++;
-			if (count == 3)
-			{
-				cout << "YOU ENTER WRONG 3 TIMES, SYSTEM SUT DOWN AFTER 3 SECONDS!";
-			}				
-			gotoxy(60, 24);
-			cout << "                    ";
-			gotoxy(60, 26);
-			cout << "                    ";
-			goto wrong;
+				}
+				gotoxy(55, 30);
+				cout << "LOGIN FALSE!";
+				pass = "";
+				count++;
+				if (count == 3)
+				{
+					cout << "YOU ENTER WRONG 3 TIMES, SYSTEM SUT DOWN AFTER 3 SECONDS!";
+				}
+				gotoxy(60, 24);
+				cout << "                    ";
+				gotoxy(60, 26);
+				cout << "                    ";
+				goto wrong;
 			}
 			else if (ch == 8)
 			{

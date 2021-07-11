@@ -59,11 +59,11 @@ void ClearPrintIDList()
 void ClearQuestionInputNumber()
 {
 	int x = 50, y = 9;
-	while(y < 13)
+	while (y < 13)
 	{
-		gotoxy(x,y);
+		gotoxy(x, y);
 		for (int i = 0; i < 60; i++)
-			cout<<" ";
+			cout << " ";
 		y++;
 	}
 }
@@ -72,7 +72,7 @@ void FrameClassAdd()
 {
 	HighLight();
 	// ke thanh ngang
-	
+
 	int x1 = 60, y1 = 16;
 	while (x1 < 110)
 	{
@@ -267,7 +267,7 @@ void FrameQuestionnaire()
 	}
 	// ke thanh doc
 	ColorFrame();
-	int x5= 45, y5 = 12;
+	int x5 = 45, y5 = 12;
 	while (y5 < 25)
 	{
 		gotoxy(x5, y5);
@@ -395,7 +395,6 @@ void FrameLogin()
 	int c = 43, d = 23;
 	while (d < 28)
 	{
-
 		gotoxy(c, d);
 		cout << "|";
 		d++;
@@ -403,7 +402,6 @@ void FrameLogin()
 	int m = 80, n = 23;
 	while (n < 28)
 	{
-
 		gotoxy(m, n);
 		cout << "|";
 		n++;
@@ -429,5 +427,15 @@ void ViewLogin()
 	HorizontalLine2();
 	HighLight();
 	FrameLogin();
+}
+
+void ClearInstructionLine() {
+	int x = 60, y = 16;
+	while (x < 100)
+	{
+		gotoxy(x, y);
+		cout << " ";
+		x++;
+	}
 }
 #endif
