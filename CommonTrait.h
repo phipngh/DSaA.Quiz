@@ -44,6 +44,20 @@ void ToUpper(char& a)
 	}
 }
 
+bool IsValidLastName(string lastName){
+	bool isValid = true;
+	for (int i = 0; i < lastName.length(); i++) {
+		if (isalpha(lastName[i]) == false) {
+			isValid = false;
+				break;
+
+		}
+
+	}
+	return isValid;
+}
+
+
 /*======================== For File W/R Only =========================*/
 
 /*=== Student ===*/

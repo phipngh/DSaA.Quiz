@@ -32,16 +32,37 @@ void ClearBackground()
 	}
 }
 
-void ClearInputID()
+
+
+void ClearMajorIDInput()
 {
-	int x = 50, y = 9;
-	while (y <= 11)
+	int x = 50, y = 10;
+	while (y < 13)
 	{
 		gotoxy(x, y);
 		for (int i = 0; i < 70; i++)
 			cout << " ";
 		y++;
 	}
+}
+
+void ClearConfirm() {
+	int x = 60, y = 12;
+	for (int i = x; i < 85; i++) {
+		gotoxy(i, y);
+		cout << " ";
+
+	}
+
+}
+void ClearConfirmInput() {
+	int x = 110, y = 10;
+	for (int i = x; i < 120; i++) {
+		gotoxy(i, y);
+		cout << " ";
+
+	}
+
 }
 
 void ClearPrintIDList()
@@ -67,6 +88,19 @@ void ClearQuestionInputNumber()
 		y++;
 	}
 }
+
+void ClearInputID()
+{
+	int x = 50, y = 9;
+	while (y <= 11)
+	{
+		gotoxy(x, y);
+		for (int i = 0; i < 70; i++)
+			cout << " ";
+		y++;
+	}
+}
+
 
 void FrameClassAdd()
 {

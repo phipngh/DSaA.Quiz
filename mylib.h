@@ -1,6 +1,6 @@
 #include <conio.h>
 #include <stdio.h>
-//#include <stdlib.h>
+#include <regex>
 #include <string>
 #include <windows.h>
 #include <iostream>
@@ -10,7 +10,6 @@
 #include <direct.h>
 #include <sstream>
 #include <iomanip>
-//#include<bits/stdc++.h>
 #include <stdlib.h>
 #include <time.h>
 

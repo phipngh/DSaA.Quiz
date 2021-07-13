@@ -46,13 +46,15 @@ void SubjectFileInput(SubjectList& ds_mon)
 }
 
 //===================== doc file danh sach sv =======================
-void StudentAssignStructClass_ID_FromString(string student_ID_Get, StudentID &studentID_ToAssign){
+StudentID StudentAssignStructClass_ID_FromString(string student_ID_Get){
+	StudentID studentIDReturn;
 	string getClassYear = student_ID_Get.substr(1, 2);
 	string getMajor = student_ID_Get.substr(5, 2);
 	string getNumClass = student_ID_Get.substr(7,3);
-	studentID_ToAssign.classYear = getClassYear;
-	studentID_ToAssign.studentMajor = getMajor;
-	studentID_ToAssign.numID = getNumClass;
+	studentIDReturn.classYear = getClassYear;
+	studentIDReturn.studentMajor = getMajor;
+	studentIDReturn.numID = getNumClass;
+	return studentIDReturn;
 }
 
 Student* StudentNodeInitTemp()
@@ -67,27 +69,130 @@ Student* StudentNodeInitTemp()
 	return p;
 }
 
+ClassID ClassGetClassID_StructFromStringTemp(string classID_String){
+	ClassID classID_StructReturn;
+
+	classID_StructReturn.classYear = classID_String.substr(1, 2);
+	classID_StructReturn.major = classID_String.substr(5, 2);
+	classID_StructReturn.numClass = classID_String.substr(7, 2);
+	classID_StructReturn.northOrSouth = classID_String[10];
+	return classID_StructReturn;
+}
+
+int ClassReturnClassIndexTemp(ClassList classListToCheck, ClassID classToCheck) {
+	for (int i = 0; i < classListToCheck.index; i++) {
+		if (classListToCheck.classList[i]->classID.classYear == classToCheck.classYear &&
+			classListToCheck.classList[i]->classID.major == classToCheck.major && 
+			classListToCheck.classList[i]->classID.northOrSouth == classToCheck.northOrSouth &&
+			classListToCheck.classList[i]->classID.numClass == classToCheck.numClass) {
+			return i;
+		}
+	}
+	return -1;
+}
+
+string StudentReturnStudentID_Temp(StudentID studentID_ToReturn) {
+	string studentID_Return = "";
+	studentID_Return = "N" + studentID_ToReturn.classYear + "DC" +
+		studentID_ToReturn.studentMajor + studentID_ToReturn.numID;
+	return studentID_Return;
+
+}
+
+bool StudentIsFirstNodeID_LargerThanSecondNodeID_Temp(string firstNodeID, string secondNodeID) {
+	if (firstNodeID > secondNodeID) return true;
+	return false;
+}
+
+
+void StudentAddNodeToListTemp(Student*& pHead, Student* p)
+{
+	string traverseNodeID = "";
+	string currentNodeID = "";
+	if (pHead == NULL) {
+		pHead = p;
+		return;
+	}
+	Student* preNode = NULL;
+	Student* traverseNode = pHead;
+	currentNodeID = StudentReturnStudentID_Temp(p->studentID);
+	while (traverseNode != NULL) {
+		traverseNodeID = StudentReturnStudentID_Temp(traverseNode->studentID);
+	//cout << currentNodeID;
+	//cout << traverseNodeID;
+	//system("pause");
+		if (StudentIsFirstNodeID_LargerThanSecondNodeID_Temp(traverseNodeID, currentNodeID)) {
+			if (preNode == NULL) {
+				p->pNext = pHead;
+				pHead = p;
+			}
+			else {
+				p->pNext = traverseNode;
+				preNode->pNext = p;
+			}
+			return;
+		}
+		preNode = traverseNode;
+		traverseNode = traverseNode->pNext;
+	}
+	preNode->pNext = p;
+}
+
 void StudentFileInput(ClassList &ds_l)
 {
 ifstream filein;
+int currentStatus = 1;
+int currentData = 1;
+int numberOfStudent = 1;
+int index = 0;
+
+int numberOfStudentLine = 0; Student* p = StudentNodeInitTemp();
 	filein.open("sinhvien.txt", ios_base::in);
-	for (int i = 0; i < ds_l.index; i++)
-	{
-		filein >> ds_l.classList[i]->studentList.index;
-		filein.ignore();
-		string tempStudentID = "";
-		StudentID studentID_Struct;
-		for (int j = 0; j < ds_l.classList[i]->studentList.index; j++)
-		{
-			Student *p = StudentNodeInitTemp();
-			getline(filein, tempStudentID, ',');
-			StudentAssignStructClass_ID_FromString(tempStudentID, p->studentID);
-			getline(filein, p->studentLastName, ',');
-			getline(filein, p->studentFirstName, ',');
-			getline(filein, p->gender, ',');
-			getline(filein, p->password);
-			StudentAdd(ds_l.classList[i]->studentList.pHead, p);
+	string currentLine = "";
+	while (getline(filein, currentLine)) {
+		if (currentStatus == 1) {
+			ClassID classIDReceive = ClassGetClassID_StructFromStringTemp(currentLine);
+			index = ClassReturnClassIndexTemp(ds_l, classIDReceive);
+			currentStatus++;
+			continue;
+		}if (currentStatus == 2) {
+			ds_l.classList[index]->studentList.index = stoi(currentLine);
+			numberOfStudentLine = stoi(currentLine);
+			currentStatus++;
+			continue;
+		}if (currentStatus == 3) {
+			 string tempStudentID = "";
+			 Student* p = new Student;
+			 stringstream stringInput(currentLine);
+			 while (getline(stringInput, tempStudentID, ',')) {
+				 if (currentData == 1) {
+					 p->studentID = StudentAssignStructClass_ID_FromString(tempStudentID);
+					 currentData++;
+					 continue;
+				 }if (currentData == 2) {
+					 p->studentLastName = tempStudentID;
+					 currentData++;
+						continue;
+					}if (currentData == 3) {
+						p->studentFirstName = tempStudentID;
+											currentData++;
+						continue;
+					}if (currentData == 4) {
+						p->gender = tempStudentID;
+											currentData++;
+						continue;
+					}if (currentData == 5) {
+						p->password = tempStudentID;
+						StudentAddNodeToListTemp(ds_l.classList[index]->studentList.pHead, p);
+						numberOfStudent++;
+						currentData = 1;
+						if (numberOfStudent > numberOfStudentLine) {
+						currentStatus = 1;
+						}
+					}
+				}
 		}
+		continue;
 	}
 	filein.close();
 }
@@ -168,12 +273,7 @@ void SubjectFileOutput(SubjectList& ds_mon)
 
 //===================== doc file danh sach sv =======================
 
-string StudentReturnStudentID_Temp(StudentID studentID_ToReturn){
-	string studentID_Return = "";
-	studentID_Return = "N" + studentID_ToReturn.classYear + "DC"+
-						studentID_ToReturn.studentMajor + studentID_ToReturn.numID;
-	return studentID_Return;
-}
+
 
 void StudentFileOutput(ClassList& ds_l)
 {
@@ -181,6 +281,8 @@ void StudentFileOutput(ClassList& ds_l)
 	fileout.open("sinhvien.txt", ios_base::out);
 	for (int i = 0; i < ds_l.index; i++)
 	{
+		fileout << ClassReturnClassIDTemp(ds_l.classList[i]->classID) ;
+		fileout << "\n";
 		fileout << ds_l.classList[i]->studentList.index;
 		fileout << "\n";
 		for (Student* k = ds_l.classList[i]->studentList.pHead; k != NULL; k = k->pNext)

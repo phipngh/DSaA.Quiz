@@ -65,7 +65,7 @@ struct Student
 	string gender;
 	string password;
 	ScoreList scoreList;
-	Student* pNext;
+	Student* pNext = NULL;
 };
 
 struct StudentList
@@ -79,7 +79,7 @@ struct ClassID {
 	string classYear;
 	string major;
 	string numClass;
-	char northOrSouth;
+	char northOrSouth = '\0';
 };
 
 struct Class

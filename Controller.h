@@ -65,10 +65,10 @@ Questionnaire* QuestionnaireRightRotation(Questionnaire*& currentNode);
 Questionnaire* QuestionnaireAdd(tree& t, Questionnaire* p);
 void QuestionnaireAcceptAnswer(Questionnaire*& p);
 
-/*// ------------------------ THI ----------------------------
+// ------------------------ THI ----------------------------
 void menu_thi_thu(SubjectList &ds_mon, Questionnaire *ds[], int &nds);
 void bo_de(Questionnaire *ds[], int &nds, string a, int n);
-void thi(string ma_sv,ClassList ds_l, SubjectList &ds_mon, Questionnaire *ds[], int &nds);*/
+void thi(string ma_sv,ClassList ds_l, SubjectList &ds_mon, Questionnaire *ds[], int &nds);
 //=================== LOP ==============================
 string ClassReturnClassID(ClassID class_ID_ToChange){
 	string class_ID_Return = "";
@@ -172,6 +172,9 @@ bool ClassIsCorrectNumberStringTypeInput(string inputNumber){
 		}
 	}
 	if(inputNumber.length() != 2) isValid = false;
+	if (inputNumber.length() == 2) {
+		if (inputNumber.at(1) == '0' && inputNumber.at(0) == '0') isValid = false;
+	}
 	return isValid;
 }
 
@@ -200,9 +203,11 @@ void ClassAdd(ClassList &ds_l, ClassID classID_ToAdd, string className)
 {
 	Class *p = new Class;
 	p->classID = classID_ToAdd;
+	ClearBackground();
 	p->className = className;
 
 	ds_l.classList[ds_l.index] = p;
+	gotoxy(30, 20);
 	ds_l.index++;
 	string class_ID_Print = ClassReturnClassID(p->classID);
 	ClearBackground();
@@ -249,6 +254,18 @@ void ClassReturnClass_ID_ArrayByMajorID(ClassList classListToCheck, string class
 			numberClassID++;
 		}
 	}
+}
+
+int ClassReturnClassIndex(ClassList classListToCheck, ClassID classToCheck) {
+	for (int i = 0; i < classListToCheck.index; i++) {
+		if (classListToCheck.classList[i]->classID.classYear == classToCheck.classYear &&
+			classListToCheck.classList[i]->classID.major == classToCheck.major && 
+			classListToCheck.classList[i]->classID.northOrSouth == classToCheck.northOrSouth &&
+			classListToCheck.classList[i]->classID.numClass == classToCheck.numClass) {
+			return i;
+		}
+	}
+	return -1;
 }
 
 ClassID ClassCreateStructClassID(){
@@ -302,11 +319,15 @@ ClassID ClassCreateStructClassID(){
 		gotoxy(93, 18);
 		getline(cin, numClassInput);
 		if(ClassIsCorrectNumberStringTypeInput(numClassInput) == false){
-			gotoxy(80, 16);
+			gotoxy(100, 16);
 			cout<< "INVALID TYPO";
 			Sleep(1000);
-			for(int i = 93; i < 130; i++){
+			for(int i = 93; i < 120; i++){
 				gotoxy(i, 18);
+				cout<<" ";
+			}
+			for(int i = 100; i < 120; i++){
+				gotoxy(i, 16);
 				cout<<" ";
 			}
 		}
@@ -322,9 +343,13 @@ ClassID ClassCreateStructClassID(){
 		gotoxy(98,17);
 		cout<<"N/B";
 		gotoxy(98, 18);
-		cout<<" ";
-		gotoxy(98, 18);
 		cin >> northOrSouthGet;
+		if (northOrSouthGet != 'n' && northOrSouthGet != 'N' && northOrSouthGet != 'B' && northOrSouthGet != 'b') {
+			for (int i = 98; i < 123; i++) {
+				gotoxy(i, 18);
+				cout << " ";
+			}
+		}
 	}while(northOrSouthGet != 'n' && northOrSouthGet != 'N' && northOrSouthGet != 'B' && northOrSouthGet != 'b');
 	if(northOrSouthGet == 'n' || northOrSouthGet == 'b') ToUpper(northOrSouthGet);
 	newClassID.northOrSouth = northOrSouthGet;
@@ -353,9 +378,10 @@ string ClassReturnMajorID(){
 				cout<<"PLEASE INPUT 2 CHARACTERS";
 			}
 			if(ClassCheckExistMajorID(major_ID_Return) == false){
-				gotoxy(80, 9);
+				gotoxy(50, 12);
 				cout<<"MAJOR ID NOT FOUND";
 			}
+			ClearMajorIDInput();
 	}while(ClassCheckExistMajorID(major_ID_Return) ==  false);
 	return major_ID_Return;
 }
@@ -365,6 +391,7 @@ string ClassReturnMajor_ID_Interface(){
 	ClearBackground();
 	ClassPrintMajorList();
 	major_ID_Return =  ClassReturnMajorID();
+
 	return major_ID_Return;
 }
 
@@ -377,6 +404,7 @@ void ClassReturnClassID_ArrayByMajorID(ClassList classListToCheck, string classI
 		}
 	}
 }
+
 
 string ClassReturnClass_ID_ByPrintAllClassesWithMajorID(ClassList classListToCheck, string majorID){
 	ClearBackground();
@@ -487,80 +515,99 @@ int ClassListIsClassHasStudent(ClassList classListToCheck, ClassID classID_ToChe
 }
 
 //================ hieu chinh lop =====================
-void ClassDelete(ClassList &ds_l,ClassID classID_ToDelete)
+void ClassDelete(ClassList& ds_l, ClassID classID_ToDelete)
 {
-			char confirm = '\0';
-/*if (ClassListIsClassHasStudent(ds_l, classID_ToDelete) == -1)
-		{
-			HighLight();
+	char confirm = '\0';
+	if (ClassListIsClassHasStudent(ds_l, classID_ToDelete) == -1)
+	{
+		HighLight();
+		gotoxy(65, 20);
+		cout << "CLASS HAS STUDENTS, CANNOT DELETE!!";
+		return;
+	}
+	else
+	{
+		string classID_StringToDelete = ClassReturnClassID(classID_ToDelete);
+
 			gotoxy(60, 10);
-			cout << "CLASS HAS STUDENTS, CANNOT DELETE!!";
+			cout << "DO YOU WISH TO DELETE " << classID_StringToDelete << "	 Y/N";
+		do{
+			gotoxy(110, 10);
+			cin >> confirm;
+			if (confirm != 'y' && confirm != 'Y' && confirm != 'N' && confirm != 'n') {
+				gotoxy(60, 12);
+				cout << "PLEASE INPUT Y OR N";
+				Sleep(1000);
+				ClearConfirmInput();
+				ClearConfirm();
+
+			}
+		} while (confirm != 'y' && confirm != 'Y' && confirm != 'N' && confirm != 'n');
+
+
+		if (confirm == 'y' || confirm == 'Y') {
+			int indexToDelete = ClassCheckExistID(classID_StringToDelete, ds_l);
+			for (int i = indexToDelete; i < ds_l.index - 1; i++)
+			{
+				ds_l.classList[i]->classID = ds_l.classList[i + 1]->classID;
+				ds_l.classList[i]->className = ds_l.classList[i + 1]->className;
+			}
+			Class* tam = ds_l.classList[ds_l.index - 1];
+			delete tam;
+			ds_l.index--;
+			ClearBackground();
+			gotoxy(65, 20);
+			cout << "DELETE COMPLETED CLASS ID: " << classID_StringToDelete;
+		}
+		else {
+			ClearBackground();
+			gotoxy(70, 20);
+			cout << "CANCEL DELETE " << classID_StringToDelete;
 			return;
 		}
-		else
-		{*/
-string classID_StringToDelete = ClassReturnClassID(classID_ToDelete);
 
-gotoxy(60, 10);
-cout << "DO YOU WISH TO DELETE " << classID_StringToDelete << "	 Y/N";
-gotoxy(110, 10);
-cin >> confirm;
-if (confirm == 'y' || confirm == 'Y') {
-	int indexToDelete = ClassCheckExistID(classID_StringToDelete, ds_l);
-	for (int i = indexToDelete; i < ds_l.index - 1; i++)
-	{
-		ds_l.classList[i]->classID = ds_l.classList[i + 1]->classID;
-		ds_l.classList[i]->className = ds_l.classList[i + 1]->className;
-	}
-	Class* tam = ds_l.classList[ds_l.index - 1];
-	delete tam;
-	ds_l.index--;
-	gotoxy(60, 10);
-	cout << "DELETE COMPLETED CLASS ID: " << classID_StringToDelete;
-}
-else {
-	return;
+		}
 }
 
-//		}
-}
-
-void ClassUpdate(ClassList& ds_l, string classID_ToUpdate)
+void ClassUpdate(ClassList& ds_l, string classID_ToUpdate, ClassID classIDUpdate)
 {
-	int indexToUpdate = ClassCheckExistID(classID_ToUpdate, ds_l);
-	ClassID tempClassID;
-	string class_ID_UpdateString = "";
-	do {
-		tempClassID = ClassCreateStructClassID();
-		class_ID_UpdateString = ClassReturnClassID(tempClassID);
-		if (ClassCheckExistID(class_ID_UpdateString, ds_l) != -1) {
-			gotoxy(70, 30);
-			cout << "DUPLICATE ID, PLEASE TRY AGAIN!";
-			Sleep(1000);
-			cin.ignore();
+
+	if (ClassListIsClassHasStudent(ds_l, classIDUpdate) == -1)
+	{
+		HighLight();
+		gotoxy(65, 20);
+		cout << "CLASS HAS STUDENTS, CANNOT UPDATE!!";
+		return;
+	}
+	else {
+		int indexToUpdate = ClassCheckExistID(classID_ToUpdate, ds_l);
+		ClassID tempClassID;
+		string class_ID_UpdateString = "";
+		do {
+			tempClassID = ClassCreateStructClassID();
+			class_ID_UpdateString = ClassReturnClassID(tempClassID);
+			if (ClassCheckExistID(class_ID_UpdateString, ds_l) != -1) {
+				gotoxy(70, 30);
+				cout << "DUPLICATE ID, PLEASE TRY AGAIN!";
+				Sleep(1000);
+				cin.ignore();
+			}
+		} while (ClassCheckExistID(class_ID_UpdateString, ds_l) != -1);
+		if (ds_l.classList[indexToUpdate]->studentList.pHead != NULL) {
+			gotoxy(60, 25);
+			cout << "THIS CLASS ALREADY HAS STUDENT, CANNOT EDIT!";
 		}
-	} while (ClassCheckExistID(class_ID_UpdateString, ds_l) != -1);
-	string className = ClassReturnClassName(tempClassID);
-	cin.ignore();
+		else {
+			string className = ClassReturnClassName(tempClassID);
+			cin.ignore();
 
-	ds_l.classList[indexToUpdate]->classID = tempClassID;
-	ds_l.classList[indexToUpdate]->className = className;
-	gotoxy(60, 10);
-	cout << "UPDATE COMPLETED CLASS ID: " << className;
-}
+			ds_l.classList[indexToUpdate]->classID = tempClassID;
+			ds_l.classList[indexToUpdate]->className = className;
+			gotoxy(60, 10);
+			cout << "UPDATE COMPLETED CLASS ID: " << className;
 
-Class* ClassGetClassFromClassID(ClassID classID_ToFind, ClassList classListToFind) {
-	Class* classReturn = new Class;
-	for (int i = 0; i < classListToFind.index; i++) {
-		if (classListToFind.classList[i]->classID.classYear == classID_ToFind.classYear &&
-			classListToFind.classList[i]->classID.major == classID_ToFind.major &&
-			classListToFind.classList[i]->classID.northOrSouth == classID_ToFind.northOrSouth &&
-			classListToFind.classList[i]->classID.numClass == classID_ToFind.numClass) {
-			classReturn = classListToFind.classList[i];
-			break;
 		}
 	}
-	return classReturn;
 }
 
 //============ in ds lop==================
@@ -607,6 +654,12 @@ string StudentReturnStudentID(StudentID studentID_ToReturn){
 	return studentID_Return;
 }
 
+void StudentFillStudentID_InformationByString(string studentID, StudentID &studentIDToFill) {
+	studentIDToFill.classYear = studentID.substr(1, 2);
+	studentIDToFill.studentMajor = studentID.substr(5, 2);
+	studentIDToFill.numID = studentID.substr(7, 3);
+}
+
 Student* StudentNodeInit()
 {
 	Student* p = new Student;
@@ -617,6 +670,27 @@ Student* StudentNodeInit()
 	}
 	p->pNext = NULL;
 	return p;
+}
+
+void StudentGetAllStudentWithStudentMajor(StudentID studentIDToCheck, ClassList ds_l, StudentID studentID_Array[], int &numberOfStudent) {
+
+	for (int i = 0; i < ds_l.index; i++) {
+		for (Student* currentStudent = ds_l.classList[i]->studentList.pHead; currentStudent != NULL; currentStudent = currentStudent->pNext) {
+			if (currentStudent->studentID.studentMajor == studentIDToCheck.studentMajor) {
+				studentID_Array[numberOfStudent] = currentStudent->studentID;
+				numberOfStudent++;
+			}
+		}
+	}
+}
+
+bool StudentIsExistID(StudentID studentIDToCheck, StudentID studentID_Array[], int n) {
+	for (int i = 0; i < n; i++) {
+		if (StudentReturnStudentID(studentIDToCheck) == StudentReturnStudentID(studentID_Array[i])) {
+			return true;
+		}
+	}
+	return false;
 }
 
 string StudentReturnStudentMajorID(string majorID_ToCompare) {
@@ -663,8 +737,150 @@ bool StudentIsCorrectStudentNumberStringTypeInput(string inputNumber) {
 		}
 	}
 	if (inputNumber.length() != 3) isValid = false;
+	if (inputNumber.length() == 3) {
+	if (inputNumber[2] == '0' && inputNumber[1] == '0' && inputNumber[0] == '0') isValid = false;
+	}
 	return isValid;
 }
+
+bool StudentIsIDExist(Student* pHead, string ma)
+{
+	for (Student* k = pHead; k != NULL; k = k->pNext)
+	{
+		if (StudentReturnStudentID(k->studentID) == ma)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+string StudentReturnLastName() {
+	string lastName = "";
+	do {
+	gotoxy(80, 18);
+	getline(cin, lastName);
+	if (IsValidLastName(lastName) == false ||lastName == "") {
+		gotoxy(90, 18);
+		cout << "INVALID NAME";
+		for (int i = 80; i < 110; i++) {
+			gotoxy(i, 18);
+			cout << " ";
+		}
+	}
+	} while (IsValidLastName(lastName) == false || lastName == "");
+	return lastName;
+
+}
+
+string StudentReturnGender() {
+	string genderReturn = "";
+	string genderArray[2] = { "MALE", "FEMALE" };
+	bool stopFlag = false;
+		int selection = 1;
+		int arrayIndex = selection - 1;
+		Normal();
+			gotoxy(80, 24);
+			cout << genderArray[0];
+			Normal();
+			gotoxy(90, 24);
+			cout << genderArray[1];
+		HighLight();
+		gotoxy(80, 24);			//go to the first line after finish print list
+		cout << genderArray[0];
+		char arrowCatch;
+		while (stopFlag == false) {
+			arrowCatch = _getch();
+			switch (arrowCatch)
+			{
+			case RIGHT:
+			{
+				if (selection > 2)
+				{
+					Normal();
+					gotoxy(90, 24); // line before
+					cout << genderArray[1];
+					selection = 1;
+					HighLight();
+					gotoxy(80, 24); // current line
+					cout << genderArray[0];
+				}
+				else {
+					Normal();
+					gotoxy(80, 24);				//first Line
+					cout << genderArray[0];
+					selection = 2;
+					HighLight();
+					gotoxy(90, 24); //last line
+					cout << genderArray[1];
+				}
+				break;
+			}
+			case LEFT:
+			{
+				if (selection < 1)
+				{
+					Normal();
+					gotoxy(80, 24);
+					cout << genderArray[0];
+					selection = 2;
+					HighLight();
+					gotoxy(90, 24);
+					cout << genderArray[1];
+				}
+				else {
+					Normal();
+					gotoxy(90, 24);		//last line
+					cout << genderArray[1];
+					selection = 1;
+					HighLight();
+					gotoxy(80, 24); 	//first line
+					cout << genderArray[0];
+				}
+				break;
+			}
+			case ENTER:
+			{
+				genderReturn = genderArray[selection - 1];
+				stopFlag = true;
+				break;
+			}
+			}
+		}
+			return genderReturn;
+}
+
+string StudentReturnFirstName() {
+	string firstName = "";
+	regex firstNameRegEx("^[a-zA-Z ]*$");
+	do {
+		gotoxy(80, 21);
+		getline(cin, firstName);
+		if (regex_match(firstName, firstNameRegEx) == false || firstName == "") {
+			gotoxy(90, 21);
+			cout << "INVALID NAME";
+			Sleep(1000);
+			for (int i = 80; i < 110; i++) {
+				gotoxy(i, 21);
+				cout << " ";
+			}
+		}
+	} while (regex_match(firstName, firstNameRegEx) == false  || firstName == "");
+	return firstName;
+}
+
+Student* StudentReturnStudentNode(StudentID studentIDToFind, Class* classToCheck) {
+	for (Student* k = classToCheck->studentList.pHead; k != NULL; k = k->pNext)
+	{
+		if (StudentReturnStudentID(k->studentID) == StudentReturnStudentID(studentIDToFind))
+		{
+			return k;
+		}
+	}
+	return NULL;
+}
+
+
 
 StudentID StudentCreateStructStudentID(ClassID classID_ToRefer) {
 	ClearBackground();
@@ -719,48 +935,63 @@ StudentID StudentCreateStructStudentID(ClassID classID_ToRefer) {
 	return newStudentID;
 }
 
-void StudentAddNodeToList(Student*& pHead, Student* p)
-{
-	if (pHead == NULL)
-	{
-		pHead = p;
-	}
-	else
-	{
-		for (Student* k = pHead; k != NULL; k = k->pNext)
-		{
-			if (k->pNext == NULL)
-			{
-				k->pNext = p;
-				break;
-			}
-		}
-	}
+bool StudentIsFirstNodeID_LargerThanSecondNodeID(string firstNodeID, string secondNodeID) {
+	if (firstNodeID > secondNodeID) return true;
+	return false;
 }
 
-void StudentAdd(ClassList& ds_l, Class* classToCompare, StudentID studentIDToAdd)
+void StudentAddNodeToList(Class* &classToChange, Student* p)
+{
+	string traverseNodeID = "";
+	string currentNodeID = "";
+	if (classToChange->studentList.pHead == NULL) {
+		classToChange->studentList.pHead = p;
+		return;
+	}
+	Student* preNode = NULL;
+	Student* traverseNode = classToChange->studentList.pHead;
+	currentNodeID = StudentReturnStudentID(p->studentID);
+	while (traverseNode != NULL) {
+		traverseNodeID = StudentReturnStudentID(traverseNode->studentID);
+		if (StudentIsFirstNodeID_LargerThanSecondNodeID(traverseNodeID, currentNodeID)) {
+			if (preNode == NULL) {
+				p->pNext = classToChange->studentList.pHead;
+			classToChange->studentList.pHead = p;
+			}
+			else {
+				p->pNext = traverseNode;
+				preNode->pNext = p;
+			}
+			return;
+		}
+		preNode = traverseNode;
+		traverseNode = traverseNode->pNext;
+	}
+	preNode->pNext = p;
+}
+
+Student* StudentReturnStudentPointerAdd(ClassList& ds_l, Class* classToCompare, StudentID studentIDToAdd)
 {
 	Student* p = StudentNodeInit();
-	bool kt = true;
-	while (kt)
-	{
 		ClearBackground();
 		// =============== them sinh vien vao ds sinh vien ====================
 		FrameStudentAdd();
 		HighLight();
 		gotoxy(50, 10);
-		cout << "***.";
+		cout << "***.STUDENT ID WILL BE USERNAME";
 		Normal();
+		gotoxy(80, 13);
+		cout << "STUDENT INPUT";
 		gotoxy(62, 15);
-		cout << "MA SV      :";
+		cout << "STUDENT ID      :";
 		gotoxy(62, 18);
-		cout << "HO SV      :";
+		cout << "LAST NAME       :";
 		gotoxy(62, 21);
-		cout << "TEN SV     :";
+		cout << "FIRST NAME      :";
 		gotoxy(62, 24);
-		cout << "PHAI       :";
+		cout << "GENDER          :";
 		gotoxy(62, 27);
-		cout << "PASSWORD   :";
+		cout << "PASSWORD	      :";
 		gotoxy(80, 15);
 		cout << "                         ";
 		gotoxy(80, 18);
@@ -773,113 +1004,373 @@ void StudentAdd(ClassList& ds_l, Class* classToCompare, StudentID studentIDToAdd
 		cout << "                         ";
 		gotoxy(80, 15);
 		cout << StudentReturnStudentID(studentIDToAdd);
-		p->studentID.classYear = studentIDToAdd.classYear;
-		p->studentID.numID = studentIDToAdd.numID;
-		p->studentID.studentMajor = studentIDToAdd.studentMajor;
 		p->password = DEFAULT_PASSWORD;
 		gotoxy(80, 27);
 		cout << p->password;
-		gotoxy(80, 18);
-		getline(cin, p->studentLastName);
-		if (p->studentLastName == "0")
-		{
-			kt = false;
-			break;
-		}
-		gotoxy(80, 21);
-		getline(cin, p->studentFirstName);
-		if (p->studentFirstName == "0")
-		{
-			kt = false;
-			break;
-		}
-		gotoxy(80, 24);
-		getline(cin, p->gender);
-		if (p->gender == "0")
-		{
-
-			break;
-		}
-		kt = false;
-	}
+		p->studentLastName = StudentReturnLastName();
+		p->studentFirstName = StudentReturnFirstName();
+		p->studentID.classYear = studentIDToAdd.classYear;
+		p->studentID.numID = studentIDToAdd.numID;
+		p->studentID.studentMajor = studentIDToAdd.studentMajor;
+		p->gender = StudentReturnGender();
 	StringFormat(p->studentLastName);
 	StringFormat(p->studentFirstName);
-	StringFormat(p->gender);
-	StudentAddNodeToList(classToCompare->studentList.pHead, p);
-	classToCompare->studentList.index++;
 	gotoxy(70, 30);
 	cout << "                             ";
 	gotoxy(70, 30);
-	cout << "COMPLETE ADD STUDENT NAME: " << p->studentLastName << " " << p->studentFirstName;
+	cout << " STUDENT NAME: " << p->studentLastName << " " << p->studentFirstName;
 	Sleep(1000);
+	return p;
+}
+
+void StudentUpdate(ClassList &ds_l, string IDToChange, int index) {
+	Student* startPointer = ds_l.classList[index]->studentList.pHead;
+	for (Student* pointer = startPointer; pointer != NULL; pointer = pointer->pNext) {
+		int counter = 0;
+		gotoxy(30, 20 + counter);
+		cout << StudentReturnStudentID(pointer->studentID);
+		counter++;
+	}
+	//for (Student* k = studentListToChange.pHead; k != NULL; k = k->pNext) {
+	//	ClearBackground();
+	//	gotoxy(30, 20);
+	//	cout << StudentReturnStudentID(k->studentID);
+	/*	if (StudentReturnStudentID(k->studentID) == IDToChange) {
+			bool kt = true;
+			while (kt)
+			{
+				ClearBackground();
+				// =============== them sinh vien vao ds sinh vien ====================
+				FrameStudentAdd();
+				HighLight();
+				gotoxy(50, 10);
+				cout << "***.";
+				Normal();
+				gotoxy(62, 15);
+				cout << "STUDENT ID      :";
+				gotoxy(62, 18);
+				cout << "LAST NAME      :";
+				gotoxy(62, 21);
+				cout << "FIRST NAME     :";
+				gotoxy(62, 24);
+				cout << "GENDER       :";
+				gotoxy(62, 27);
+				cout << "PASSWORD   :";
+				gotoxy(80, 15);
+				cout << "                         ";
+				gotoxy(80, 18);
+				cout << "                         ";
+				gotoxy(80, 21);
+				cout << "                         ";
+				gotoxy(80, 24);
+				cout << "                         ";
+				gotoxy(80, 27);
+				cout << "                         ";
+				gotoxy(80, 15);
+				cout << IDToChange;
+							gotoxy(80, 18);
+				getline(cin, k->studentLastName);
+				if (k->studentLastName == "0")
+				{
+					kt = false;
+					break;
+				}
+				gotoxy(80, 21);
+				getline(cin, k->studentFirstName);
+				if (k->studentFirstName == "0")
+				{
+					kt = false;
+					break;
+				}
+				gotoxy(80, 24);
+				getline(cin, k->gender);
+				if (k->gender == "0")
+				{
+
+					break;
+				}
+				gotoxy(80, 27);
+				getline(cin, k->password);
+
+				kt = false;
+			}
+			StringFormat(k->studentLastName);
+			StringFormat(k->studentFirstName);
+			StringFormat(k->gender);
+			gotoxy(70, 30);
+			cout << "                             ";
+			gotoxy(70, 30);
+			cout << " STUDENT NAME: " << k->studentLastName << " " << k->studentFirstName;
+			Sleep(1000);
+		}*/
+	//}
 }
 
 
-void StudentPrintList(StudentList ds_sv, ClassList ds_l)
+
+int StudentReturnTotalStudentNumberInClass(Class* classToCheck) {
+	int returnTotal = 0;
+	for (Student* k = classToCheck->studentList.pHead; k != NULL; k = k->pNext)
+	{
+		returnTotal++;
+	}
+	return returnTotal;
+}
+
+void StudentReturnAllStudentOfClass(Class* classToCheck, Student* studentArray[], int &n) {
+	for (Student* k = classToCheck->studentList.pHead; k != NULL; k = k->pNext) {
+		studentArray[n] = k;
+		n++;
+	}
+}
+
+void printArray(Student* arrayTest[], int n) {
+	for (int i = 0; i < n; i++) {
+		gotoxy(40, 20 + i);
+		cout << StudentReturnStudentID(arrayTest[i]->studentID);
+	}
+}
+
+
+void StudentFreeArray(Student* ds[], int& nds)
 {
-	gotoxy(60, 8);
-	cout << "============ DANH SACH SINH VIEN =============";
+	for (int i = 0; i < nds; i++)
+	{
+		delete ds[i];
+	}
+	nds = 0;
+}
+void StudentDelete(Student* &pHead, Student* studentToDelete) {
+	string studentID_StringToDelete = StudentReturnStudentID(studentToDelete->studentID);
+	string traverseNodeID = "";
+
+	Student* preNode = NULL;
+	Student* traverseNode = pHead;
+	while (traverseNode != NULL) {
+		traverseNodeID = StudentReturnStudentID(traverseNode->studentID);
+			if (traverseNodeID == studentID_StringToDelete) {
+				if (preNode != NULL) {
+					preNode->pNext = traverseNode->pNext;
+				}
+				else {	
+					pHead = traverseNode->pNext;
+				}
+				return;
+			}
+		preNode = traverseNode;
+		traverseNode = traverseNode->pNext;
+	}
+}
+
+StudentID StudentReturnStudentID_ByPrintStudentList(Class* classToCheck)
+{
+	ClearBackground();
+	Student* studentArrayOfClass[200] = {};
+	int nArray = 0;
+	StudentReturnAllStudentOfClass(classToCheck, studentArrayOfClass, nArray);
+	StudentID studentIDReturn;
+	int totalStudent = StudentReturnTotalStudentNumberInClass(classToCheck);
+	int selection = 0;
+
+	bool stopFlag = false;
+	char arrowCatch;
+	gotoxy(100, 33);
+	cout << "Page 1/2";
+	gotoxy(45, 32);
+	cout << "PRESS RIGHT TO NEXT PAGE, LEFT TO RETURN THE PREVIOUS PAGE";
+	gotoxy(57, 8);
+	cout << "============ STUDENT LIST OF" << ClassReturnClassID(classToCheck->classID) <<"=============";
 	gotoxy(45, 9); cout << "----------------------------------------------------------------------------";
-	gotoxy(45, 10); cout << "|   MA LOP";
-	gotoxy(60, 10); cout << "|     MSSV";
-	gotoxy(75, 10); cout << "|           NAME";
-	gotoxy(100, 10); cout << "| PHAI";
+	gotoxy(45, 10); cout << "|     STUDENT ID";
+	gotoxy(60, 10); cout << "|           NAME";
+	gotoxy(100, 10); cout << "| GENDER";
+	gotoxy(108, 10); cout << "|   PASS";
+	gotoxy(120, 10); cout << "| ";
+	gotoxy(45, 11); cout << "----------------------------------------------------------------------------";
+
+	Normal();
+	for (int i = 0; i < nArray; i++)
+	{
+		gotoxy(45, 12 + 2 * i); cout << "| " << StudentReturnStudentID(studentArrayOfClass[i]->studentID);
+		gotoxy(60, 12 + 2 * i); cout << "| " << studentArrayOfClass[i]->studentLastName << " " << studentArrayOfClass[i]->studentFirstName;
+		gotoxy(100, 12 + 2 * i); cout << "| " << studentArrayOfClass[i]->gender;
+		gotoxy(108, 12 + 2 * i); cout << "| " << studentArrayOfClass[i]->password;
+		gotoxy(120, 12 + 2 * i); cout << "| ";
+	}
+	HighLight();
+	gotoxy(45, 12 + 2 * selection); cout << "| " << StudentReturnStudentID(studentArrayOfClass[selection]->studentID);
+	HighLight();
+	gotoxy(60, 12 + 2 * selection); cout << "| " << studentArrayOfClass[selection]->studentLastName << " " << studentArrayOfClass[selection]->studentFirstName;
+	HighLight();
+	gotoxy(100, 12 + 2 * selection); cout << "| " << studentArrayOfClass[selection]->gender;
+	HighLight();
+	gotoxy(108, 12 + 2 * selection); cout << "| " << studentArrayOfClass[selection]->password;
+	while (stopFlag == false) {
+		arrowCatch = _getch();
+		switch (arrowCatch)
+		{
+		case UP:
+		{
+			if (selection > 0)
+			{
+				Normal();
+				gotoxy(45, 12 + 2 * selection); cout << "| " << StudentReturnStudentID(studentArrayOfClass[selection]->studentID);
+				Normal();
+				gotoxy(60, 12 + 2 * selection); cout << "| " << studentArrayOfClass[selection]->studentLastName << " " << studentArrayOfClass[selection]->studentFirstName;
+				Normal();
+				gotoxy(100, 12 + 2 * selection); cout << "| " << studentArrayOfClass[selection]->gender;
+				Normal();
+				gotoxy(108, 12 + 2 * selection); cout << "| " << studentArrayOfClass[selection]->password;
+				Normal();
+				gotoxy(120, 12 + 2 * selection); cout << "| ";
+				selection--;
+				HighLight();
+				gotoxy(45, 12 + 2 * selection); cout << "| " << StudentReturnStudentID(studentArrayOfClass[selection]->studentID);
+				HighLight();
+				gotoxy(60, 12 + 2 * selection); cout << "| " << studentArrayOfClass[selection]->studentLastName << " " << studentArrayOfClass[selection]->studentFirstName;
+				HighLight();
+				gotoxy(100, 12 + 2 * selection); cout << "| " << studentArrayOfClass[selection]->gender;
+				HighLight();
+				gotoxy(108, 12 + 2 * selection); cout << "| " << studentArrayOfClass[selection]->password;
+			}
+			else {
+				Normal();
+				gotoxy(45, 12); cout << "| " << StudentReturnStudentID(studentArrayOfClass[selection]->studentID);
+				Normal();
+				gotoxy(60, 12); cout << "| " << studentArrayOfClass[selection]->studentLastName << " " << studentArrayOfClass[selection]->studentFirstName;
+				Normal();
+				gotoxy(100, 12); cout << "| " << studentArrayOfClass[selection]->gender;
+				Normal();
+				gotoxy(108, 12); cout << "| " << studentArrayOfClass[selection]->password;
+				Normal();
+				gotoxy(120, 12); cout << "| ";
+				selection = totalStudent - 1;
+				HighLight();
+				gotoxy(45, 12 + 2*selection); cout << "| " << StudentReturnStudentID(studentArrayOfClass[selection]->studentID);
+				HighLight();
+				gotoxy(60, 12 + 2*selection); cout << "| " << studentArrayOfClass[selection]->studentLastName << " " << studentArrayOfClass[selection]->studentFirstName;
+				HighLight();
+				gotoxy(100, 12 + 2*selection); cout << "| " << studentArrayOfClass[selection]->gender;
+				HighLight();
+				gotoxy(108, 12 + 2*selection); cout << "| " << studentArrayOfClass[selection]->password;
+				HighLight();
+				gotoxy(120, 12 + 2*selection); cout << "| ";
+			}
+			break;
+		}
+		case DOWN:
+		{
+			if (selection + 1 < totalStudent)
+			{
+				Normal();
+				gotoxy(45, 12 + 2* selection); cout << "| " << StudentReturnStudentID(studentArrayOfClass[selection]->studentID);
+				Normal();
+				gotoxy(60, 12 +  2*selection); cout << "| " << studentArrayOfClass[selection]->studentLastName << " " << studentArrayOfClass[selection]->studentFirstName;
+				Normal();
+				gotoxy(100, 12 +  2*selection); cout << "| " << studentArrayOfClass[selection]->gender;
+				Normal();
+				gotoxy(108, 12 +  2*selection); cout << "| " << studentArrayOfClass[selection]->password;
+				Normal();
+				gotoxy(120, 12 +  2*selection); cout << "| ";
+				selection++;
+				HighLight();
+				gotoxy(45, 12 + 2* selection); cout << "| " << StudentReturnStudentID(studentArrayOfClass[selection]->studentID);
+				HighLight();
+				gotoxy(60, 12 + 2* selection); cout << "| " << studentArrayOfClass[selection]->studentLastName << " " << studentArrayOfClass[selection]->studentFirstName;
+				HighLight();
+				gotoxy(100, 12 + 2* selection); cout << "| " << studentArrayOfClass[selection]->gender;
+				HighLight();
+				gotoxy(108, 12 + 2* selection); cout << "| " << studentArrayOfClass[selection]->password;
+				HighLight();
+				gotoxy(120, 12 + 2* selection); cout << "| ";
+			}
+			else {
+				Normal();
+				gotoxy(45, 12 + 2* selection); cout << "| " << StudentReturnStudentID(studentArrayOfClass[selection]->studentID);
+				Normal();
+				gotoxy(60, 12 +  2*selection); cout << "| " << studentArrayOfClass[selection]->studentLastName << " " << studentArrayOfClass[selection]->studentFirstName;
+				Normal();
+				gotoxy(100, 12 +  2*selection); cout << "| " << studentArrayOfClass[selection]->gender;
+				Normal();
+				gotoxy(108, 12 +  2*selection); cout << "| " << studentArrayOfClass[selection]->password;
+				Normal();
+				gotoxy(120, 12 + 2* selection); cout << "| ";
+				selection = 0;
+				HighLight();
+				gotoxy(45, 12 + 2* selection); cout << "| " << StudentReturnStudentID(studentArrayOfClass[selection]->studentID);
+				HighLight();
+				gotoxy(60, 12 +  2*selection); cout << "| " << studentArrayOfClass[selection]->studentLastName << " " << studentArrayOfClass[selection]->studentFirstName;
+				HighLight();
+				gotoxy(100, 12 +  2*selection); cout << "| " << studentArrayOfClass[selection]->gender;
+				HighLight();
+				gotoxy(108, 12 +  2*selection); cout << "| " << studentArrayOfClass[selection]->password;
+				HighLight();
+				gotoxy(120, 12 +  2*selection); cout << "| ";
+			}
+			break;
+		}
+		case ENTER:
+		{
+			studentIDReturn = studentArrayOfClass[selection]->studentID;
+			stopFlag = true;
+			break;
+		}
+		}
+	}
+	StudentFreeArray(studentArrayOfClass, nArray);
+	return studentIDReturn;
+}
+
+
+void StudentPrintList(ClassList ds_l , int index)
+{	
+	gotoxy(60, 8);
+	cout << "============ STUDENT LIST OF "<< ClassReturnClassID(ds_l.classList[index]->classID) << " =============";
+	gotoxy(45, 9); cout << "----------------------------------------------------------------------------";
+	gotoxy(45, 10); cout << "|  STUDENT ID";
+	gotoxy(60, 10); cout << "|           NAME";
+	gotoxy(100, 10); cout << "| GENDER";
 	gotoxy(108, 10); cout << "|   PASS";
 	gotoxy(120, 10); cout << "| ";
 	gotoxy(45, 11); cout << "----------------------------------------------------------------------------";
 	int j = 0;
-	for (int i = 0; i < ds_l.index; i++)
-	{
-		for (Student* k = ds_l.classList[i]->studentList.pHead; k != NULL; k = k->pNext)
+		for (Student* k = ds_l.classList[index]->studentList.pHead; k != NULL; k = k->pNext)
 		{
-			gotoxy(45, 12 + 1 * j); cout << "| " <<ClassReturnClassID(ds_l.classList[i]->classID);
-			gotoxy(60, 12 + 1 * j); cout << "| " << StudentReturnStudentID(k->studentID);
-			gotoxy(75, 12 + 1 * j); cout << "| " << k->studentLastName << " " << k->studentFirstName;
-			gotoxy(100, 12 + 1 * j); cout << "| " << k->gender;
-			gotoxy(108, 12 + 1 * j); cout << "| " << k->password;
-			gotoxy(120, 12 + 1 * j); cout << "| ";
+			gotoxy(45, 12 + 2* j); cout << "| " << StudentReturnStudentID(k->studentID);
+			gotoxy(60, 12 + 2* j); cout << "| " << k->studentLastName << " " << k->studentFirstName;
+			gotoxy(100, 12 +2 * j); cout << "| " << k->gender;
+			gotoxy(108, 12 +2 * j); cout << "| " << k->password;
+			gotoxy(120, 12 +2 * j); cout << "| ";
 			j++;
 		}
-	}
-	gotoxy(60, 7); cout << "SL: " << j;
 }
 
 void StudentFree(StudentList& ds_sv)
 {
-	Student* k = new Student;
-	for (k = ds_sv.pHead; k != NULL; k = k->pNext)
-	{
-		delete k;
+	while (ds_sv.pHead != NULL) {
+		Student* deleteNode = ds_sv.pHead;
+		ds_sv.pHead = ds_sv.pHead->pNext;
+		free(deleteNode);
 	}
 }
 
-//bool StudentIsIDExist(Student* pHead, string ma)
-//{
-//	for (Student* k = pHead; k != NULL; k = k->pNext)
-//	{
-//		if (k->studentID == ma)
-//		{
-//			return true;
-//		}
-//	}
-//	return false;
-//}
 
 //============================ Them mon =========================
 void SubjectAdd(SubjectList& ds_mon)
 {
 	Subject p;
 	gotoxy(45, 8);
-	cout << "** NOTE: MA MH TOI DA 15 KTU, TEN MH TOI DA 50 KTU";
+	cout << "** NOTE: MAX SUBJECT ID : " << MAX_SUBJECT_ID_LENGTH <<" CHARACTERS";
+	gotoxy(45, 9);
+	cout << "** NOTE: MAX SUBJECT NAME : 50 CHARACTERS";
 	FrameSubjectAdd();
 	gotoxy(73, 14);
 	HighLight();
-	cout << "NHAP THONG TIN MON HOC";
+	cout << "INPUT SUBJECT";
 	string ma_mh;
 	gotoxy(62, 18);
-	cout << "MA MON     :";
-	gotoxy(62, 21);
-	cout << "TEN MON    :";
+	cout << "SUBJECT ID      :"; gotoxy(62, 21);
+	cout << "SUBJECT NAME    :";
 	do
 	{
 		gotoxy(80, 18);
@@ -887,10 +1378,10 @@ void SubjectAdd(SubjectList& ds_mon)
 		StringFormat(p.subjectID);
 		gotoxy(68, 24);
 		cout << "                                   ";
-		if (p.subjectID.length() > 15)
+		if (p.subjectID.length() > MAX_SUBJECT_ID_LENGTH)
 		{
 			gotoxy(68, 24);
-			cout << "Do dai vuot qua 15 ki tu, nhap lai!";
+			cout << "SUBJECT ID EXCEEDS 15 CHARACTERS";
 
 			gotoxy(80, 18);
 			cout << "                              ";
@@ -900,14 +1391,13 @@ void SubjectAdd(SubjectList& ds_mon)
 			gotoxy(68, 24);
 			cout << "                                   ";
 			gotoxy(68, 24);
-			cout << "Ma mon bi trung, yeu cau ma moi ";
+			cout << "DUPLICATE SUBJECT ID, PLEASE TRY AGAIN";
 			gotoxy(80, 18);
 			cout << "                              ";
 			gotoxy(80, 18);
 			getline(cin, p.subjectID);
 		}
-	} while (p.subjectID.length() > 15);
-	//p->ma_mh = ma_mh;
+	} while (p.subjectID.length() > MAX_SUBJECT_ID_LENGTH);
 	do
 	{
 		gotoxy(80, 21);
@@ -918,7 +1408,7 @@ void SubjectAdd(SubjectList& ds_mon)
 			gotoxy(68, 24);
 			cout << "                                        ";
 			gotoxy(50, 24);
-			cout << "Do dai vuot qua 50 ki tu, nhap lai!";
+			cout << "SUBJECT NAME EXCEEDS 50 CHARACTERS";
 			gotoxy(80, 21);
 			cout << "                              ";
 		}
@@ -926,7 +1416,7 @@ void SubjectAdd(SubjectList& ds_mon)
 	gotoxy(68, 24);
 	cout << "                                   ";
 	gotoxy(75, 24);
-	cout << "NHAP THANH CONG!";
+	cout << "INPUT SUCCESSFULLY "<< p.subjectID;
 
 	ds_mon.subjectList[ds_mon.index] = p;
 	ds_mon.index++;
@@ -997,10 +1487,10 @@ string SubjectList_ReturnExistedID(SubjectList ds_mon)
 	FrameQuestionnaire();
 	HighLight();
 	gotoxy(70, 8);
-	cout << "====== NHAP CAU HOI ======";
+	cout << "====== INPUT SUBJECT ======";
 	gotoxy(50, 10);
 	gotoxy(80, 10);
-	cout << "MA MH: ";
+	cout << "SUBJECT ID: ";
 	getline(cin, subjectID);
 	StringFormat(subjectID);
 	while (SubjectList_CheckExistID(subjectID, ds_mon) == -1)
@@ -1008,7 +1498,7 @@ string SubjectList_ReturnExistedID(SubjectList ds_mon)
 		gotoxy(68, 13);
 		cout << "                                   ";
 		gotoxy(68, 13);
-		cout << "MA MON KHONG TON TAI! ";
+		cout << "SUBJECT ID NOT EXISTED! ";
 
 		gotoxy(87, 10);
 		cout << "                              ";
@@ -1025,7 +1515,7 @@ void SubjectDelete(SubjectList& ds_mon)
 	string a;
 	Normal();
 	gotoxy(50, 8);
-	cout << "NHAP MA MON HOC BAN MUON XOA: ";
+	cout << "INPUT DELETE SUBJECT ID :";
 	getline(cin, a);
 	StringFormat(a);
 	//===========ktra mon hoc da ton tai hay chua ================
@@ -1034,7 +1524,7 @@ void SubjectDelete(SubjectList& ds_mon)
 	{
 		HighLight();
 		gotoxy(60, 10);
-		cout << "Ma mon khong ton tai";
+		cout << "SUBJECT ID NOT EXIST";
 	}
 	else
 	{
@@ -1045,12 +1535,10 @@ void SubjectDelete(SubjectList& ds_mon)
 			ds_mon.subjectList[i].subjectID = ds_mon.subjectList[i + 1].subjectID;
 			ds_mon.subjectList[i].subjectName = ds_mon.subjectList[i + 1].subjectName;
 		}
-		//		Subject tam = ds_mon.subjectList[ds_mon.index - 1];
 		ds_mon.index--;
-		//		delete tam;
 		SubjectFileOutput(ds_mon);
 		gotoxy(60, 10);
-		cout << "XOA THANH CONG!";
+		cout << "DELETED SUBJECT NAME" << a;
 	}
 }
 //========================= Hieu chinh mon hoc ===================
@@ -1059,7 +1547,7 @@ void SubjectUpdate(SubjectList& ds_mon)
 	string a;
 	Normal();
 	gotoxy(50, 8);
-	cout << "NHAP MA MON BAN CAN HIEU CHINH: ";
+	cout << "INPUT SUBJECT ID TO UPDATE: ";
 	getline(cin, a);
 	StringFormat(a);
 	int ktra = SubjectIsExist(a, ds_mon);
@@ -1067,20 +1555,20 @@ void SubjectUpdate(SubjectList& ds_mon)
 	{
 		HighLight();
 		gotoxy(60, 10);
-		cout << "MA MON KHONG TON TAI!" << endl;
+		cout << "SUBJECT ID NOT FOUND" << endl;
 	}
 	else
 	{
 		// ============== hieu chinh =================
 		Normal();
 		gotoxy(60, 10);
-		cout << "NHAP TEN MON: ";
+		cout << "INPUT SUBJECT ID";
 		gotoxy(80, 10);
 		getline(cin, ds_mon.subjectList[ktra].subjectName);
 		StringFormat(ds_mon.subjectList[ktra].subjectID);
 		StringFormat(ds_mon.subjectList[ktra].subjectName);
 		gotoxy(65, 13); HighLight();
-		cout << "DA~ THAY DOI THONG TIN MON HOC.";
+		cout << "SUBJECT CHANGED";
 		SubjectSort(ds_mon);
 		SubjectFileOutput(ds_mon);
 	}
@@ -1089,8 +1577,8 @@ void SubjectUpdate(SubjectList& ds_mon)
 void SubjectPrintList(SubjectList ds_mon)
 {
 	HighLight();
-	gotoxy(60, 10);
-	cout << "DANH SACH MON HOC";
+	gotoxy(70, 8);
+	cout << "SUBJECT LIST";
 	gotoxy(50, 11);
 	cout << "=======================================";
 	for (int i = 0; i < ds_mon.index; i++)
@@ -1098,24 +1586,16 @@ void SubjectPrintList(SubjectList ds_mon)
 		gotoxy(50, 12 + 3 * i); cout << "|";
 		gotoxy(88, 12 + 3 * i); cout << "|";
 		gotoxy(51, 12 + 3 * i);
-		cout << " MA MON   :   " << ds_mon.subjectList[i].subjectID;
+		cout << " SUBJECT ID :   " << ds_mon.subjectList[i].subjectID;
 		gotoxy(50, 13 + 3 * i); cout << "|";
 		gotoxy(88, 13 + 3 * i); cout << "|";
 		gotoxy(51, 13 + 3 * i);
-		cout << " TEN MON  :   " << ds_mon.subjectList[i].subjectName;
+		cout << "  SUBJECT NAME :   " << ds_mon.subjectList[i].subjectName;
 		gotoxy(50, 14 + 3 * i);
 		cout << "---------------------------------------";
 	}
 }
 
-//========================= giai phong bo nho mon ================
-//void SubjectFree(SubjectList &ds_mon)
-//{
-//	for (int i = 0; i < ds_mon.index; i++)
-//	{
-//		delete ds_mon.subjectList[i];
-//	}
-//}
 
 // ================= nhập câu hỏi =====================
 void QuestionnaireTransferTreeToArray(tree t, Questionnaire* arrayListOfQuestion[], int& currentIndex)
@@ -1867,7 +2347,7 @@ bool QuestionnaireIsIDExist(Questionnaire* currentQuestion, int questionnaireID)
 			QuestionnaireIsIDExist(currentQuestion->pLeft, questionnaireID);
 		}
 	}
-}
+ }
 
 int QuestionnaireRandomID(Questionnaire* t)
 {
@@ -1891,7 +2371,7 @@ Questionnaire* QuestionnaireCreateNode(tree treeCheckingExist)
 }
 
 //=================================Thi Thu==============================
-/*
+
 void menu_thi_thu(SubjectList &ds_mon, Questionnaire *ds[], int &nds)
 {
 check_mon:
@@ -1946,11 +2426,11 @@ slcauhoi:
 		}
 		else
 		{
-			//bo_de(ds, nds, a, so_cau);
+			bo_de(ds, nds, a, so_cau);
 		}
 }
-*/
-/*void bo_de(Questionnaire* ds[], int& nds, string a, int n)
+
+void bo_de(Questionnaire* ds[], int& nds, string a, int n)
 {
 	ClearBackground();
 	FrameQuestionnaire();
@@ -1958,7 +2438,7 @@ slcauhoi:
 	Questionnaire *ds_luu[1000];
 	char tl[1000];
 	int point = 0;
-	Questionnaire *monthi[n];
+	Questionnaire *monthi[1000];
 	int demmon = 0;
 	for(int i = 0 ; i<nds; i++){
 		if(ds[i]->subjectID == a){
@@ -2164,7 +2644,7 @@ void bo_de_sv(ClassList& ds_l, string ma_sv, Questionnaire* ds[], int& nds, stri
 	Questionnaire *ds_luu[1000];
 	char tl[1000];
 	int point = 0;
-	Questionnaire *monthi[n];
+	Questionnaire *monthi[1000];
 	int demmon = 0;
 	for(int i = 0 ; i<nds; i++){
 		if(ds[i]->subjectID == ma_mh){
@@ -2308,6 +2788,6 @@ void bo_de_sv(ClassList& ds_l, string ma_sv, Questionnaire* ds[], int& nds, stri
 		}
 	}
 }
-*/
+
 
 #endif
